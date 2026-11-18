@@ -64,6 +64,7 @@ for(const kind of ['esf','ases']){
  console.log('E2E_DOCUMENT '+JSON.stringify({document:kind,...summary.documents[kind.toUpperCase()]}));
 }
 const ses=(fieldLists.get('SES')||[]),t=templates.ses;let sesPassed=0,sesFailed=0,sesEvidence=0;
+const sesPassingAnswers={},sesUsedLocations=new Set();
 for(const f of ses){
  const m=f.officialTemplate||{},sheet=t.sheets.find(x=>x.name===m.sheet),guard=guards.find(x=>x.sheet===m.sheet);
  if(f.kind==='file'){sesEvidence++;results.push({document:'SES',fieldId:f.id,sheet:m.sheet,status:'evidence_required',proof:'NOT_AUTO_CELL'});continue}
@@ -79,10 +80,12 @@ for(const f of ses){
  const record=wb.report.fields.find(x=>x.fieldId===f.id),write=wb.report.writtenCells.find(x=>x.fieldId===f.id);
  const actual=write?readCell(strFromU8(unzipSync(wb.bytes)[sheet.path]),write.cell):null;
  const pass=write?.cell===found&&actual?.value==='1'&&!actual.formula;
- if(pass)sesPassed++;else sesFailed++;
+ if(pass){sesPassed++;const key=sheet.name+'!'+found;if(!sesUsedLocations.has(key)){sesUsedLocations.add(key);sesPassingAnswers[f.id]={status:'answered',value:[row]};}}else sesFailed++;
  results.push({document:'SES',controlId:f.id,fieldId:f.id,fieldLabel:f.label,sheet:m.sheet,mappedRanges:m.editableRanges.join(';'),testValue:'1',actualValue:actual?.value??'',cell:write?.cell??'',status:record?.status??'',proof:pass?'PASS_SELECTED_SAFE_CELL':'NOT_WRITTEN_FOR_PROBE'});
 }
-summary.documents.SES={fields:ses.length,safeCellWrites:sesPassed,notVerifiedProbes:sesFailed,evidence:sesEvidence,semanticMappingsVerified:0};
+let sesCombinedVerified=0;
+if(Object.keys(sesPassingAnswers).length){const combo=await buildOfficialWorkbook({kind:'ses',snapshots:[snapshot('SES',sesPassingAnswers)],generatedAt:'2026-11-18T00:00:00Z'});fs.writeFileSync(path.join(dir,'SES-synthetic.xlsx'),Buffer.from(combo.bytes));sesCombinedVerified=combo.report.writtenCells.length;}
+summary.documents.SES={fields:ses.length,safeCellWrites:sesPassed,combinedWorkbookWrites:sesCombinedVerified,notVerifiedProbes:sesFailed,evidence:sesEvidence,semanticMappingsVerified:0};
 const csv=(v)=>'"'+String(v??'').replace(/"/g,'""')+'"';
 const cols=['document','controlId','fieldId','systemId','fieldLabel','sheet','mappedRanges','testValue','actualValue','cell','status','proof'];
 fs.writeFileSync(path.join(dir,'all-field-results.csv'),[cols.map(csv).join(','),...results.map(r=>cols.map(k=>csv(r[k])).join(','))].join('\n')+'\n');
