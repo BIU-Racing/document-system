@@ -1,0 +1,39 @@
+name: Import BIU Racing forms (one-time)
+
+on:
+  push:
+    paths:
+      - .github/workflows/import-biu-forms.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.repository == 'BIU-Racing/document-system'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out destination
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Copy the fixed source revision
+        env:
+          SOURCE_SHA: cd7b136d4bb378c5710179f0d2913b99d87c0c67
+        run: |
+          set -euo pipefail
+          git clone --quiet https://github.com/saharohana-png/biu-racing-forms.git /tmp/biu-racing-forms
+          git -C /tmp/biu-racing-forms checkout --quiet --detach "$SOURCE_SHA"
+          rsync -a --delete --exclude='/.git/' --exclude='/.github/workflows/import-biu-forms.yml' /tmp/biu-racing-forms/ ./
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Import complete BIU Racing forms project at $SOURCE_SHA"
+            git push origin HEAD:main
+          fi
+          echo "Imported source revision $SOURCE_SHA"
