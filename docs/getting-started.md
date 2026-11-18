@@ -2,9 +2,9 @@
 
 # התקנה והפעלה במחשב
 
-[חזרה לעמוד הראשי](../README.md) · [מדריך העריכה](editing-guide.md)
+[חזרה לעמוד הראשי](../README.md) · [מדריך העריכה](editing-guide.md) · [עבודה צוותית](team-workflow.md)
 
-המדריך מפעיל שרת פיתוח במחשב. למסכים שעובדים עם נתונים נדרש חיבור פרטי ל־Supabase. לעבודה עם נתוני בדיקה יש להקים פרויקט נפרד; חיבור למסד הקבוצה ישנה את נתוני הקבוצה בפועל.
+לצפייה באתר הפעיל אין צורך בהתקנה: [פתחו את אתר הטפסים](https://biu-racing-forms.vercel.app). המדריך הבא מפעיל שרת פיתוח מקומי במחשב. למסכים שעובדים עם נתונים נדרש חיבור פרטי ל־Supabase. לעבודה עם נתוני בדיקה יש להקים פרויקט נפרד; חיבור למסד הקבוצה ישנה את נתוני הקבוצה בפועל.
 
 ## 1. כלים נדרשים
 
@@ -15,8 +15,8 @@
 </div>
 
 ```sh
-git clone https://github.com/saharohana-png/biu-racing-forms.git
-cd biu-racing-forms
+git clone https://github.com/BIU-Racing/document-system.git
+cd document-system
 ```
 
 <div dir="rtl">
