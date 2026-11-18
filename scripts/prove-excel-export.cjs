@@ -84,4 +84,5 @@ const cols=['document','controlId','fieldId','systemId','fieldLabel','sheet','ma
 fs.writeFileSync(path.join(dir,'all-field-results.csv'),[cols.map(csv).join(','),...results.map(r=>cols.map(k=>csv(r[k])).join(','))].join('\n')+'\n');
 fs.writeFileSync(path.join(dir,'summary.json'),JSON.stringify(summary,null,2));
 console.log('E2E_PROOF_SUMMARY '+JSON.stringify(summary));
+console.log('PROBE_PROBLEMS '+JSON.stringify(results.filter(r=>['FAIL_NOT_WRITTEN','FAIL_WRONG_VALUE_OR_CELL','NOT_WRITTEN_FOR_PROBE','FAIL_NO_SAFE_CELL'].includes(r.proof)).slice(0,70)));
 })().catch(e=>{console.error('AUDIT_FATAL',e.stack);process.exitCode=1;});
