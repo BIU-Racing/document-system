@@ -1,0 +1,31 @@
+name: Excel Mapping Proof (Synthetic Data)
+on:
+  push:
+    branches:
+      - qa/end-to-end-excel-export-proof
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run templates:prepare
+      - name: Export synthetic values and inspect physical Excel cells
+        run: node scripts/prove-excel-export.cjs
+      - name: Upload verification evidence (synthetic, no team data)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: excel-cell-mapping-proof
+          path: outputs/excel-proof/
+          if-no-files-found: warn
