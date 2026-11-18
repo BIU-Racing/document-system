@@ -26,7 +26,7 @@ jobs:
           set -euo pipefail
           git clone --quiet https://github.com/saharohana-png/biu-racing-forms.git /tmp/biu-racing-forms
           git -C /tmp/biu-racing-forms checkout --quiet --detach "$SOURCE_SHA"
-          rsync -a --delete --exclude='/.git/' --exclude='/.github/workflows/import-biu-forms.yml' /tmp/biu-racing-forms/ ./
+          rsync -a --delete --exclude='/.git/' --exclude='/.github/workflows/import-biu-forms.yml' --exclude='/.github/workflows/ci.yml' /tmp/biu-racing-forms/ ./
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
