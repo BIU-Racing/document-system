@@ -43,7 +43,11 @@ for(const kind of ['esf','ases']){
  const snapshots=[...work].map(([id,answers])=>snapshot(id,answers));
  const wb=await buildOfficialWorkbook({kind,snapshots,translations:snapshots.map(translated),generatedAt:'2026-11-18T00:00:00Z'});
  fs.writeFileSync(path.join(dir,kind.toUpperCase()+'-synthetic.'+(kind==='ases'?'xlsm':'xlsx')),Buffer.from(wb.bytes));
- const zip=unzipSync(wb.bytes),report=new Map(wb.report.fields.map(f=>[f.controlId,f]));
+ const zip=unzipSync(wb.bytes),originalZip=unzipSync(Buffer.from(template.base64,'base64')),report=new Map(wb.report.fields.map(f=>[f.controlId,f]));
+ const changed=new Set(wb.report.changedParts);
+ const alteredUnlisted=Object.keys(originalZip).filter(k=>!changed.has(k)&&Buffer.compare(Buffer.from(originalZip[k]),Buffer.from(zip[k]||[]))!==0);
+ if(alteredUnlisted.length)throw Error('Workbook ZIP parts mutated unexpectedly: '+alteredUnlisted.join(','));
+ console.log('PRESERVED_ZIP_PARTS '+JSON.stringify({document:kind,preserved:Object.keys(originalZip).length-changed.size,unexpectedAlterations:alteredUnlisted.length}));
  let passed=0,missing=0,notEligible=0;
  for(const e of all){const r=report.get(e.id),expected=wanted.get(e.id),sheet=template.sheets.find(x=>x.name===e.official.sheet);
   let result='NOT_AUTOMATICALLY_WRITABLE',actual='',cell='';
@@ -51,12 +55,12 @@ for(const kind of ['esf','ases']){
    const xml=strFromU8(zip[sheet.path]),vals=r.writtenCells.map(c=>({cell:c,...readCell(xml,c)}));
    cell=r.writtenCells.join(';');actual=vals.map(x=>x.value??'').join(';');
    result=vals.every(x=>x.value===expected&&!x.formula&&expand(e.official.ranges)?.includes(x.cell))?'PASS_PHYSICAL_CELL':'FAIL_WRONG_VALUE_OR_CELL';
-  }else{result='FAIL_NOT_WRITTEN';}
+  }else{result=r?.status==='manual_mapping'?'REQUIRES_MANUAL_MAPPING':'FAIL_NOT_WRITTEN';}
   if(result.startsWith('PASS'))passed++;else missing++;
   }else notEligible++;
   results.push({document:kind.toUpperCase(),controlId:e.id,fieldId:e.fieldId,systemId:e.systemId,fieldLabel:e.label,sheet:e.official.sheet,mappedRanges:e.official.ranges.join(';'),testValue:expected||'',actualValue:actual,cell,status:r?.status||'',proof:result});
  }
- summary.documents[kind.toUpperCase()]={mapped:all.length,eligible:eligible.length,matched:passed,failed:missing,other:notEligible,exportedWrites:wb.report.writtenCells.length};
+ summary.documents[kind.toUpperCase()]={mapped:all.length,initialCandidates:eligible.length,matched:passed,manualMapping:results.filter(x=>x.document===kind.toUpperCase()&&x.proof==='REQUIRES_MANUAL_MAPPING').length,unexpectedNotWritten:results.filter(x=>x.document===kind.toUpperCase()&&x.proof==='FAIL_NOT_WRITTEN').length,other:notEligible,exportedWrites:wb.report.writtenCells.length};
  console.log('E2E_DOCUMENT '+JSON.stringify({document:kind,...summary.documents[kind.toUpperCase()]}));
 }
 const ses=(fieldLists.get('SES')||[]),t=templates.ses;let sesPassed=0,sesFailed=0,sesEvidence=0;
@@ -84,5 +88,8 @@ const cols=['document','controlId','fieldId','systemId','fieldLabel','sheet','ma
 fs.writeFileSync(path.join(dir,'all-field-results.csv'),[cols.map(csv).join(','),...results.map(r=>cols.map(k=>csv(r[k])).join(','))].join('\n')+'\n');
 fs.writeFileSync(path.join(dir,'summary.json'),JSON.stringify(summary,null,2));
 console.log('E2E_PROOF_SUMMARY '+JSON.stringify(summary));
+const unexpected=results.filter(x=>x.proof==='FAIL_NOT_WRITTEN'||x.proof==='FAIL_WRONG_VALUE_OR_CELL'||x.proof==='FAIL_NO_SAFE_CELL');
+console.log('UNEXPECTED_FAILURES '+JSON.stringify(unexpected.slice(0,25)));
+if(unexpected.length)process.exitCode=1;
 console.log('PROBE_PROBLEMS '+JSON.stringify(results.filter(r=>['FAIL_NOT_WRITTEN','FAIL_WRONG_VALUE_OR_CELL','NOT_WRITTEN_FOR_PROBE','FAIL_NO_SAFE_CELL'].includes(r.proof)).slice(0,70)));
 })().catch(e=>{console.error('AUDIT_FATAL',e.stack);process.exitCode=1;});
