@@ -16,6 +16,7 @@
 | ללמוד על תרגום אוטומטי | [מנגנון התרגום](translation-runtime.md) |
 | לפרסם שינוי לשרת | [פריסה ל־Vercel](deployment.md) |
 | לטפל בשדות, בתבניות ובנתונים | [תחזוקה](../MAINTENANCE.md) |
+| לבדוק שכל שדה ממופה לתא הנכון ב־Excel | [ביקורת מיפוי ESF/ASES/SES](excel-mapping-audit.md) |
 
 ## מפת תיקיות קצרה
 
