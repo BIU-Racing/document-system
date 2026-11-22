@@ -5,7 +5,7 @@ const coverage=load('data/coverage.normalized.json').entries, systems=load('data
 const fieldLists=new Map(systems.map(s=>[s.id,s.fields]));fieldLists.set('COORDINATOR',coord);
 const built=esbuild.buildSync({entryPoints:['lib/official-workbooks.ts'],bundle:true,platform:'node',format:'cjs',target:'node22',write:false,logLevel:'silent'});
 const mod=new Module(path.resolve('lib/qa-proof.cjs'),module);mod.filename=path.resolve('lib/qa-proof.cjs');mod.paths=module.paths;mod._compile(built.outputFiles[0].text,mod.filename);
-const {buildOfficialWorkbook}=mod.exports;
+const {buildOfficialWorkbook,numericTargetById}=mod.exports;
 const canonical=v=>Array.isArray(v)?'['+v.map(canonical).join(',')+']':v&&typeof v==='object'?'{'+Object.entries(v).sort(([a],[b])=>a.localeCompare(b)).map(([a,b])=>JSON.stringify(a)+':'+canonical(b)).join(',')+'}':JSON.stringify(v)??'null';
 const hash=v=>crypto.createHash('sha256').update(v).digest('hex');
 const snapshot=(id,answers)=>({id,answers,revision:9,status:'draft',attachments:[],progress:{complete:0,total:0,percent:0},updatedAt:null,review:{fields:{}},schemaVersion:'qa'});
@@ -15,7 +15,9 @@ const address=(c,r)=>{let a='';while(c){c--;a=String.fromCharCode(65+c%26)+a;c=M
 const expand=(list,limit=2000)=>{let out=[];for(const s of list||[]){const p=s.split(':'),a=point(p[0]),b=point(p[1]||p[0]);if(!a||!b||p.length>2||a[0]>b[0]||a[1]>b[1]||(b[0]-a[0]+1)*(b[1]-a[1]+1)+out.length>limit)return null;for(let r=a[1];r<=b[1];r++)for(let c=a[0];c<=b[0];c++)out.push(address(c,r));}return out.length?out:null};
 const readCell=(xml,ref)=>{const match=new RegExp('<c\\b([^>]*\\br="'+ref+'"[^>]*)(?:\\/>|>([\\s\\S]*?)<\\/c>)').exec(xml);if(!match)return null;const body=match[2]||'';const number=/<v>([^<]*)<\/v>/.exec(body),str=/<is[^>]*>([\s\S]*?)<\/is>/.exec(body);const value=str?[...str[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map(x=>x[1]).join(''):number?number[1]:null;return {value,formula:/<f\b/.test(body)}};
 const getField=e=>(fieldLists.get(e.systemId||'COORDINATOR')||[]).find(f=>f.id===e.fieldId);
-const choice=(e,f,col,i)=>{const schema={...e.inputSchema,...f.sourceInputSchema,...col?.sourceInputSchema},opts=schema.source_literal_options||col?.options||f.options||[];if(schema.type==='number_with_unit_and_source')return String(5000+i);if(schema.type==='select'||col?.kind==='select'||f.kind==='select'){const x=opts[0];return typeof x==='string'?x:String(x?.source_value??x?.value??'Yes')}return 'QA_VALUE_'+String(i).padStart(5,'0')};
+const choice=(e,f,col,i)=>{const schema={...e.inputSchema,...f.sourceInputSchema,...col?.sourceInputSchema},opts=schema.source_literal_options||col?.options||f.options||[];if(schema.type==='number_with_unit_and_source'||numericTargetById.has(e.id))return String(numericTargetById.get(e.id)?.max!==undefined?50+i%40:5000+i);if(schema.type==='select'||col?.kind==='select'||f.kind==='select'){const x=opts[0];return typeof x==='string'?x:String(x?.source_value??x?.value??'Yes')}return 'QA_VALUE_'+String(i).padStart(5,'0')};
+// Audited unit conversions (e.g. charger power W -> kW) are applied once by the exporter.
+const exported=(e,v)=>{const t=numericTargetById.get(e.id);return t?.factor?String(Number((Number(v)*t.factor).toPrecision(15))):v};
 const dir='outputs/excel-proof';fs.mkdirSync(dir,{recursive:true});
 const results=[],summary={sourceCommit:process.env.GITHUB_SHA||'',testData:'synthetic-only',documents:{},limitations:['Checks physical placement against mapping registry; does not independently verify engineering semantics','Bundled Italian templates are 2023/2026 and not verified for 2027','No production database or user submissions accessed']};
 let serial=1;
@@ -35,8 +37,8 @@ for(const kind of ['esf','ases']){
   if(field.kind==='table'){
    const slots=field.recordKeys?.length>1?field.recordKeys.length:1;
    value=Array.from({length:slots},(_,i)=>({_id:'QA_ROW_'+i}));
-   for(const {e,v} of entries){const i=slots>1?field.recordKeys.indexOf(e.sourceRecordKey??''):0;if(i>=0&&e.columnId){value[i][e.columnId]=v;wanted.set(e.id,v);}}
-  }else{value=entries[0].v;for(const {e} of entries)wanted.set(e.id,value);}
+   for(const {e,v} of entries){const i=slots>1?field.recordKeys.indexOf(e.sourceRecordKey??''):0;if(i>=0&&e.columnId){value[i][e.columnId]=v;wanted.set(e.id,exported(e,v));}}
+  }else{value=entries[0].v;for(const {e} of entries)wanted.set(e.id,exported(e,value));}
   if(!work.has(systemId))work.set(systemId,{});
   work.get(systemId)[field.id]={status:'answered',value,sourceReview:'confirmed'};
  }

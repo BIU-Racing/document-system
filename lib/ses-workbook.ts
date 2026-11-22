@@ -12,6 +12,8 @@ const hash=async(value:string|Uint8Array)=>[...new Uint8Array(await crypto.subtl
 function point(ref:string){const m=/^([A-Z]{1,3})([1-9]\d*)$/.exec(ref);if(!m)return null;let col=0;for(const x of m[1])col=col*26+x.charCodeAt(0)-64;return {col,row:Number(m[2])};}
 function within(ref:string,range:string){const p=point(ref),[a,b=a]=range.replace(/\$/g,'').split(':'),start=point(a),end=point(b);return !!p&&!!start&&!!end&&p.col>=start.col&&p.col<=end.col&&p.row>=start.row&&p.row<=end.row;}
 const validNumber=(value:string)=>/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value)&&Number.isFinite(Number(value))&&value.replace(/[^\d]/g,'').length<=15;
+/** Writing as a number must not change what the user typed: "007", "1.10", "+5" and "1e3" stay text. */
+const canonicalNumber=(value:string)=>validNumber(value)&&String(Number(value))===value;
 function validationStatus(blocks:string[],ref:string,value:string):'ok'|'invalid_value'|'manual_mapping'{
  for(const block of blocks)for(const match of block.matchAll(/<(?:\w+:)?dataValidation\b([^>]*?)(?:\/>|>([\s\S]*?)<\/(?:\w+:)?dataValidation>)/g)){
   const attrs=match[1],body=match[2]??'',ranges=(attr(attrs,'sqref')??/<(?:\w+:)?sqref>([^<]+)<\/(?:\w+:)?sqref>/.exec(body)?.[1]??'').split(/\s+/);
@@ -90,7 +92,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
    if(row[field.id+'-CELL']!==source[field.id+'-CELL']){failure='source_conflict';break;}
    if(!cell||!sheet.writableCells.includes(ref)||!guard.editableRanges.some(range=>within(ref,range))||/<f\b/.test(cell.body)||guard.formulaCellsInsideEditableRanges.includes(ref)||guard.mergedRanges.some(range=>within(ref,range)&&range.split(':')[0]!==ref)){failure='protected';break;}
    const validation=validationStatus(guard.rawDataValidationBlocks,ref,value);if(validation!=='ok'){failure=validation;break;}
-   writes.push({sheet:sheet.name,cell:ref,type:validNumber(value)?'number':'text',value,systemId:'SES',fieldId:field.id,rowId:source._id,sourceRevision:snapshot.revision,sourceHash,controlId:field.id});
+   writes.push({sheet:sheet.name,cell:ref,type:canonicalNumber(value)?'number':'text',value,systemId:'SES',fieldId:field.id,rowId:source._id,sourceRevision:snapshot.revision,sourceHash,controlId:field.id});
   }
   if(failure){finish(failure);continue;}
   for(const write of writes)already.set(write.cell,write);patches.set(sheet.path,already);report.writtenCells.push(...writes);result.writtenCells=writes.map(w=>w.cell);result.rowIds=writes.map(w=>w.rowId??'');finish('written');
