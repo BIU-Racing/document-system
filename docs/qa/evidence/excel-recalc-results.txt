@@ -1,0 +1,12 @@
+Microsoft Excel for Mac, recalculated (fullCalcOnLoad + "calculate full"), 2026-11-22.
+Workbook A = real export (S1-complete-esf). Workbook B = identical file, only the listed cells retyped as numbers/booleans (scripts/qa/make-control.cjs).
+Cell                              A: as exported (text)   B: control (number)   Expected
+PrechargeDischarge!D14 (ratio %)  "80"                    80                    -
+PrechargeDischarge!F14 (check)    OK                      WARNING               WARNING (80 % < 90 %)   <- FALSE PASS in export
+Accumulator!O24 (sensor dist mm)  "5"                     5                     -
+Accumulator!Q24 (check)           WARNING                 OK                    OK (5 mm < 10 mm)       <- FALSE FAIL in export
+Accumulator!O12 / Q12             "300" / OK              300 / OK              inconclusive (E4 = 0 without segment data)
+Shutdown Circuit!D5 / F5          "50" / OK               50 / OK               inconclusive (MaxTSVoltage = 0)
+Other!D6 / F6                     "100" / OK              100 / OK              inconclusive (MaxTSVoltage = 0)
+TS Schematics!J30 / K30           "TRUE" / OK             TRUE / OK             OK - Excel coerces the text TRUE inside IF()
+Excel template text: OKText = "OK", ErrorText = "WARNING".

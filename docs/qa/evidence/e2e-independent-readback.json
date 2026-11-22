@@ -1,0 +1,1858 @@
+{
+ "S1-complete-esf": {
+  "cellsChecked": 22,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Lithium-ion NMC",
+    "actual": "Lithium-ion NMC",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Leoni",
+    "actual": "Leoni",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "FLR2X-A 35",
+    "actual": "FLR2X-A 35",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Between the battery and the converter",
+    "actual": "Between the battery and the converter",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Orange cable with shielding, cut area 35 mm",
+    "actual": "Orange cable with shielding, cut area 35 mm",
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S1-complete-ases": {
+  "cellsChecked": 8,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E14",
+    "fieldId": "LC-ASES-S06-E14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "0",
+    "actual": "0",
+    "match": true
+   },
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E15",
+    "fieldId": "LC-ASES-S06-E15",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "25.4",
+    "actual": 25.4,
+    "match": true
+   },
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E16",
+    "fieldId": "LC-ASES-S06-E16",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "1.6",
+    "actual": 1.6,
+    "match": true
+   },
+   {
+    "sheet": "EV5.5.5 Alt. Matl - 3pt Bending",
+    "cell": "C46",
+    "fieldId": "LC-ASES-S09-C46",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "0.5",
+    "actual": 0.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets Fiber",
+    "cell": "A5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "columnId": "LC-ASES-S11-A5",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Toray T700 carbon fiber in twill weaving",
+    "actual": "Toray T700 carbon fiber in twill weaving",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets Fiber",
+    "cell": "A7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "columnId": "LC-ASES-S11-A7",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Carbon Fiber",
+    "actual": "Carbon Fiber",
+    "match": true
+   },
+   {
+    "sheet": "EV5.5.10-12 Cell Fixation",
+    "cell": "M22",
+    "fieldId": "LC-ASES-S15-M22",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "400",
+    "actual": 400,
+    "match": true
+   },
+   {
+    "sheet": "EV5.5.10-12 Cell Fixation",
+    "cell": "M25",
+    "fieldId": "LC-ASES-S15-M25",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "0.3",
+    "actual": "0.3",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet10.xml",
+    "xl/worksheets/sheet11.xml",
+    "xl/worksheets/sheet12.xml",
+    "xl/worksheets/sheet13.xml",
+    "xl/worksheets/sheet15.xml",
+    "xl/worksheets/sheet20.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet6.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": true,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    22,
+    22
+   ]
+  }
+ },
+ "S2-untranslated-esf": {
+  "cellsChecked": 10,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S3-stale-esf": {
+  "cellsChecked": 14,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S4-translation-failed-esf": {
+  "cellsChecked": 21,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Leoni",
+    "actual": "Leoni",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "FLR2X-A 35",
+    "actual": "FLR2X-A 35",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Between the battery and the converter",
+    "actual": "Between the battery and the converter",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Orange cable with shielding, cut area 35 mm",
+    "actual": "Orange cable with shielding, cut area 35 mm",
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S5-invalid-values-esf": {
+  "cellsChecked": 20,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Lithium-ion NMC",
+    "actual": "Lithium-ion NMC",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Leoni",
+    "actual": "Leoni",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "FLR2X-A 35",
+    "actual": "FLR2X-A 35",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Between the battery and the converter",
+    "actual": "Between the battery and the converter",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Orange cable with shielding, cut area 35 mm",
+    "actual": "Orange cable with shielding, cut area 35 mm",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B56",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "columnId": "LC-ESF-Datasheets-resistors-B",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Vishay",
+    "actual": "Vishay",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S6-table-overflow-esf": {
+  "cellsChecked": 14,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Lithium-ion NMC",
+    "actual": "Lithium-ion NMC",
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S7-incomplete-table-esf": {
+  "cellsChecked": 15,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "3.5",
+    "actual": 3.5,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Lithium-ion NMC",
+    "actual": "Lithium-ion NMC",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S8-empty-unknown-esf": {
+  "cellsChecked": 20,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Leoni",
+    "actual": "Leoni",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "FLR2X-A 35",
+    "actual": "FLR2X-A 35",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "35",
+    "actual": 35,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "1000",
+    "actual": 1000,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "180",
+    "actual": 180,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "150",
+    "actual": 150,
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Between the battery and the converter",
+    "actual": "Between the battery and the converter",
+    "match": true
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Orange cable with shielding, cut area 35 mm",
+    "actual": "Orange cable with shielding, cut area 35 mm",
+    "match": true
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "300",
+    "actual": "300",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "On bus bar",
+    "actual": "On bus bar",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "actual": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "Ratio",
+    "actual": "Ratio",
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "float",
+    "expected": "2.8",
+    "actual": 2.8,
+    "match": true
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "80",
+    "actual": "80",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "50",
+    "actual": "50",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "5",
+    "actual": "5",
+    "match": true
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "TRUE",
+    "actual": "TRUE",
+    "match": true
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "100",
+    "actual": "100",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet1.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet9.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null,
+   "sheetLevelDiffs": [],
+   "definedNames": [
+    26,
+    26
+   ]
+  }
+ },
+ "S9-ses": {
+  "cellsChecked": 2,
+  "mismatches": [],
+  "checks": [
+   {
+    "sheet": "Version History",
+    "cell": "A4",
+    "fieldId": "SES26-S01-INPUTS",
+    "columnId": null,
+    "exportType": "number",
+    "pythonType": "int",
+    "expected": "007",
+    "actual": 7,
+    "match": true
+   },
+   {
+    "sheet": "Version History",
+    "cell": "B4",
+    "fieldId": "SES26-S01-INPUTS",
+    "columnId": null,
+    "exportType": "text",
+    "pythonType": "str",
+    "expected": "First version to submit",
+    "actual": "First version to submit",
+    "match": true
+   }
+  ],
+  "structure": {
+   "partsChanged": [
+    "xl/workbook.xml",
+    "xl/worksheets/sheet2.xml"
+   ],
+   "partsMissing": [],
+   "partsAdded": [],
+   "vbaProjectPreserved": null
+  }
+ }
+}

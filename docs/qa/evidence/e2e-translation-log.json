@@ -1,0 +1,242 @@
+[
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-J",
+  "hebrew": "בין המצבר לממיר",
+  "english": "Between the battery and the converter"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-L",
+  "hebrew": "כבל כתום עם מיגון, שטח החתך 35 mm²",
+  "english": "Orange cable with shielding, cut area 35 mm"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D12",
+  "path": "value",
+  "hebrew": "ליתיום־יון NMC",
+  "english": "Lithium-ion NMC"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "ACCUMULATOR",
+  "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+  "path": "value/0/LC-ASES-S11-A5",
+  "hebrew": "סיבי פחמן Toray T700 באריגת twill",
+  "english": "Toray T700 carbon fiber in twill weaving"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-J",
+  "hebrew": "בין המצבר לממיר",
+  "english": "Between the battery and the converter"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-L",
+  "hebrew": "כבל כתום עם מיגון, שטח החתך 35 mm²",
+  "english": "Orange cable with shielding, cut area 35 mm"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D12",
+  "path": "value",
+  "hebrew": "ליתיום־יון NMC",
+  "english": "Lithium-ion NMC"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-J",
+  "hebrew": "בין המצבר לממיר",
+  "english": "Between the battery and the converter"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-L",
+  "hebrew": "כבל כתום עם מיגון, שטח החתך 35 mm²",
+  "english": "Orange cable with shielding, cut area 35 mm"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-J",
+  "hebrew": "בין המצבר לממיר",
+  "english": "Between the battery and the converter"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-L",
+  "hebrew": "כבל כתום עם מיגון, שטח החתך 35 mm²",
+  "english": "Orange cable with shielding, cut area 35 mm"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D12",
+  "path": "value",
+  "hebrew": "ליתיום־יון NMC",
+  "english": "Lithium-ion NMC"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D12",
+  "path": "value",
+  "hebrew": "ליתיום־יון NMC",
+  "english": "Lithium-ion NMC"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/1/LC-ESF-Datasheets-conductors-D",
+  "hebrew": "35 ממ\"ר",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "P0 m2"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D12",
+  "path": "value",
+  "hebrew": "ליתיום־יון NMC",
+  "english": "Lithium-ion NMC"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-J",
+  "hebrew": "בין המצבר לממיר",
+  "english": "Between the battery and the converter"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "CARD-FG-ESF-DS-02",
+  "path": "value/0/LC-ESF-Datasheets-conductors-L",
+  "hebrew": "כבל כתום עם מיגון, שטח החתך 35 mm²",
+  "english": "Orange cable with shielding, cut area 35 mm"
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S02-D15",
+  "path": "value",
+  "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים & <לא> מחוברים במקביל.",
+  "english": null,
+  "rejected": "PROTECTED_TEXT_CHANGED",
+  "raw": "Note: \"P0\" and \"P1\" are separate relays & P2Lp3 are connected in parallel."
+ },
+ {
+  "systemId": "COORDINATOR",
+  "fieldId": "LC-ESF-S04-A57",
+  "path": "value",
+  "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+  "english": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+ },
+ {
+  "systemId": "SES",
+  "fieldId": "SES26-S01-INPUTS",
+  "path": "value/1/SES26-S01-INPUTS-VALUE",
+  "hebrew": "גרסה ראשונה להגשה",
+  "english": "First version to submit"
+ }
+]

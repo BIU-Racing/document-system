@@ -1,0 +1,14 @@
+import fs from 'node:fs'; import path from 'node:path'; import Module, { createRequire } from 'node:module';
+const [repo, scratch] = process.argv.slice(2); const require = createRequire(path.join(repo, 'package.json')); const esbuild = require('esbuild');
+const b = esbuild.buildSync({ entryPoints: [path.join(repo, 'lib/official-workbooks.ts')], bundle: true, platform: 'node', format: 'cjs', write: false, logLevel: 'silent', absWorkingDir: repo });
+const m = new Module('x', null); m.paths = Module._nodeModulePaths(path.join(repo, 'lib')); m._compile(b.outputFiles[0].text, path.join(repo, 'lib/x.cjs'));
+const crypto = await import('node:crypto');
+const canonical = v => Array.isArray(v) ? '[' + v.map(canonical).join(',') + ']' : v && typeof v === 'object' ? '{' + Object.entries(v).sort(([a], [b]) => a.localeCompare(b)).map(([k, x]) => JSON.stringify(k) + ':' + canonical(x)).join(',') + '}' : JSON.stringify(v) ?? 'null';
+const text = 'Note: "AIR+" & <AIR-> are separate; it\'s 5 < 10 & 10 > 5. Line2\nLine3 Ω ± ≥ 35 mm²' + ' long'.repeat(2000);
+const answers = { 'LC-ESF-S02-D15': { status: 'answered', value: text } };
+const snap = { id: 'COORDINATOR', answers, revision: 3, status: 'draft', attachments: [], progress: {}, updatedAt: null, review: { fields: {} }, schemaVersion: 'qa' };
+const tr = { systemId: 'COORDINATOR', sourceRevision: 3, sourceHash: crypto.createHash('sha256').update(canonical(answers)).digest('hex'), isCurrent: true, englishAnswers: answers, fieldStates: { 'LC-ESF-S02-D15': 'ready' } };
+const r = await m.exports.buildOfficialWorkbook({ kind: 'esf', snapshots: [snap], translations: [tr] });
+fs.writeFileSync(path.join(scratch, 'e2e/S10-special-chars.xlsx'), Buffer.from(r.bytes));
+fs.writeFileSync(path.join(scratch, 'e2e/S10-expected.txt'), text);
+console.log(r.report.fields.find(f => f.controlId === 'LC-ESF-S02-D15').status, text.length);
