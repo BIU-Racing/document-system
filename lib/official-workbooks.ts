@@ -6,6 +6,8 @@ import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate';
 import templatesData from '@/private-data/official-workbook-templates.json';
 import { coverage, getFields, getSystem, type CoverageEntry, type Field, type FieldColumn } from './catalog';
 import { canonical, fingerprint, isNotApplicable, isUnknown, type Answer, type Answers, type SystemSnapshot } from './progress';
+import { numericLiteralAlternatives, numericTargetById, parseNumericAnswer } from './official-numeric-targets';
+export { numericTargets, numericTargetById, parseNumericAnswer } from './official-numeric-targets';
 
 export type OfficialWorkbookKind = 'esf' | 'ases' | 'ses';
 export type OfficialTranslationSnapshot = {
@@ -31,6 +33,8 @@ export type OfficialCellWrite = {
   sheet: string; cell: string; type: 'text' | 'number'; value: string;
   systemId: string; fieldId: string; columnId?: string; rowId?: string;
   sourceRevision: number; sourceHash: string; controlId: string;
+  /** Numeric writes only: the saved answer and the template unit of the written value. */
+  sourceValue?: string; unit?: string | null;
 };
 export type OfficialWorkbookReport = {
   format: 'BIU-OFFICIAL-WORKBOOK-DRAFT'; version: 1; kind: OfficialWorkbookKind;
@@ -114,7 +118,10 @@ function verticalTargets(ranges: string[]) {
 function plainScalar(answer: Answer | undefined): answer is Answer & { value: string } { return !!answer && typeof answer.value === 'string'; }
 function schemaFor(entry: CoverageEntry, field?: Field, column?: FieldColumn): InputSchema {
   const mapped = (column?.sourceInputSchema ?? field?.sourceInputSchema ?? {}) as InputSchema;
-  return { ...entry.inputSchema, ...mapped, manual_review_before_source_export: !!(entry.inputSchema?.manual_review_before_source_export || mapped.manual_review_before_source_export) } as InputSchema;
+  const schema = { ...entry.inputSchema, ...mapped, manual_review_before_source_export: !!(entry.inputSchema?.manual_review_before_source_export || mapped.manual_review_before_source_export) } as InputSchema;
+  // Template-verified numeric cells (QA-01/02) override a free-text registry type.
+  const target = numericTargetById.get(entry.id);
+  return target ? { ...schema, type: 'number_with_unit_and_source', unit: target.inputUnit } : schema;
 }
 function literalOptions(schema: InputSchema, field?: Field, column?: FieldColumn): string[] {
   // Original workbook literals win. Display labels and translated enums are not values.
@@ -127,11 +134,6 @@ function literalOptions(schema: InputSchema, field?: Field, column?: FieldColumn
 }
 function isEvidence(schema: InputSchema, field?: Field, column?: FieldColumn) {
   return (column?.kind ?? field?.kind) === 'file' || schema.type === 'file_upload_with_caption';
-}
-function validNumber(value: string) {
-  // No paragraphs, unit guessing, locale guessing, ranges, or Excel formulas.
-  const trimmed = value.trim();
-  return /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(trimmed) && Number.isFinite(Number(trimmed)) && trimmed.replace(/[^\d]/g, '').length <= 15;
 }
 function safeText(value: string) {
   return value.length <= 32767 && !/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/u.test(value) && !/[\u0590-\u05FF]/u.test(value);
@@ -307,9 +309,15 @@ export async function buildOfficialWorkbook(input: OfficialWorkbookInput): Promi
       if (isUnknown(item.original)) { unresolved ??= 'unknown'; continue; }
       if (isNotApplicable(item.original)) { unresolved ??= 'not_applicable'; continue; }
       let value = item.original, type: 'number' | 'text' = 'text';
+      const target = numericTargetById.get(entry.id);
       if (schema.type === 'number_with_unit_and_source') {
-        if (!validNumber(value)) { unresolved ??= 'invalid_value'; continue; }
-        value = value.trim(); type = 'number';
+        // Strict number; any unit conversion (W -> kW) happens here exactly once,
+        // never in the stored answer.
+        const literal = numericLiteralAlternatives[entry.id]?.find(word => word.toLowerCase() === value.trim().toLowerCase());
+        const parsed = literal ? null : parseNumericAnswer(value, target);
+        if (literal) value = literal;
+        else if (!parsed?.ok) { unresolved ??= 'invalid_value'; continue; }
+        else { value = parsed.value; type = 'number'; }
       } else if (schema.type === 'select' || (column?.kind ?? field.kind) === 'select') {
         if (!literalOptions(schema, field, column).includes(value)) { unresolved ??= 'invalid_value'; continue; }
       } else {
@@ -326,7 +334,7 @@ export async function buildOfficialWorkbook(input: OfficialWorkbookInput): Promi
       sheet.patches.set(item.ref, { type, value });
       result.writtenCells.push(item.ref);
       if (item.rowId) (result.rowIds ??= []).push(item.rowId);
-      report.writtenCells.push({ sheet: sheet.name, cell: item.ref, type, value, systemId: snapshot.id, fieldId: field.id, ...(entry.columnId ? { columnId: entry.columnId } : {}), ...(item.rowId ? { rowId: item.rowId } : {}), sourceRevision: snapshot.revision, sourceHash: hashes.get(snapshot.id)!, controlId: entry.id });
+      report.writtenCells.push({ sheet: sheet.name, cell: item.ref, type, value, systemId: snapshot.id, fieldId: field.id, ...(entry.columnId ? { columnId: entry.columnId } : {}), ...(item.rowId ? { rowId: item.rowId } : {}), sourceRevision: snapshot.revision, sourceHash: hashes.get(snapshot.id)!, controlId: entry.id, ...(type === 'number' ? { sourceValue: item.original, unit: target?.templateUnit ?? schema.unit ?? null } : {}) });
     }
     setStatus(unresolved ?? (result.writtenCells.length ? 'written' : 'empty'));
   }

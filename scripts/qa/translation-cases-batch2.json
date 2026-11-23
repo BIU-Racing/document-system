@@ -1,0 +1,14 @@
+[
+ {"id":"T29","area":"Long prose (no literals)","he":"מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.","ref":"(10 sentences; check for omissions)"},
+ {"id":"T30","area":"Units","he":"שטח החתך של הכבל הוא 50 mm² והזרם המותר הוא 180 A בטמפרטורה של 90 °C.","ref":"The cable cross-section is 50 mm² and the ampacity is 180 A at 90 °C."},
+ {"id":"T31","area":"Units","he":"הרוחב הוא 300 מ״מ והעובי הוא 4 מ״מ.","ref":"The width is 300 mm and the thickness is 4 mm."},
+ {"id":"T32","area":"Symbols","he":"מתח הבידוד ≥ 500 V והסטייה המותרת היא ±2%.","ref":"The insulation voltage is ≥ 500 V and the permitted tolerance is ±2%."},
+ {"id":"T33","area":"Special chars","he":"הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים; ראו סעיף EV 5.6.3 & EV 6.1.","ref":"Note: \"AIR+\" and \"AIR-\" are separate relays; see rules EV 5.6.3 & EV 6.1."},
+ {"id":"T34","area":"List","he":"רכיבים במעגל:\n1. לחצן ניתוק בצד ימין\n2. לחצן ניתוק בצד שמאל\n3. מפסק אינרציה","ref":"Components in the circuit:\n1. Right side shutdown button\n2. Left side shutdown button\n3. Inertia switch"},
+ {"id":"T35","area":"Negation","he":"הממסרים אינם נסגרים אלא אם כל התנאים מתקיימים.","ref":"The relays do not close unless all conditions are met."},
+ {"id":"T36","area":"Negation","he":"אין להפעיל את הרכב ללא בדיקת בידוד תקינה.","ref":"The vehicle must not be operated without a passed insulation test."},
+ {"id":"T37","area":"Conditional","he":"רק אם ה־IMD מזהה התנגדות בידוד נמוכה מ־500 Ω/V, מעגל הניתוק נפתח.","ref":"Only if the IMD detects an insulation resistance below 500 Ω/V does the shutdown circuit open."},
+ {"id":"T38","area":"Mixed English","he":"We use Orion BMS 2 עם CAN bus ב־500 kbps.","ref":"We use Orion BMS 2 with a CAN bus at 500 kbps."},
+ {"id":"T39","area":"Hebrew number words","he":"יש שני חיישני טמפרטורה בכל מקטע.","ref":"There are two temperature sensors in each segment."},
+ {"id":"T40","area":"Hebrew number words","he":"ההשהיה היא חצי שנייה.","ref":"The delay is half a second."}
+]

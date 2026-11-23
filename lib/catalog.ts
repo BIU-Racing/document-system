@@ -9,6 +9,7 @@ import coordinatorData from '@/data/coordinator.normalized.json';
 import coverageData from '@/data/coverage.normalized.json';
 import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
+import { numericTargets } from './official-numeric-targets';
 
 export type FieldKind = 'text' | 'table' | 'file' | 'select';
 
@@ -133,6 +134,14 @@ export const coverage = {
   entries: coverageData.entries as unknown as CoverageEntry[],
 };
 export const sharedRecordDefinitions = sharedData;
+
+// Show the template unit on audited numeric questions that the registry left unit-less
+// (QA-01). The stored answers and field IDs are unchanged.
+for (const target of numericTargets) {
+  for (const field of [...systems.flatMap((system) => system.fields), ...coordinatorQueue]) {
+    if (field.id === target.controlId && !field.unit) field.unit = target.inputUnit;
+  }
+}
 
 /** Administrative route, deliberately excluded from the 21-system map/count. */
 export const coordinatorSystem: System = {

@@ -1,0 +1,41 @@
+tests/qa-export-semantics.test.mjs, run 2026-11-22
+
+=== BEFORE the fix (commit e0bb3bc, same test file) ===
+ℹ fail 9
+ℹ pass 2
+ℹ tests 13
+ℹ todo 2
+⚠ QA-03 translation validator rejects a changed unit (mm² -> mm) # QA-03: deferred to translation-quality work (superscript units are not protected literals)
+⚠ QA-04 translation validator rejects a translation that drops a sentence # QA-04: deferred to translation-quality work (no completeness check)
+✔ QA-01 identifiers and free text stay strings (no blanket number conversion)
+✔ template evidence: every audited cell is read by a numeric check and has the recorded unit
+✖ QA-01 ASES tube count: "0 tubes" really means N/A in the template check
+✖ QA-01 all 13 audited numeric answers are written as real Excel numbers
+✖ QA-01 invalid, negative, out-of-range and non-integer inputs never become a value
+✖ QA-01 precharge ratio check (D14 < 90 -> WARNING) gives the right answer below, at and above the threshold
+✖ QA-01 temperature sensor distance check (O24 < 10 mm -> OK) is not a false WARNING
+✖ QA-02 charger power: the template unit is kW, the app asks for W, and export converts exactly once
+✖ QA-12 heatsink column accepts the template literal "None" and nothing else
+✖ SES keeps numeric-looking identifiers as text and writes canonical numbers as numbers
+✖ failing tests:
+✖ unit sweep: every numeric answer cell uses the unit the template labels next to it
+
+=== AFTER the fix ===
+ℹ fail 0
+ℹ pass 11
+ℹ tests 13
+ℹ todo 2
+⚠ QA-03 translation validator rejects a changed unit (mm² -> mm) # QA-03: deferred to translation-quality work (superscript units are not protected literals)
+⚠ QA-04 translation validator rejects a translation that drops a sentence # QA-04: deferred to translation-quality work (no completeness check)
+✔ QA-01 ASES tube count: "0 tubes" really means N/A in the template check
+✔ QA-01 all 13 audited numeric answers are written as real Excel numbers
+✔ QA-01 identifiers and free text stay strings (no blanket number conversion)
+✔ QA-01 invalid, negative, out-of-range and non-integer inputs never become a value
+✔ QA-01 precharge ratio check (D14 < 90 -> WARNING) gives the right answer below, at and above the threshold
+✔ QA-01 temperature sensor distance check (O24 < 10 mm -> OK) is not a false WARNING
+✔ QA-02 charger power: the template unit is kW, the app asks for W, and export converts exactly once
+✔ QA-12 heatsink column accepts the template literal "None" and nothing else
+✔ SES keeps numeric-looking identifiers as text and writes canonical numbers as numbers
+✔ template evidence: every audited cell is read by a numeric check and has the recorded unit
+✔ unit sweep: every numeric answer cell uses the unit the template labels next to it
+✖ failing tests:

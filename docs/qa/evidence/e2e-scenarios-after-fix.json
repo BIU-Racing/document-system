@@ -1,0 +1,3939 @@
+{
+ "S1-complete-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S1-complete-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "type": "text",
+    "value": "Lithium-ion NMC",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D12",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S02-D12"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "type": "text",
+    "value": "Leoni",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-B"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "type": "text",
+    "value": "FLR2X-A 35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "type": "text",
+    "value": "Between the battery and the converter",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-J"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "type": "text",
+    "value": "Orange cable with shielding, cut area 35 mm",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-L"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "B19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "C19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "J19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "L19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S1-complete-ases": {
+  "kind": "ases",
+  "file": "<scratch>/e2e/S1-complete-ases.xlsm",
+  "writtenCells": [
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E14",
+    "type": "number",
+    "value": "0",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S06-E14",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S06-E14",
+    "sourceValue": "0",
+    "unit": "count"
+   },
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E15",
+    "type": "number",
+    "value": "25.4",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S06-E15",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S06-E15",
+    "sourceValue": "25.4",
+    "unit": "mm"
+   },
+   {
+    "sheet": "EV5.5.1&2 EV4.4 ACPS TSPS sidex",
+    "cell": "E16",
+    "type": "number",
+    "value": "1.6",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S06-E16",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S06-E16",
+    "sourceValue": "1.6",
+    "unit": "mm"
+   },
+   {
+    "sheet": "EV5.5.5 Alt. Matl - 3pt Bending",
+    "cell": "C46",
+    "type": "number",
+    "value": "0.5",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S09-C46",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S09-C46",
+    "sourceValue": "0.5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Datasheets Fiber",
+    "cell": "A5",
+    "type": "text",
+    "value": "Toray T700 carbon fiber in twill weaving",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "columnId": "LC-ASES-S11-A5",
+    "rowId": "m1",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S11-A5"
+   },
+   {
+    "sheet": "Datasheets Fiber",
+    "cell": "A7",
+    "type": "text",
+    "value": "Carbon Fiber",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "columnId": "LC-ASES-S11-A7",
+    "rowId": "m1",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S11-A7"
+   },
+   {
+    "sheet": "EV5.5.10-12 Cell Fixation",
+    "cell": "M22",
+    "type": "number",
+    "value": "400",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S15-M22",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S15-M22",
+    "sourceValue": "400",
+    "unit": "N"
+   },
+   {
+    "sheet": "EV5.5.10-12 Cell Fixation",
+    "cell": "M25",
+    "type": "text",
+    "value": "0.3",
+    "systemId": "ACCUMULATOR",
+    "fieldId": "LC-ASES-S15-M25",
+    "sourceRevision": 7,
+    "sourceHash": "b8c437c423039bfcca93c0c99cb5526730f138b8d871ec2885933db264ee7f96",
+    "controlId": "LC-ASES-S15-M25"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ASES-S04-D16",
+    "status": "restricted",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S04-N16",
+    "status": "restricted",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S04-D17",
+    "status": "restricted",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S04-N17",
+    "status": "restricted",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S06-E14",
+    "fieldId": "LC-ASES-S06-E14",
+    "status": "written",
+    "cells": [
+     "E14"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S06-E15",
+    "fieldId": "LC-ASES-S06-E15",
+    "status": "written",
+    "cells": [
+     "E15"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S06-E16",
+    "fieldId": "LC-ASES-S06-E16",
+    "status": "written",
+    "cells": [
+     "E16"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S09-C46",
+    "fieldId": "LC-ASES-S09-C46",
+    "status": "written",
+    "cells": [
+     "C46"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S11-A5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "written",
+    "cells": [
+     "A5"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S11-A7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "written",
+    "cells": [
+     "A7"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S11-E9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-L9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-1-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-R5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-R7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-V9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AC9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-2-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AI5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AI7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AM9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AT9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-3-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AZ5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-AZ7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-BD9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-BK9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-4-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-BQ5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-BQ7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-BU9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CB9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-5-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CH5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CH7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CL9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CS9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-6-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CY5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-CY7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-DC9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-DJ9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-7-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-DP5",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-DP7",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-DT9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S11-EA9",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-FG-ASES-S11-MAT-fiber-8-B-EVIDENCE-03",
+    "fieldId": "CARD-MATERIAL-Datasheets-Fiber",
+    "status": "evidence_required",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ASES-S15-M22",
+    "fieldId": "LC-ASES-S15-M22",
+    "status": "written",
+    "cells": [
+     "M22"
+    ]
+   },
+   {
+    "controlId": "LC-ASES-S15-M25",
+    "fieldId": "LC-ASES-S15-M25",
+    "status": "written",
+    "cells": [
+     "M25"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2026. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S2-untranslated-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S2-untranslated-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S3-stale-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S3-stale-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "77d09551e0e77d63c56e1d4362042525867d91e1e3c1b3bb7688fcbeafc33793",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "source_conflict",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S4-translation-failed-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S4-translation-failed-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "type": "text",
+    "value": "Leoni",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-B"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "type": "text",
+    "value": "FLR2X-A 35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "type": "text",
+    "value": "Between the battery and the converter",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-J"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "type": "text",
+    "value": "Orange cable with shielding, cut area 35 mm",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-Datasheets-conductors-L"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "98e469cf8dce32f2f419504fd2a569491051477be5a967d60bc6acd66c196ee6",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "translation_failed",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "B19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "C19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "J19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "L19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S5-invalid-values-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S5-invalid-values-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "type": "text",
+    "value": "Lithium-ion NMC",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D12",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-S02-D12"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "type": "text",
+    "value": "Leoni",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-B"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "type": "text",
+    "value": "FLR2X-A 35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "type": "text",
+    "value": "Between the battery and the converter",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-J"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "type": "text",
+    "value": "Orange cable with shielding, cut area 35 mm",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-conductors-L"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "B56",
+    "type": "text",
+    "value": "Vishay",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "columnId": "LC-ESF-Datasheets-resistors-B",
+    "rowId": "x",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-Datasheets-resistors-B"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "379166c42003db8a8f8c337a1cc3c8f5d290c0c574b19d188513a44735703721",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "invalid_value",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "B19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "C19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "J19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "L19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-B",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "written",
+    "cells": [
+     "B56"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-C",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-D",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-E",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-F",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-G",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-H",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "invalid_value",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-K",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-M",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-resistors-O",
+    "fieldId": "CARD-FG-ESF-DS-04",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "invalid_value",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "invalid_value",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S6-table-overflow-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S6-table-overflow-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "type": "text",
+    "value": "Lithium-ion NMC",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D12",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S02-D12"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "9b54f2e92f777ef1f13c784b41cb22b36eeb94980051fd16a20017092df97dae",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "overflow",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S7-incomplete-table-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S7-incomplete-table-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "D5",
+    "type": "number",
+    "value": "3.5",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D5",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S02-D5",
+    "sourceValue": "3.5",
+    "unit": "Ah"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D12",
+    "type": "text",
+    "value": "Lithium-ion NMC",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S02-D12",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S02-D12"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "d13b076b50ae6b945c59d55b6efedd3919a7156d92f5a58f3564fe9fad4fca50",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "invalid_value",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S8-empty-unknown-esf": {
+  "kind": "esf",
+  "file": "<scratch>/e2e/S8-empty-unknown-esf.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Datasheets",
+    "cell": "B19",
+    "type": "text",
+    "value": "Leoni",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-B",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-B"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "C19",
+    "type": "text",
+    "value": "FLR2X-A 35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-C",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "D19",
+    "type": "number",
+    "value": "35",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-D",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "sourceValue": "35",
+    "unit": "mm²"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "E19",
+    "type": "number",
+    "value": "1000",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-E",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "sourceValue": "1000",
+    "unit": "V"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "F19",
+    "type": "number",
+    "value": "180",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-F",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "sourceValue": "180",
+    "unit": "A"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "G19",
+    "type": "number",
+    "value": "150",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-G",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "sourceValue": "150",
+    "unit": "°C"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "J19",
+    "type": "text",
+    "value": "Between the battery and the converter",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-J",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-J"
+   },
+   {
+    "sheet": "Datasheets",
+    "cell": "L19",
+    "type": "text",
+    "value": "Orange cable with shielding, cut area 35 mm",
+    "systemId": "COORDINATOR",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "columnId": "LC-ESF-Datasheets-conductors-L",
+    "rowId": "r1",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-Datasheets-conductors-L"
+   },
+   {
+    "sheet": "TS Schematics",
+    "cell": "J30",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S03-J30",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S03-J30"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O12",
+    "type": "number",
+    "value": "300",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O12",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O12",
+    "sourceValue": "300",
+    "unit": "V"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O23",
+    "type": "text",
+    "value": "On bus bar",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O23",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O23"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "O24",
+    "type": "number",
+    "value": "5",
+    "systemId": "BMS",
+    "fieldId": "LC-ESF-S04-O24",
+    "sourceRevision": 7,
+    "sourceHash": "24120c7ef9fd93188b866c046cc4185ba2b975ca8c7abd46187ce73f2195b476",
+    "controlId": "LC-ESF-S04-O24",
+    "sourceValue": "5",
+    "unit": "mm"
+   },
+   {
+    "sheet": "Accumulator",
+    "cell": "A57",
+    "type": "text",
+    "value": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S04-A57",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S04-A57"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D11",
+    "type": "text",
+    "value": "Ratio",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D11",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S05-D11"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D12",
+    "type": "number",
+    "value": "2.8",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D12",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S05-D12",
+    "sourceValue": "2.8",
+    "unit": "s"
+   },
+   {
+    "sheet": "PrechargeDischarge",
+    "cell": "D14",
+    "type": "number",
+    "value": "80",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S05-D14",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S05-D14",
+    "sourceValue": "80",
+    "unit": "%"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "D5",
+    "type": "number",
+    "value": "50",
+    "systemId": "IMD",
+    "fieldId": "LC-ESF-S07-D5",
+    "sourceRevision": 7,
+    "sourceHash": "028f6127ce95458c10c057bfced4645ef216724f113f1535661314e5182c485a",
+    "controlId": "LC-ESF-S07-D5",
+    "sourceValue": "50",
+    "unit": "kΩ"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "K6",
+    "type": "number",
+    "value": "5",
+    "systemId": "BSPD",
+    "fieldId": "LC-ESF-S07-K6",
+    "sourceRevision": 7,
+    "sourceHash": "9f35047e0f66333a58af74bd966970f5ff4a43e2b5b0c16f316319a5ba74807a",
+    "controlId": "LC-ESF-S07-K6",
+    "sourceValue": "5",
+    "unit": "A"
+   },
+   {
+    "sheet": "Shutdown Circuit",
+    "cell": "V74",
+    "type": "text",
+    "value": "TRUE",
+    "systemId": "TSAL",
+    "fieldId": "LC-ESF-S07-V74",
+    "sourceRevision": 7,
+    "sourceHash": "d0236a224094268583b48425d42d48261b7d0cdc4bfb4b8fd6830df4d7875797",
+    "controlId": "LC-ESF-S07-V74"
+   },
+   {
+    "sheet": "Other",
+    "cell": "D6",
+    "type": "number",
+    "value": "100",
+    "systemId": "COORDINATOR",
+    "fieldId": "LC-ESF-S09-D6",
+    "sourceRevision": 7,
+    "sourceHash": "a9b0db5b76f3c83d4f223ed99109af2ef10ac889f5d11badc5b17860afa2ea5f",
+    "controlId": "LC-ESF-S09-D6",
+    "sourceValue": "100",
+    "unit": "V"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "LC-ESF-S02-D5",
+    "fieldId": "LC-ESF-S02-D5",
+    "status": "unknown",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D12",
+    "fieldId": "LC-ESF-S02-D12",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-S02-D15",
+    "fieldId": "LC-ESF-S02-D15",
+    "status": "translation_pending",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-B",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "B19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-C",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "C19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-D",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "D19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-E",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "E19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-F",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "F19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-G",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "G19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-H",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "empty",
+    "cells": []
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-J",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "J19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-Datasheets-conductors-L",
+    "fieldId": "CARD-FG-ESF-DS-02",
+    "status": "written",
+    "cells": [
+     "L19"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S03-J30",
+    "fieldId": "LC-ESF-S03-J30",
+    "status": "written",
+    "cells": [
+     "J30"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O12",
+    "fieldId": "LC-ESF-S04-O12",
+    "status": "written",
+    "cells": [
+     "O12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O23",
+    "fieldId": "LC-ESF-S04-O23",
+    "status": "written",
+    "cells": [
+     "O23"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-O24",
+    "fieldId": "LC-ESF-S04-O24",
+    "status": "written",
+    "cells": [
+     "O24"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S04-A57",
+    "fieldId": "LC-ESF-S04-A57",
+    "status": "written",
+    "cells": [
+     "A57"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D11",
+    "fieldId": "LC-ESF-S05-D11",
+    "status": "written",
+    "cells": [
+     "D11"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D12",
+    "fieldId": "LC-ESF-S05-D12",
+    "status": "written",
+    "cells": [
+     "D12"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S05-D14",
+    "fieldId": "LC-ESF-S05-D14",
+    "status": "written",
+    "cells": [
+     "D14"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-D5",
+    "fieldId": "LC-ESF-S07-D5",
+    "status": "written",
+    "cells": [
+     "D5"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-K6",
+    "fieldId": "LC-ESF-S07-K6",
+    "status": "written",
+    "cells": [
+     "K6"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S07-V74",
+    "fieldId": "LC-ESF-S07-V74",
+    "status": "written",
+    "cells": [
+     "V74"
+    ]
+   },
+   {
+    "controlId": "LC-ESF-S09-D6",
+    "fieldId": "LC-ESF-S09-D6",
+    "status": "written",
+    "cells": [
+     "D6"
+    ]
+   }
+  ],
+  "warnings": [
+   "טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy 2023. תבנית הגשה לאיטליה 2027 טרם אומתה.",
+   "ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.",
+   "הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.",
+   "הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח."
+  ],
+  "readyForSubmission": false
+ },
+ "S9-ses": {
+  "kind": "ses",
+  "file": "<scratch>/e2e/S9-ses.xlsx",
+  "writtenCells": [
+   {
+    "sheet": "Version History",
+    "cell": "A4",
+    "type": "text",
+    "value": "007",
+    "systemId": "SES",
+    "fieldId": "SES26-S01-INPUTS",
+    "rowId": "v1",
+    "sourceRevision": 7,
+    "sourceHash": "eac96d27948f358123ffa2ede93e30dac8ccf39d900412d8e9c6034c15aab794",
+    "controlId": "SES26-S01-INPUTS"
+   },
+   {
+    "sheet": "Version History",
+    "cell": "B4",
+    "type": "text",
+    "value": "First version to submit",
+    "systemId": "SES",
+    "fieldId": "SES26-S01-INPUTS",
+    "rowId": "v2",
+    "sourceRevision": 7,
+    "sourceHash": "eac96d27948f358123ffa2ede93e30dac8ccf39d900412d8e9c6034c15aab794",
+    "controlId": "SES26-S01-INPUTS"
+   }
+  ],
+  "statuses": [
+   {
+    "controlId": "SES26-S01-INPUTS",
+    "fieldId": "SES26-S01-INPUTS",
+    "status": "written",
+    "cells": [
+     "A4",
+     "B4"
+    ]
+   }
+  ],
+  "warnings": [
+   "תבנית Italy SES 2026 v1.3; קבלה לעונת 2027 טרם אומתה.",
+   "שיוך האחריות לצוותי מכניקה הוא הצעה שטרם אושרה.",
+   "ערכי תבנית שלא הוחלפו נשמרים כערכי תבנית, ואינם תשובות או אישור של BIU.",
+   "יש לפתוח ב־Excel 2021 ומעלה לחישוב נוסחאות, אימות תלוי נוסחה ושיבוץ ראיות."
+  ],
+  "readyForSubmission": false
+ }
+}

@@ -1,0 +1,72 @@
+Microsoft Excel for Mac, recalculated (fullCalcOnLoad + "calculate full"), 2026-11-22. AFTER the QA-01/QA-02 fix.
+Workbooks built by the fixed exporter: scripts/qa/excel-thresholds.mjs. Fixture-only: Accumulator!B12=1, C12=20, E12=1 (manual_mapping segment row) so that
+MaxTSVoltage = 20 x 4.5 V = 90 V, NominalTSVoltage = 20 x 4 V = 80 V. Template: OKText="OK", ErrorText="WARNING".
+
+Check (template rule)                      below           at              above           Expected (below/at/above)   Result
+PrechargeDischarge!F14  D14<90 -> WARNING   80 -> WARNING   90 -> OK        91 -> OK        WARNING/OK/OK               PASS
+Accumulator!Q24  O24<10 -> OK              5 -> OK         10 -> WARNING   11 -> WARNING   OK/WARNING/WARNING          PASS
+Accumulator!Q12  O12<E4(90) -> WARNING     89 -> WARNING   90 -> OK        1000 -> OK      WARNING/OK/OK               PASS
+Accumulator!Q13  O13<MAX(F12:G29)(90)      89 -> WARNING   90 -> OK        1000 -> OK      WARNING/OK/OK               PASS
+Shutdown Circuit!F5  D5<0.5*MaxTS(45 kΩ)  44 -> WARNING   45 -> OK        100 -> OK       WARNING/OK/OK               PASS
+Shutdown Circuit!M6  K6>5000/Nom(62.5 A)  60 -> OK        62.5 -> OK      63 -> WARNING   OK/OK/WARNING               PASS
+Other!F6  D6<MaxTS(90 V)                  89 -> WARNING   90 -> OK        500 -> OK       WARNING/OK/OK               PASS
+Charging!D10  saved 3000 (W)               3 (kW, numeric) in all three workbooks; F10 = OK                          PASS
+
+Raw values read from Excel:
+== below
+Accumulator!E4 = 90.0
+Accumulator!E5 = 80.0
+PrechargeDischarge!D14 = 80.0
+PrechargeDischarge!F14 = WARNING
+Accumulator!O24 = 5.0
+Accumulator!Q24 = OK
+Accumulator!O12 = 89.0
+Accumulator!Q12 = WARNING
+Accumulator!O13 = 89.0
+Accumulator!Q13 = WARNING
+Shutdown Circuit!D5 = 44.0
+Shutdown Circuit!F5 = WARNING
+Shutdown Circuit!K6 = 60.0
+Shutdown Circuit!M6 = OK
+Other!D6 = 89.0
+Other!F6 = WARNING
+Charging!D10 = 3.0
+Charging!F10 = OK
+== at
+Accumulator!E4 = 90.0
+Accumulator!E5 = 80.0
+PrechargeDischarge!D14 = 90.0
+PrechargeDischarge!F14 = OK
+Accumulator!O24 = 10.0
+Accumulator!Q24 = WARNING
+Accumulator!O12 = 90.0
+Accumulator!Q12 = OK
+Accumulator!O13 = 90.0
+Accumulator!Q13 = OK
+Shutdown Circuit!D5 = 45.0
+Shutdown Circuit!F5 = OK
+Shutdown Circuit!K6 = 62.5
+Shutdown Circuit!M6 = OK
+Other!D6 = 90.0
+Other!F6 = OK
+Charging!D10 = 3.0
+Charging!F10 = OK
+== above
+Accumulator!E4 = 90.0
+Accumulator!E5 = 80.0
+PrechargeDischarge!D14 = 91.0
+PrechargeDischarge!F14 = OK
+Accumulator!O24 = 11.0
+Accumulator!Q24 = WARNING
+Accumulator!O12 = 1000.0
+Accumulator!Q12 = OK
+Accumulator!O13 = 1000.0
+Accumulator!Q13 = OK
+Shutdown Circuit!D5 = 100.0
+Shutdown Circuit!F5 = OK
+Shutdown Circuit!K6 = 63.0
+Shutdown Circuit!M6 = WARNING
+Other!D6 = 500.0
+Other!F6 = OK
+Charging!D10 = 3.0
+Charging!F10 = OK

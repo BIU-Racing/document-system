@@ -1,0 +1,574 @@
+{
+ "model": "wlwatkins/opus-mt-tc-big-he-en@d80dfa09db3fcc30220f3fee1e7025e4dcb82506:q8",
+ "runAt": [
+  "2026-11-22T15:37:41.618Z",
+  "2026-11-22T15:38:20.591Z"
+ ],
+ "deterministicRepeat": true,
+ "results": [
+  {
+   "id": "T01",
+   "area": "Accumulator",
+   "hebrew": "המצבר בנוי מ־6 מקטעים, בכל מקטע 24 תאים בטור ו־5 במקביל (24s5p).",
+   "actualEnglish": "The battery is built from 6 segments, in each segment 24 cells in the column and 5 in parallel (24s5p).",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The battery is built from P0 segments, in each segment P1 cells in the column and P2 in parallel (P3)."
+   ],
+   "reference": "The accumulator consists of 6 segments; each segment has 24 cells in series and 5 in parallel (24s5p).",
+   "chunks": 1,
+   "ms": 123
+  },
+  {
+   "id": "T02",
+   "area": "Accumulator",
+   "hebrew": "המתח המרבי של המצבר הוא 600 V, והאנרגיה הכוללת היא 7.2 kWh.",
+   "actualEnglish": "The maximum voltage of the battery is 600 V, and the total energy is 7.2 kWh.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The maximum voltage of the battery is P0, and the total energy is P1."
+   ],
+   "reference": "The maximum accumulator voltage is 600 V and the total energy is 7.2 kWh.",
+   "chunks": 1,
+   "ms": 67
+  },
+  {
+   "id": "T03",
+   "area": "Accumulator",
+   "hebrew": "המתח בכל מקטע אינו עולה על 120 V ואנרגיית המקטע אינה עולה על 6 MJ.",
+   "actualEnglish": "The voltage in each segment does not exceed 120 V and the segment energy does not exceed 6 MJ.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The voltage in each segment does not exceed P0 and the segment energy does not exceed P1."
+   ],
+   "reference": "The voltage of each segment does not exceed 120 V and the segment energy does not exceed 6 MJ.",
+   "chunks": 1,
+   "ms": 71
+  },
+  {
+   "id": "T04",
+   "area": "HV",
+   "hebrew": "כל המוליכים במעגל המתח הגבוה מבודדים ל־1000 V לפחות וצבעם כתום.",
+   "actualEnglish": "All conductors in the high voltage circuit are isolated to at least 1000 V and are orange in color.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "All conductors in the high voltage circuit are isolated to at least P0 and are orange in color."
+   ],
+   "reference": "All conductors in the high-voltage circuit are insulated for at least 1000 V and are orange.",
+   "chunks": 1,
+   "ms": 80
+  },
+  {
+   "id": "T05",
+   "area": "HV",
+   "hebrew": "אין חיבור גלווני בין מערכת ההנעה לבין מערכת המתח הנמוך.",
+   "actualEnglish": "There is no galvanic connection between the propulsion system and the low voltage system.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "There is no galvanic connection between the propulsion system and the low voltage system."
+   ],
+   "reference": "There is no galvanic connection between the tractive system and the low-voltage (GLV) system.",
+   "chunks": 1,
+   "ms": 75
+  },
+  {
+   "id": "T06",
+   "area": "HV",
+   "hebrew": "הנתיך הראשי מוגן לזרם של 200 A והוא ממוקם בתוך מארז המצבר.",
+   "actualEnglish": "The main fuse is protected to a current of 200 A and is located inside the battery pack.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The main fuse is protected to a current of P0 and is located inside the battery pack."
+   ],
+   "reference": "The main fuse is rated for 200 A and is located inside the accumulator container.",
+   "chunks": 1,
+   "ms": 70
+  },
+  {
+   "id": "T07",
+   "area": "BMS/AMS",
+   "hebrew": "ה־BMS מודד את מתח כל תא ואת הטמפרטורה של לפחות 30% מהתאים.",
+   "actualEnglish": "The BMS measures the voltage of each cell and the temperature of at least 30% from the cells.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The P0 measures the voltage of each cell and the temperature of at least P1 from the cells."
+   ],
+   "reference": "The BMS measures every cell voltage and the temperature of at least 30% of the cells.",
+   "chunks": 1,
+   "ms": 80
+  },
+  {
+   "id": "T08",
+   "area": "BMS/AMS",
+   "hebrew": "אם מתח תא יורד מתחת ל־2.5 V, ה־AMS פותח את מעגל הניתוק תוך פחות מ־500 ms.",
+   "actualEnglish": "If a cell voltage drops below 2.5 V, the AMS opens the detachable circuit in less than 500 ms.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "If a cell voltage drops below P0, the P1 opens the detachable circuit in less than P2."
+   ],
+   "reference": "If a cell voltage drops below 2.5 V, the AMS opens the shutdown circuit within less than 500 ms.",
+   "chunks": 1,
+   "ms": 94
+  },
+  {
+   "id": "T09",
+   "area": "BMS/AMS",
+   "hebrew": "ה־BMS אינו יכול לסגור מחדש את ממסרי הניתוק ללא איפוס ידני.",
+   "actualEnglish": "The BMS cannot re-close the detachable relays without manual resetting.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The P0 cannot re-close the detachable relays without manual resetting."
+   ],
+   "reference": "The BMS cannot re-close the AIRs without a manual reset.",
+   "chunks": 1,
+   "ms": 76
+  },
+  {
+   "id": "T10",
+   "area": "SDC",
+   "hebrew": "מעגל הניתוק נפתח כאשר אחד הלחצנים נלחץ, ואז שני ממסרי הניתוק נפתחים.",
+   "actualEnglish": "The disconnect circuit opens when one of the buttons is pressed, then two disconnect relays are opened.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The disconnect circuit opens when one of the buttons is pressed, then two disconnect relays are opened."
+   ],
+   "reference": "The shutdown circuit opens when one of the buttons is pressed, and then both AIRs open.",
+   "chunks": 1,
+   "ms": 78
+  },
+  {
+   "id": "T11",
+   "area": "SDC",
+   "hebrew": "המפסק הראשי של ההנעה (TSMS) הוא הרכיב האחרון בשרשרת מעגל הניתוק.",
+   "actualEnglish": "The main drive circuit breaker (TSMS) is the last component of the disconnect circuit chain.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The main drive circuit breaker (P0) is the last component of the disconnect circuit chain."
+   ],
+   "reference": "The tractive system master switch (TSMS) is the last element in the shutdown circuit chain.",
+   "chunks": 1,
+   "ms": 74
+  },
+  {
+   "id": "T12",
+   "area": "SDC",
+   "hebrew": "לא ניתן לאפס את ה־IMD מתוך תא הנהג.",
+   "actualEnglish": "The IMD cannot be reset from the driver's compartment.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The P0 cannot be reset from the driver's compartment."
+   ],
+   "reference": "The IMD cannot be reset from inside the cockpit.",
+   "chunks": 1,
+   "ms": 56
+  },
+  {
+   "id": "T13",
+   "area": "Precharge",
+   "hebrew": "הטעינה המוקדמת מסתיימת כאשר מתח הממיר מגיע ל־95% ממתח המצבר.",
+   "actualEnglish": "Early loading ends when the converter voltage reaches 95% from the battery voltage.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "Early loading ends when the converter voltage reaches P0 from the battery voltage."
+   ],
+   "reference": "Precharge ends when the inverter voltage reaches 95% of the accumulator voltage.",
+   "chunks": 1,
+   "ms": 81
+  },
+  {
+   "id": "T14",
+   "area": "Precharge",
+   "hebrew": "נגד הטעינה המוקדמת הוא 2.2 kΩ ועומד בהספק של 100 W למשך 15 שניות.",
+   "actualEnglish": "The preloader is 2.2 kΩ and is rated for 100 W for 15 seconds.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The preloader is P0 and is rated for P1 for P2 seconds."
+   ],
+   "reference": "The precharge resistor is 2.2 kΩ and withstands 100 W for 15 seconds.",
+   "chunks": 1,
+   "ms": 73
+  },
+  {
+   "id": "T15",
+   "area": "Discharge",
+   "hebrew": "מעגל הפריקה פעיל תמיד כאשר ממסרי הניתוק פתוחים, ומוריד את המתח מתחת ל־60 V בתוך 5 שניות.",
+   "actualEnglish": "The discharge circuit is always active when the detachable relays are open, and lowers the voltage below 60 V within 5 seconds.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The discharge circuit is always active when the detachable relays are open, and lowers the voltage below P0 within P1 seconds."
+   ],
+   "reference": "The discharge circuit is always active when the AIRs are open and reduces the voltage below 60 V within 5 seconds.",
+   "chunks": 1,
+   "ms": 121
+  },
+  {
+   "id": "T16",
+   "area": "Discharge",
+   "hebrew": "מעגל הפריקה אינו מוגן בנתיך.",
+   "actualEnglish": "The discharge circuit is not protected in fuse.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The discharge circuit is not protected in fuse."
+   ],
+   "reference": "The discharge circuit is not fused.",
+   "chunks": 1,
+   "ms": 40
+  },
+  {
+   "id": "T17",
+   "area": "Structural",
+   "hebrew": "רצפת המארז עשויה אלומיניום 6061-T6 בעובי 4 mm.",
+   "actualEnglish": "The chassis floor is made of aluminum 6061-T6 thick 4 mm.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The chassis floor is made of aluminum P0-P1 thick P2."
+   ],
+   "reference": "The container floor is made of 6061-T6 aluminium, 4 mm thick.",
+   "chunks": 1,
+   "ms": 69
+  },
+  {
+   "id": "T18",
+   "area": "Structural",
+   "hebrew": "בבדיקת כפיפה בשלוש נקודות הלוח נכשל בכוח של 3.4 kN ובהעתקה של 12 mm.",
+   "actualEnglish": "In three-point bend test the board failed to force 3.4 kN and copy 12 mm.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "In three-point bend test the board failed to force P0 and copy P1."
+   ],
+   "reference": "In the three-point bending test the panel failed at a force of 3.4 kN and a displacement of 12 mm.",
+   "chunks": 1,
+   "ms": 79
+  },
+  {
+   "id": "T19",
+   "area": "Structural",
+   "hebrew": "הברגים הם M6 בדרגה 8.8 עם אום ננעל (nyloc).",
+   "actualEnglish": "The screws are M6 graded 8.8 with om lock (nyloc).",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The screws are P0 graded P1 with om lock (P2)."
+   ],
+   "reference": "The bolts are M6, grade 8.8, with self-locking (nyloc) nuts.",
+   "chunks": 1,
+   "ms": 78
+  },
+  {
+   "id": "T20",
+   "area": "Safety",
+   "hebrew": "אסור לפתוח את מארז המצבר כאשר המתח גבוה מ־60 V.",
+   "actualEnglish": "The battery pack should not be opened when the voltage is higher than 60 V.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The battery pack should not be opened when the voltage is higher than P0."
+   ],
+   "reference": "The accumulator container must not be opened when the voltage is above 60 V.",
+   "chunks": 1,
+   "ms": 76
+  },
+  {
+   "id": "T21",
+   "area": "Safety",
+   "hebrew": "במקרה של כשל בחיישן הזרם, ה־BSPD פותח את מעגל הניתוק.",
+   "actualEnglish": "In the event of a power sensor failure, the BSPD opens the disconnect circuit.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "In the event of a power sensor failure, the P0 opens the disconnect circuit."
+   ],
+   "reference": "In the event of a current-sensor failure, the BSPD opens the shutdown circuit.",
+   "chunks": 1,
+   "ms": 73
+  },
+  {
+   "id": "T22",
+   "area": "Safety",
+   "hebrew": "אם ה־TSAL לא נדלק, הנהג אינו רשאי להתחיל בנסיעה.",
+   "actualEnglish": "If the TSAL does not turn on, the driver is not allowed to start the ride.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "If the P0 does not turn on, the driver is not allowed to start the ride."
+   ],
+   "reference": "If the TSAL does not illuminate, the driver is not allowed to start driving.",
+   "chunks": 1,
+   "ms": 72
+  },
+  {
+   "id": "T23",
+   "area": "Mixed",
+   "hebrew": "החיבור בין המקטעים מתבצע עם מחבר Amphenol SurLok Plus בחתך 35 mm².",
+   "actualEnglish": "The connection between the segments is made with a Amphenol SurLok Plus connector in a 35 mm incision.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The connection between the segments is made with a P0 connector in a P1 incision."
+   ],
+   "reference": "Segments are connected with an Amphenol SurLok Plus connector for 35 mm² conductors.",
+   "chunks": 1,
+   "ms": 75
+  },
+  {
+   "id": "T24",
+   "area": "Mixed",
+   "hebrew": "המגעונים הם TE EV200 עם מגעים במצב פתוח בהיעדר הזנה.",
+   "actualEnglish": "contactors are TE EV200 with open-state contacts in the absence of feed.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "P0 are P1 with open-state contacts in the absence of feed."
+   ],
+   "reference": "The contactors are TE EV200 with normally-open contacts.",
+   "chunks": 1,
+   "ms": 72
+  },
+  {
+   "id": "T25",
+   "area": "Mixed",
+   "hebrew": "ערך הנגד הוא 10 kΩ והוא מחובר בין AIR+ לבין HV-.",
+   "actualEnglish": "resistor value is 10 kΩ and is connected between AIR+ and HV-.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "P0 is P1 and is connected between P2 and P3."
+   ],
+   "reference": "The resistor value is 10 kΩ and it is connected between AIR+ and HV-.",
+   "chunks": 1,
+   "ms": 55
+  },
+  {
+   "id": "T26",
+   "area": "Mixed",
+   "hebrew": "לא",
+   "actualEnglish": "No. No.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "No. No."
+   ],
+   "reference": "No",
+   "chunks": 1,
+   "ms": 23
+  },
+  {
+   "id": "T27",
+   "area": "Mixed",
+   "hebrew": "לא רלוונטי לרכב שלנו כי אין לנו מנועים בגלגלים.",
+   "actualEnglish": "It's irrelevant to our car because we don't have any engines in the wheels.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "It's irrelevant to our car because we don't have any engines in the wheels."
+   ],
+   "reference": "Not applicable to our car because we have no in-wheel motors.",
+   "chunks": 1,
+   "ms": 69
+  },
+  {
+   "id": "T28",
+   "area": "Long text",
+   "hebrew": "המצבר בנוי מ־6 מקטעים, בכל מקטע 24 תאים בטור ו־5 במקביל (24s5p). המתח המרבי של המצבר הוא 600 V, והאנרגיה הכוללת היא 7.2 kWh. המתח בכל מקטע אינו עולה על 120 V ואנרגיית המקטע אינה עולה על 6 MJ. כל המוליכים במעגל המתח הגבוה מבודדים ל־1000 V לפחות וצבעם כתום. אין חיבור גלווני בין מערכת ההנעה לבין מערכת המתח הנמוך. הנתיך הראשי מוגן לזרם של 200 A והוא ממוקם בתוך מארז המצבר. ה־BMS מודד את מתח כל תא ואת הטמפרטורה של לפחות 30% מהתאים. אם מתח תא יורד מתחת ל־2.5 V, ה־AMS פותח את מעגל הניתוק תוך פחות מ־500 ms. ה־BMS אינו יכול לסגור מחדש את ממסרי הניתוק ללא איפוס ידני. מעגל הניתוק נפתח כאשר אחד הלחצנים נלחץ, ואז שני ממסרי הניתוק נפתחים.",
+   "actualEnglish": null,
+   "rejected": "PROTECTED_TEXT_CHANGED",
+   "rejectReasons": [
+    "placeholder_count:P10:0",
+    "placeholder_count:P11:0"
+   ],
+   "modelRaw": [
+    "The battery is built from P0 segments, in each segment P1 cells in the column and P2 in parallel (P3). The maximum voltage of the battery is P4, and the total energy is P5. The voltage in each segment does not exceed P6 and the energy of the segment does not exceed P7. All conductors in the high voltage circuit are isolated to at least P8 and their color is orange. There is no galactic connection between the propulsion system and the low voltage system. The main fuse is protected to the P9.",
+    "If a cell voltage drops below P0, the P1 opens the detachable circuit in less than P2. The P3 cannot re-close the detachable relays without a manual reset. The detachable circuit opens when one of the buttons is pressed, and then two detachable relays are opened."
+   ],
+   "reference": "The accumulator consists of 6 segments; each segment has 24 cells in series and 5 in parallel (24s5p). The maximum accumulator voltage is 600 V and the total energy is 7.2 kWh. The voltage of each segment does not exceed 120 V and the segment energy does not exceed 6 MJ. All conductors in the high-voltage circuit are insulated for at least 1000 V and are orange. There is no galvanic connection between the tractive system and the low-voltage (GLV) system. The main fuse is rated for 200 A and is located inside the accumulator container. The BMS measures every cell voltage and the temperature of at least 30% of the cells. If a cell voltage drops below 2.5 V, the AMS opens the shutdown circuit within less than 500 ms. The BMS cannot re-close the AIRs without a manual reset. The shutdown circuit opens when one of the buttons is pressed, and then both AIRs open.",
+   "chunks": 2,
+   "ms": 1020
+  },
+  {
+   "id": "T29",
+   "area": "Long prose (no literals)",
+   "hebrew": "מארז המצבר מחובר לשלדה באמצעות תושבות פלדה מרותכות. כל תושבת נבדקה בחישוב ובניסוי. בין התאים לבין דפנות המארז קיימת שכבת בידוד רציפה. הכבלים עוברים בתעלות סגורות ואינם נוגעים בחלקים חדים. מעל התאים מותקן לוח מבודד שמונע מגע מקרי. המכסה נסגר בברגים ננעלים ואינו נפתח ללא כלי עבודה. הנהג אינו יכול לגעת בשום חלק של מערכת ההנעה. כל החלקים המוליכים החשופים מוארקים לשלדה. מערכת הקירור אינה משתמשת בנוזל מוליך. במקרה של תקלה בטמפרטורה המערכת מנתקת את המתח הגבוה מיד.",
+   "actualEnglish": "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The battery pack is connected to the chassis by welded steel residency. Each resident is checked in the calculation and experiment. Between the cells and the chassis walls there is a continuous insulation layer. The cables pass through closed channels and do not touch sharp parts. Above the cells an insulating panel is installed that prevents accidental contact. The lid is closed in bolts and does not open without a working tool. The driver cannot touch any part of the propulsion system. All the exposed conductive parts are illuminated to the chassis."
+   ],
+   "reference": "(10 sentences; check for omissions)",
+   "chunks": 1,
+   "ms": 403
+  },
+  {
+   "id": "T30",
+   "area": "Units",
+   "hebrew": "שטח החתך של הכבל הוא 50 mm² והזרם המותר הוא 180 A בטמפרטורה של 90 °C.",
+   "actualEnglish": "The cable's cut area is 50 mm and the allowed current is 180 A at a temperature of 90 °C.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The cable's cut area is P0 and the allowed current is P1 at a temperature of P2."
+   ],
+   "reference": "The cable cross-section is 50 mm² and the ampacity is 180 A at 90 °C.",
+   "chunks": 1,
+   "ms": 77
+  },
+  {
+   "id": "T31",
+   "area": "Units",
+   "hebrew": "הרוחב הוא 300 מ״מ והעובי הוא 4 מ״מ.",
+   "actualEnglish": "The width is 300 mm and the thickness is 4 mm.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The width is P0 mm and the thickness is P1 mm."
+   ],
+   "reference": "The width is 300 mm and the thickness is 4 mm.",
+   "chunks": 1,
+   "ms": 52
+  },
+  {
+   "id": "T32",
+   "area": "Symbols",
+   "hebrew": "מתח הבידוד ≥ 500 V והסטייה המותרת היא ±2%.",
+   "actualEnglish": "The voltage of isolation ≥ 500 V and the permissible deviation is ±2%.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The voltage of isolation P0 and the permissible deviation is P1."
+   ],
+   "reference": "The insulation voltage is ≥ 500 V and the permitted tolerance is ±2%.",
+   "chunks": 1,
+   "ms": 48
+  },
+  {
+   "id": "T33",
+   "area": "Special chars",
+   "hebrew": "הערה: \"AIR+\" ו־\"AIR-\" הם ממסרים נפרדים; ראו סעיף EV 5.6.3 & EV 6.1.",
+   "actualEnglish": "Note: \"AIR+\" and \"AIR-\" are separate relays; see section EV 5.6.3 & EV 6.1.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "Note: \"P0\" and \"P1\" are separate relays; see section P2 & P3."
+   ],
+   "reference": "Note: \"AIR+\" and \"AIR-\" are separate relays; see rules EV 5.6.3 & EV 6.1.",
+   "chunks": 1,
+   "ms": 80
+  },
+  {
+   "id": "T34",
+   "area": "List",
+   "hebrew": "רכיבים במעגל:\n1. לחצן ניתוק בצד ימין\n2. לחצן ניתוק בצד שמאל\n3. מפסק אינרציה",
+   "actualEnglish": "Circuit components: 1. disconnect button on the right side 2. disconnect button on the left side 3. Inertia switch",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "Circuit components: P0. disconnect button on the right side P1. disconnect button on the left side P2. Inertia switch"
+   ],
+   "reference": "Components in the circuit:\n1. Right side shutdown button\n2. Left side shutdown button\n3. Inertia switch",
+   "chunks": 1,
+   "ms": 115
+  },
+  {
+   "id": "T35",
+   "area": "Negation",
+   "hebrew": "הממסרים אינם נסגרים אלא אם כל התנאים מתקיימים.",
+   "actualEnglish": "The relays are not closed unless all conditions are met.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The relays are not closed unless all conditions are met."
+   ],
+   "reference": "The relays do not close unless all conditions are met.",
+   "chunks": 1,
+   "ms": 43
+  },
+  {
+   "id": "T36",
+   "area": "Negation",
+   "hebrew": "אין להפעיל את הרכב ללא בדיקת בידוד תקינה.",
+   "actualEnglish": "Do not operate the vehicle without a proper insulation test.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "Do not operate the vehicle without a proper insulation test."
+   ],
+   "reference": "The vehicle must not be operated without a passed insulation test.",
+   "chunks": 1,
+   "ms": 43
+  },
+  {
+   "id": "T37",
+   "area": "Conditional",
+   "hebrew": "רק אם ה־IMD מזהה התנגדות בידוד נמוכה מ־500 Ω/V, מעגל הניתוק נפתח.",
+   "actualEnglish": "Only if the IMD detects an isolation resistance lower than 500 Ω/V, the disengagement circuit opens.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "Only if the P0 detects an isolation resistance lower than P1/P2, the disengagement circuit opens."
+   ],
+   "reference": "Only if the IMD detects an insulation resistance below 500 Ω/V does the shutdown circuit open.",
+   "chunks": 1,
+   "ms": 92
+  },
+  {
+   "id": "T38",
+   "area": "Mixed English",
+   "hebrew": "We use Orion BMS 2 עם CAN bus ב־500 kbps.",
+   "actualEnglish": "We use Orion BMS 2 with CAN bus in 500 kbps.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "P0 with P1 in P2."
+   ],
+   "reference": "We use Orion BMS 2 with a CAN bus at 500 kbps.",
+   "chunks": 1,
+   "ms": 35
+  },
+  {
+   "id": "T39",
+   "area": "Hebrew number words",
+   "hebrew": "יש שני חיישני טמפרטורה בכל מקטע.",
+   "actualEnglish": "There are two temperature sensors in each segment.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "There are two temperature sensors in each segment."
+   ],
+   "reference": "There are two temperature sensors in each segment.",
+   "chunks": 1,
+   "ms": 36
+  },
+  {
+   "id": "T40",
+   "area": "Hebrew number words",
+   "hebrew": "ההשהיה היא חצי שנייה.",
+   "actualEnglish": "The delay is half a second.",
+   "rejected": null,
+   "rejectReasons": null,
+   "modelRaw": [
+    "The delay is half a second."
+   ],
+   "reference": "The delay is half a second.",
+   "chunks": 1,
+   "ms": 26
+  }
+ ]
+}
