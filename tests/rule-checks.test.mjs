@@ -114,3 +114,76 @@ test('rule notes are attached only to checked fields; new fields are optional an
   const fields = getFields('TSAL');
   assert.equal(computeProgress(fields, {}).total, fields.filter(field => field.required !== false).length, 'rule fields do not count as missing');
 });
+
+// ── Chassis and structure (lib/rule-checks-structural.ts) ────────────────────────────────────────
+const ses = (sheet, cell) => `SESX-${sheet.replace(/[^A-Za-z0-9]+/g, '').toUpperCase()}-${cell}`;
+const sesStatus = (values, checkId) => {
+  const answers = { SES: Object.fromEntries(Object.entries(values).map(([key, value]) => { const [sheet, cell] = key.split('!'); return [ses(sheet, cell), a(value)]; })) };
+  return one(answers, checkId)?.status;
+};
+
+test('every check id is unique', () => {
+  const ids = ruleChecks.map(check => check.id);
+  assert.equal(new Set(ids).size, ids.length);
+});
+
+test('T 3.2.1 tubes: wall, area and inertia per class; non-steel and composite-only are not violations', () => {
+  const id = `RC-TUBE-${ses('T3.9 Main Hoop Tubing', 'D14').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ 'T3.9 Main Hoop Tubing!D13': '25.4', 'T3.9 Main Hoop Tubing!D14': '2.4' }, id), 'ok');
+  assert.equal(sesStatus({ 'T3.9 Main Hoop Tubing!D13': '25', 'T3.9 Main Hoop Tubing!D14': '1.75' }, id), 'violation');
+  const sis = `RC-TUBE-${ses('T3.15 T3.6 SIS', 'F16').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ 'T3.15 T3.6 SIS!F15': '25.4', 'T3.15 T3.6 SIS!F16': '1.6' }, sis), 'ok', '1.6 mm side impact tube meets 1.2/119/8509');
+  assert.equal(sesStatus({ 'T3.15 T3.6 SIS!F15': '25.4', 'T3.15 T3.6 SIS!F16': '1.6', 'T3.15 T3.6 SIS!F2': 'Composite only' }, sis), 'pending');
+  const fh = `RC-TUBE-${ses('T3.10 Front Hoop Tubing', 'D14').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ 'T3.10 Front Hoop Tubing!D13': '30', 'T3.10 Front Hoop Tubing!D14': '3', 'T3.10 Front Hoop Tubing!D4': 'Aluminium 1' }, fh), 'notice');
+  assert.equal(sesStatus({ 'T3.10 Front Hoop Tubing!D13': '25', 'T3.10 Front Hoop Tubing!D14': '2', 'T3.10 Front Hoop Tubing!D5': 'Square' }, fh), 'ok', 'square 25×2: 184 mm², 15541 mm⁴');
+  const acps = one({ ACCUMULATOR: { 'LC-ASES-S06-E15': a('25.4'), 'LC-ASES-S06-E16': a('1.0') } }, 'RC-TUBE-S06-E16');
+  assert.equal(acps.status, 'violation');
+  assert.match(acps.message, /⁦[^⁩]*mm⁴⁩|mm⁴/);
+});
+
+test('T 3.5.4 skins, T 3.6.7 span and T 3.16 bolts', () => {
+  const skin = `RC-SKIN-${ses('T3.15 T3.6 SIS', 'I21').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ 'T3.15 T3.6 SIS!I20': '0.5', 'T3.15 T3.6 SIS!I21': '2' }, skin), 'violation');
+  assert.equal(sesStatus({ 'T3.15 T3.6 SIS!I20': '1', 'T3.15 T3.6 SIS!I21': '3' }, skin), 'ok', '1 mm is enough even when 40% would be more');
+  assert.equal(one({ ACCUMULATOR: { 'LC-ASES-S09-C53': a('350') } }, 'RC-SPAN-S09-C53').status, 'violation');
+  const plates = 'T3.16.6&3.17.5 Prim.Struc.Att.';
+  const bolts = `RC-PLATEBOLTS-${ses(plates, 'L30').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ [`${plates}!L26`]: '1200', [`${plates}!L30`]: '5' }, bolts), 'violation', '1200 mm needs 6 bolts');
+  assert.equal(sesStatus({ [`${plates}!L26`]: '1200', [`${plates}!L30`]: '6' }, bolts), 'ok');
+  assert.equal(sesStatus({ [`${plates}!L26`]: '1200', [`${plates}!L30`]: '1', [`${plates}!F4`]: 'No' }, bolts), 'pending');
+  const mh = 'T3.16 MH & MH Bing Attachments';
+  const count = `RC-BOLTS-${ses(mh, 'C11').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ [`${mh}!C11`]: '1', [`${mh}!C10`]: '10' }, count), 'notice');
+  assert.equal(sesStatus({ [`${mh}!C11`]: '1', [`${mh}!C10`]: '8' }, count), 'violation');
+  const fh = 'T3.16 FH & FH Bing Attachments', bracket = `RC-BRACKET-${ses(fh, 'C15').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ [`${fh}!C15`]: '2.5' }, bracket), 'ok');
+  assert.equal(sesStatus({ [`${fh}!C15`]: '2.5', [`${fh}!C4`]: 'Alu.' }, bracket), 'violation', 'aluminium hoop needs 3 mm');
+});
+
+test('steel chemistry and strength, harness loads, firewall, IA and cell pressure', () => {
+  const metal = 'Metal Datasheets', carbon = `RC-STEEL-${ses(metal, 'A13').replace('SESX-', '')}`;
+  assert.equal(sesStatus({ [`${metal}!A13`]: '0.35' }, carbon), 'violation');
+  assert.equal(sesStatus({ [`${metal}!A13`]: '0.35', [`${metal}!I9`]: 'No' }, carbon), 'notice');
+  assert.equal(sesStatus({ [`${metal}!A13`]: '0.35', [`${metal}!I7`]: 'Aluminium' }, carbon), 'pending');
+  assert.equal(sesStatus({ [`${metal}!I14`]: '350' }, `RC-STRENGTH-${ses(metal, 'I14').replace('SESX-', '')}`), 'violation', 'yield above 305 MPa may not be used');
+  const harness = 'T4.5 Harness Attachments';
+  assert.equal(sesStatus({ [`${harness}!D40`]: '9000' }, 'RC-HARNESS-D40'), 'pending', 'no physical test required');
+  assert.equal(sesStatus({ [`${harness}!D40`]: '9000', [`${harness}!Q34`]: 'YES' }, 'RC-HARNESS-D40'), 'violation');
+  const fire = 'T1.2.1 T4.6 T4.8 Firewall';
+  assert.equal(sesStatus({ [`${fire}!D31`]: '0.4' }, 'RC-FIREWALL-AL'), 'violation');
+  assert.equal(sesStatus({ [`${fire}!D23`]: '1.5', [`${fire}!D22`]: '3' }, 'RC-FIRE-D23'), 'violation');
+  assert.equal(sesStatus({ 'T3.17.3 IA AI Plate!D4': '360' }, 'RC-IA-GROUND'), 'violation');
+  assert.equal(one({ ACCUMULATOR: { 'LC-ASES-S15-M22': a('2000'), 'LC-ASES-S15-M16': a('100'), 'LC-ASES-S15-M17': a('50') } }, 'RC-CELL-PRESSURE').status, 'ok', '2000 N / (0.8 × 5000 mm²) = 0.5 MPa');
+  assert.equal(one({ ACCUMULATOR: { 'LC-ASES-S15-M22': a('5000'), 'LC-ASES-S15-M16': a('100'), 'LC-ASES-S15-M17': a('50') } }, 'RC-CELL-PRESSURE').status, 'violation');
+});
+
+test('EV 4.5.3 conductor temperature rating per row', () => {
+  const rows = [{ _id: 'a', 'LC-ESF-Datasheets-conductors-G': '125' }, { _id: 'b', 'LC-ESF-Datasheets-conductors-G': '80' }, { _id: 'c', 'LC-ESF-Datasheets-conductors-G': '70', 'LC-ESF-Datasheets-conductors-J': 'LV harness' }];
+  assert.deepEqual(result({ COORDINATOR: { 'CARD-FG-ESF-DS-02': a(rows) } }, 'RC-26').map(item => item.status), ['ok', 'violation', 'notice']);
+});
+
+test('SES fields get rule notes in the SES editor', () => {
+  assert.deepEqual(rulesFor('SES', ses('T3.9 Main Hoop Tubing', 'D14')).map(item => item.rule), ['T 3.2.1']);
+  assert.ok(ruleChecks.filter(check => check.target.systemId === 'SES').length > 100);
+});

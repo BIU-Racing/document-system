@@ -8,7 +8,7 @@
 const LRI = '⁦', PDI = '⁩';
 // A token may contain inner punctuation (6.3.3, 425.17, Ω/V) but never ends with it, so "2027: 2"
 // stays two runs and sentence punctuation stays in the Hebrew text.
-const TOKEN = "[(\\[]?[A-Za-z0-9Ω°µ%](?:[A-Za-z0-9Ω°µ%²³.,:/_'’+\\-]*[A-Za-z0-9Ω°µ%²³)\\]])?";
+const TOKEN = "[(\\[]?[A-Za-z0-9Ω°µ%](?:[A-Za-z0-9Ω°µ%²³⁴.,:/_'’+\\-]*[A-Za-z0-9Ω°µ%²³⁴)\\]])?";
 // Formula symbols between tokens keep a calculation together: "12 A × 588 V = 7 kW".
 const SYMBOL = '[×=+\\-–*/<>≤≥]';
 // A comma or semicolon between two English words stays inside the run ("Tube OD, mm"), but not
