@@ -2,7 +2,7 @@ import {unzipSync,zipSync,strFromU8,strToU8} from 'fflate';
 import templatesData from '@/private-data/official-workbook-templates.json';
 import guards from '@/data/ses-export-guards.json';
 import {getFields} from './catalog';
-import {canonical,type Answer} from './progress';
+import {canonical,fingerprint,type Answer} from './progress';
 import type {OfficialWorkbookInput,OfficialWorkbookResult,OfficialWorkbookReport,OfficialFieldResult,OfficialCellStatus,OfficialCellWrite} from './official-workbooks';
 type Template={filename:string;year:number;sha256:string;base64:string;sheets:{name:string;path:string;state:string;writableCells:string[];formulaCells:string[]}[]};
 const template=(templatesData as unknown as {ses:Template}).ses;
@@ -69,6 +69,9 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
   if(!snapshot){finish('out_of_scope');continue;}
   const answer=snapshot.answers[field.id];
   if(!answer){finish('empty');continue;}
+  result.sourceReviewPending=answer.sourceReview==='pending';
+  const reviewed=snapshot.review.fields?.[field.id];
+  result.engineeringReviewed=reviewed?.verdict==='approved'&&reviewed.fingerprint===fingerprint(answer);
   if(field.kind==='file'){finish('evidence_required');continue;}
   if(answer.status==='unknown'){finish('unknown');continue;}if(answer.status==='na'){finish('not_applicable');continue;}
   if(!Array.isArray(answer.value)||!answer.value.length){finish('empty');continue;}
@@ -78,6 +81,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
    const translated=translation.englishAnswers[field.id];
    if(!translated||!Array.isArray(translated.value)||translated.value.length!==answer.value.length||answer.value.some((row,i)=>row._id!==(translated.value as Record<string,string>[])[i]._id||canonical(Object.keys(row).sort())!==canonical(Object.keys((translated.value as Record<string,string>[])[i]).sort()))){finish('source_conflict');continue;}
    english=translated;
+   result.machineTranslated=true;
   }
   if(!sheet||!guard)throw new Error('SES sheet mapping missing');
   const xml=strFromU8(parts[sheet.path]),cellMap=new Map<string,{attributes:string;body:string}>();
