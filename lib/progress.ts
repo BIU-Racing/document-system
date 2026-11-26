@@ -7,7 +7,7 @@ export type ReviewField = { fingerprint:string; verdict:'approved'|'changes_requ
 export type Review = { fields?:Record<string,ReviewField>; submittedRevision?:number; submittedAt?:string };
 export type Progress = { complete:number; total:number; percent:number; filled:number;fillPercent:number;populated:number;sourcePending:number;sourceConfirmed:number; missing:{id:string;label:string;reason:string}[] };
 export type SystemSnapshot = { id:string; answers:Answers; revision:number; status:'draft'|'in_review'|'changes_requested'|'approved'; attachments:Attachment[]; progress:Progress; updatedAt:string|null; review:Review; schemaVersion:string; contentHash?:string };
-export type ProgressField = {id:string;label:string;required?:boolean;type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
+export type ProgressField = {id:string;label:string;required?:boolean;showWhen?:{fieldId:string;notIn:string[]};type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
 export function canonical(value:unknown):string {
   if(Array.isArray(value)) return '['+value.map(canonical).join(',')+']';
   if(value && typeof value==='object') return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';
@@ -26,8 +26,15 @@ export function referencedAttachmentIds(fields:ProgressField[],answers:Answers):
   }
   return ids;
 }
+/** Conditional field: hidden while the controlling answer is one of notIn. Unanswered controllers show everything. */
+export type ShowWhen={fieldId:string;notIn:string[]};
+export function fieldVisible(field:{showWhen?:ShowWhen},answers:Answers):boolean{
+  const rule=field.showWhen;if(!rule)return true;
+  const value=answers[rule.fieldId]?.value;
+  return !(typeof value==='string'&&rule.notIn.includes(value.trim()));
+}
 export function computeProgress(fields:ProgressField[],answers:Answers,attachments:Attachment[]=[],review:Review={}):Progress {
-  const unique = [...new Map(fields.filter(f=>f.required!==false).map(f=>[f.id,f])).values()];
+  const unique = [...new Map(fields.filter(f=>f.required!==false&&fieldVisible(f,answers)).map(f=>[f.id,f])).values()];
   const missing:Progress['missing']=[];
   let filled=0;
   for(const field of unique){

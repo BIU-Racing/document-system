@@ -2,7 +2,8 @@ import {unzipSync,zipSync,strFromU8,strToU8} from 'fflate';
 import templatesData from '@/private-data/official-workbook-templates.json';
 import guards from '@/data/ses-export-guards.json';
 import {getFields} from './catalog';
-import {canonical,fingerprint,type Answer} from './progress';
+import {canonical,fingerprint,fieldVisible,type Answer} from './progress';
+import {sesFixedCellKeys} from './ses-fields';
 import type {OfficialWorkbookInput,OfficialWorkbookResult,OfficialWorkbookReport,OfficialFieldResult,OfficialCellStatus,OfficialCellWrite} from './official-workbooks';
 type Template={filename:string;year:number;sha256:string;base64:string;sheets:{name:string;path:string;state:string;writableCells:string[];formulaCells:string[]}[]};
 const template=(templatesData as unknown as {ses:Template}).ses;
@@ -45,8 +46,10 @@ const messages:Partial<Record<OfficialCellStatus,string>>={
  protected:'כתובת מוגנת, נוסחה, תא שאינו עוגן מיזוג או יעד שאינו קלט מאומת.',
  invalid_value:'ערך או כתובת אינם תקינים, או שתא נבחר יותר מפעם אחת. הטבלה לא נכתבה חלקית.',
  manual_mapping:'אימות Excel תלוי בנוסחה או ברשימה דינמית; התא מחייב בדיקה ב־Excel.',
- unknown:'המידע טרם נקבע.',not_applicable:'אי־תחולה ממתינה לבדיקה.'
+ unknown:'המידע טרם נקבע.',not_applicable:'אי־תחולה ממתינה לבדיקה.',
+ condition_hidden:'השאלה אינה רלוונטית לסוג המבנה שנבחר; התא נשאר כפי שהוא בתבנית.'
 };
+const fixedCellConflict='הכתובת שייכת לתא שיש לו שאלה קבועה. יש להזין את הערך בשאלה עצמה; השורה לא נכתבה.';
 export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<OfficialWorkbookResult>{
  if(input.kind!=='ses')throw new Error('Wrong workbook adapter');
  const candidates=input.snapshots.filter(s=>s.id==='SES');if(candidates.length>1)throw new Error('Duplicate SES snapshot');
@@ -61,12 +64,16 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
  sourceSnapshots:snapshot?[{systemId:'SES',revision:snapshot.revision,sourceHash}]:[],projectMetadata:[],fields:[],writtenCells:[],clearedTemplateValues:[],preservedTemplateValues:[],unmappedSourceFields:[],changedParts:[],formulaResults:'not_calculated_open_in_excel',
  warnings:['תבנית Italy SES 2026 v1.3; קבלה לעונת 2027 טרם אומתה.','שיוך האחריות לצוותי מכניקה הוא הצעה שטרם אושרה.','ערכי תבנית שלא הוחלפו נשמרים כערכי תבנית, ואינם תשובות או אישור של BIU.','יש לפתוח ב־Excel 2021 ומעלה לחישוב נוסחאות, אימות תלוי נוסחה ושיבוץ ראיות.']};
  const patches=new Map<string,Map<string,OfficialCellWrite>>();
+ const xmlCache=new Map<string,string>(),sheetXml=(path:string)=>{let xml=xmlCache.get(path);if(xml===undefined){xml=strFromU8(parts[path]);xmlCache.set(path,xml);}return xml;};
  for(const field of getFields('SES')){
   const mapping=(field as unknown as {officialTemplate:{sheet:string;editableRanges:string[]}}).officialTemplate;
   const sheet=template.sheets.find(s=>s.name===mapping.sheet),guard=guards.find(g=>g.sheet===mapping.sheet);
   const result:OfficialFieldResult={controlId:field.id,systemId:'SES',fieldId:field.id,sheet:mapping.sheet,ranges:mapping.editableRanges,status:'empty',message:'',writtenCells:[],sourceRevision:snapshot?.revision};
   const finish=(status:OfficialCellStatus)=>{result.status=status;result.message=messages[status]??status;report.fields.push(result);};
   if(!snapshot){finish('out_of_scope');continue;}
+  const fixedTemplate=(field as unknown as {officialTemplate:{fixed?:boolean}}).officialTemplate;
+  // A fixed field hidden by its sheet's construction type is not required, answered or not.
+  if(fixedTemplate.fixed&&!fieldVisible(field as {showWhen?:{fieldId:string;notIn:string[]}},snapshot.answers)){finish('condition_hidden');continue;}
   const answer=snapshot.answers[field.id];
   if(!answer){finish('empty');continue;}
   result.sourceReviewPending=answer.sourceReview==='pending';
@@ -74,6 +81,29 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
   result.engineeringReviewed=reviewed?.verdict==='approved'&&reviewed.fingerprint===fingerprint(answer);
   if(field.kind==='file'){finish('evidence_required');continue;}
   if(answer.status==='unknown'){finish('unknown');continue;}if(answer.status==='na'){finish('not_applicable');continue;}
+  const fixed=(field as unknown as {officialTemplate:{cell?:string;fixed?:boolean}}).officialTemplate;
+  if(fixed.fixed&&fixed.cell){
+   // Fixed field: exactly one predetermined cell; never a user-supplied address.
+   const kind=(field as unknown as {sesFixed:{valueKind:'number'|'select'|'text'}}).sesFixed.valueKind,ref=fixed.cell;
+   if(typeof answer.value!=='string'||!answer.value.trim()){finish('empty');continue;}
+   let value=answer.value.trim(),type:'text'|'number'='text';
+   if(kind==='number'){if(!validNumber(value)){finish('invalid_value');continue;}value=String(Number(value));type='number';}
+   else if(kind==='select'){if(!field.options?.some(option=>option.value===value)){finish('invalid_value');continue;}}
+   else if(/[\u0590-\u05ff]/.test(value)){
+    const translated=current&&translation.fieldStates[field.id]==='ready'?translation.englishAnswers[field.id]?.value:undefined;
+    if(typeof translated!=='string'||!translated.trim()){finish(current?'translation_pending':translation?'source_conflict':'translation_pending');continue;}
+    value=translated.trim();result.machineTranslated=true;
+   }
+   if(value.length>32767||/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u0590-\u05ff]/.test(value)){finish('invalid_value');continue;}
+   if(!sheet||!guard)throw new Error('SES sheet mapping missing');
+   const xml=sheetXml(sheet.path),cell=new RegExp('<c\\b[^>]*\\br="'+ref+'"[^>]*?(?:/>|>([\\s\\S]*?)</c>)').exec(xml);
+   const already=patches.get(sheet.path)??new Map();
+   if(!cell||!sheet.writableCells.includes(ref)||/<f\b/.test(cell[1]??'')||guard.formulaCellsInsideEditableRanges.includes(ref)||guard.mergedRanges.some(range=>within(ref,range)&&range.split(':')[0]!==ref)||already.has(ref)){finish('protected');continue;}
+   // Select values were checked against the template's own list; number/length rules still apply.
+   if(kind!=='select'){const validation=validationStatus(guard.rawDataValidationBlocks,ref,value);if(validation!=='ok'){finish(validation);continue;}}
+   const write:OfficialCellWrite={sheet:sheet.name,cell:ref,type,value,systemId:'SES',fieldId:field.id,sourceRevision:snapshot.revision,sourceHash,controlId:field.id,...(type==='number'?{sourceValue:answer.value,unit:field.unit??null}:{})};
+   already.set(ref,write);patches.set(sheet.path,already);report.writtenCells.push(write);result.writtenCells=[ref];finish('written');continue;
+  }
   if(!Array.isArray(answer.value)||!answer.value.length){finish('empty');continue;}
   let english:Answer=answer;
   if(/[\u0590-\u05ff]/.test(canonical(answer.value))){
@@ -91,6 +121,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
   for(let index=0;index<answer.value.length;index++){
    const source=answer.value[index],row=(english.value as Record<string,string>[])[index];
    const ref=(source[field.id+'-CELL']??'').trim().toUpperCase(),value=(row[field.id+'-VALUE']??'').trim(),cell=cellMap.get(ref);
+   if(sesFixedCellKeys.has(sheet.name+'!'+ref)){failure='protected';result.message=fixedCellConflict;break;}
    if(!point(ref)||!value||value.length>32767||/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u0590-\u05ff]/.test(value)||seen.has(ref)||already.has(ref)){failure='invalid_value';break;}
    seen.add(ref);
    if(row[field.id+'-CELL']!==source[field.id+'-CELL']){failure='source_conflict';break;}
@@ -98,7 +129,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
    const validation=validationStatus(guard.rawDataValidationBlocks,ref,value);if(validation!=='ok'){failure=validation;break;}
    writes.push({sheet:sheet.name,cell:ref,type:canonicalNumber(value)?'number':'text',value,systemId:'SES',fieldId:field.id,rowId:source._id,sourceRevision:snapshot.revision,sourceHash,controlId:field.id});
   }
-  if(failure){finish(failure);continue;}
+  if(failure){const message=result.message;finish(failure);if(message===fixedCellConflict)result.message=message;continue;}
   for(const write of writes)already.set(write.cell,write);patches.set(sheet.path,already);report.writtenCells.push(...writes);result.writtenCells=writes.map(w=>w.cell);result.rowIds=writes.map(w=>w.rowId??'');finish('written');
  }
  for(const [path,writes]of patches){

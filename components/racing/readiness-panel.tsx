@@ -18,18 +18,19 @@ export const reasonLabels: Record<ReadinessReason, string> = {
   not_applicable_reason: '"לא רלוונטי" ללא נימוק',
   evidence_placement: 'ראיה שיש לשבץ ידנית ב־Excel',
   restricted_manual: 'פרטי קשר שממולאים ידנית',
+  manual_cell_address: 'כתובת תא שהוקלדה ידנית',
 };
 
 const reasonHelp: Partial<Record<ReadinessReason, string>> = {
   translation_approval: 'אישור אנושי לתרגומים עדיין לא קיים במערכת, ולכן כל טקסט שתורגם במכונה חוסם כרגע אימות.',
   engineering_review: 'בודק הנדסי או רכז צריכים לאשר את התשובה הנוכחית. כל שינוי בתשובה מבטל אישור קודם.',
   mapping_unresolved: 'השדה נשמר, אך הכתיבה שלו לתבנית דורשת הכרעה במיפוי. זו משימת פיתוח או רכז, לא של ממלא השדה.',
+  manual_cell_address: 'ב־SES, שורה ב"תאים נוספים" נכתבת לכתובת שהוקלדה. יש לוודא בגיליון שזה התא הנכון, או להעביר את הערך לשאלה קבועה אם קיימת.',
   invalid_value: 'למשל מספר עם יחידה או טקסט בתא מספרי. יש להשאיר מספר בלבד ולהעביר פירוט להערות.',
 };
 
 const blockerText: Record<DocumentBlockerCode, string> = {
   template_unverified: 'התבנית בקוד לא אומתה עדיין כתבנית ההגשה הרשמית לתחרות 2027.',
-  ses_mapping_unverified: 'ב־SES כתובת התא נבחרת ידנית בכל שורה, ומיפוי קבוע ומאומת עדיין לא קיים.',
   partial_scope: 'המסמך נבנה רק מהמערכות שבהרשאה שלכם. רק רכז עם גישה לכל המערכות יכול לאמת מסמך שלם.',
 };
 

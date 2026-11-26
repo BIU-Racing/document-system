@@ -50,12 +50,12 @@ test('table columns of one field merge into a single issue', () => {
   assert.equal(result.totals.items, 1);
 });
 
-test('document-level blockers: unverified template, SES mapping and partial scope', () => {
+test('document-level blockers: unverified template and partial scope', () => {
   const clean = [field()];
   const verified = { template: { submission2027Verified: true } };
   assert.equal(computeReadiness({ report: report(clean, verified), completeScope: true }).ready, true);
   assert.deepEqual(computeReadiness({ report: report(clean), completeScope: true }).documentBlockers.map(b => b.code), ['template_unverified']);
-  assert.deepEqual(computeReadiness({ report: report(clean, { ...verified, kind: 'ses' }), completeScope: true }).documentBlockers.map(b => b.code), ['ses_mapping_unverified']);
+  assert.deepEqual(computeReadiness({ report: report(clean, { ...verified, kind: 'ses' }), completeScope: true }).documentBlockers.map(b => b.code), [], 'SES has a fixed mapping now');
   const partial = computeReadiness({ report: report([...clean, field({ controlId: 'X', systemId: 'TSAL', fieldId: 'T', status: 'out_of_scope' })], verified), completeScope: true });
   assert.deepEqual(partial.documentBlockers, [{ code: 'partial_scope', count: 1 }]);
   assert.equal(partial.totals.items, 1, 'out-of-scope controls are not counted as items');
@@ -106,4 +106,15 @@ test('ESF export: translated, untranslated and reviewed answers are classified',
   assert.deepEqual(issue(untranslated).reasons, ['translation_pending', 'engineering_review']);
   assert.equal(readiness.ready, false);
   assert.ok(readiness.documentBlockers.some(b => b.code === 'partial_scope'), 'systems outside the snapshot set block validation');
+});
+
+test('SES: written manual cell addresses need a check, empty optional tables are not required', () => {
+  const labels = { system: () => 'SES', field: (_s, id) => id === 'TABLE' ? { label: 'תאים נוספים', optional: true, manualAddress: true } : { label: 'שאלה קבועה' } };
+  const verified = { kind: 'ses', template: { submission2027Verified: true } };
+  const empty = computeReadiness({ report: report([field({ systemId: 'SES', fieldId: 'TABLE', status: 'empty', engineeringReviewed: undefined }), field({ systemId: 'SES', fieldId: 'F1' })], verified), completeScope: true, labels });
+  assert.equal(empty.ready, true);
+  assert.equal(empty.totals.items, 1, 'an empty optional table is not counted');
+  const written = computeReadiness({ report: report([field({ systemId: 'SES', fieldId: 'TABLE' })], verified), completeScope: true, labels });
+  assert.deepEqual(written.issues[0].reasons, ['manual_cell_address']);
+  assert.equal(written.ready, false);
 });

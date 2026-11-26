@@ -23,7 +23,9 @@ const readinessLabels: ReadinessLabels = {
   system: id => getSystem(id)?.label,
   field: (systemId, fieldId) => {
     const field = getField(systemId, fieldId);
-    return field ? { label: field.label, section: field.section } : undefined;
+    if (!field) return undefined;
+    const manualAddress = systemId === 'SES' && field.kind === 'table';
+    return { label: field.label, section: field.section, optional: (field.required as boolean) === false, manualAddress };
   },
 };
 async function authorizedDocumentSources() {

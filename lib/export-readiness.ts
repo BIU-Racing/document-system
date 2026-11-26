@@ -29,9 +29,10 @@ export type ReadinessReason =
   | 'translation_approval'
   | 'evidence_placement'
   | 'not_applicable_reason'
-  | 'restricted_manual';
+  | 'restricted_manual'
+  | 'manual_cell_address';
 
-export type DocumentBlockerCode = 'template_unverified' | 'ses_mapping_unverified' | 'partial_scope';
+export type DocumentBlockerCode = 'template_unverified' | 'partial_scope';
 
 export type ReadinessIssue = {
   /** Stable key: one entry per saved field (table columns are merged). */
@@ -69,7 +70,7 @@ export type DocumentReadiness = {
 
 export type ReadinessLabels = {
   system(systemId: string): string | undefined;
-  field(systemId: string, fieldId: string): { label: string; section?: string } | undefined;
+  field(systemId: string, fieldId: string): { label: string; section?: string; optional?: boolean; manualAddress?: boolean } | undefined;
 };
 
 export type ReadinessInput = {
@@ -85,7 +86,7 @@ export type ReadinessInput = {
 export const reasonOrder: ReadinessReason[] = [
   'missing', 'unknown', 'invalid_value', 'overflow', 'source_mismatch',
   'translation_failed', 'translation_pending', 'source_review', 'engineering_review',
-  'translation_approval', 'mapping_unresolved', 'not_applicable_reason', 'evidence_placement', 'restricted_manual',
+  'translation_approval', 'manual_cell_address', 'mapping_unresolved', 'not_applicable_reason', 'evidence_placement', 'restricted_manual',
 ];
 
 const warningReasons = new Set<ReadinessReason>(['evidence_placement', 'not_applicable_reason', 'restricted_manual']);
@@ -99,7 +100,7 @@ export const actionableReasons = new Set<ReadinessReason>([
  * Review flags exist only when a saved answer exists. They are not reported for
  * answers that are still empty or explicitly unknown: those must be completed first.
  */
-const reviewIrrelevant = new Set<OfficialFieldResult['status']>(['empty', 'unknown', 'out_of_scope']);
+const reviewIrrelevant = new Set<OfficialFieldResult['status']>(['empty', 'unknown', 'out_of_scope', 'condition_hidden']);
 
 /** Classifies one mapped control. Returns an empty list when it is ready. */
 export function controlReasons(field: OfficialFieldResult, answers?: Answers): ReadinessReason[] {
@@ -123,6 +124,7 @@ export function controlReasons(field: OfficialFieldResult, answers?: Answers): R
     }
     case 'written':
     case 'out_of_scope':
+    case 'condition_hidden':
       break;
   }
   if (!reviewIrrelevant.has(field.status)) {
@@ -150,8 +152,14 @@ export function computeReadiness(input: ReadinessInput): DocumentReadiness {
   for (const field of report.fields) {
     const key = field.systemId && field.fieldId ? `${field.systemId}:${field.fieldId}` : `control:${field.controlId}`;
     if (field.status === 'out_of_scope') { outOfScope++; continue; }
+    if (field.status === 'condition_hidden') continue;
     itemKeys.add(key);
+    const meta0 = field.systemId && field.fieldId ? labels?.field(field.systemId, field.fieldId) : undefined;
+    // Optional "additional cells" tables (SES) are not required when left empty.
+    if (meta0?.optional && field.status === 'empty') { itemKeys.delete(key); continue; }
     const reasons = controlReasons(field, field.systemId ? input.answers?.[field.systemId] : undefined);
+    // A typed cell address is not a verified mapping: written manual SES rows need a check.
+    if (meta0?.manualAddress && field.status === 'written') reasons.push('manual_cell_address');
     if (!reasons.length) continue;
     const existing = issues.get(key);
     if (existing) {
@@ -180,7 +188,6 @@ export function computeReadiness(input: ReadinessInput): DocumentReadiness {
 
   const documentBlockers: DocumentReadiness['documentBlockers'] = [];
   if (!report.template.submission2027Verified) documentBlockers.push({ code: 'template_unverified' });
-  if (report.kind === 'ses') documentBlockers.push({ code: 'ses_mapping_unverified' });
   if (!input.completeScope || outOfScope > 0) documentBlockers.push({ code: 'partial_scope', ...(outOfScope ? { count: outOfScope } : {}) });
 
   const list = [...issues.values()].sort((a, b) =>

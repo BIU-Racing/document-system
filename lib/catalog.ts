@@ -10,6 +10,7 @@ import coverageData from '@/data/coverage.normalized.json';
 import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
 import { numericTargets } from './official-numeric-targets';
+import { sesFixedFields, sesSheetTitle } from './ses-fields';
 
 export type FieldKind = 'text' | 'table' | 'file' | 'select';
 
@@ -76,6 +77,11 @@ export type Field = {
   recordKeys?: string[];
   needsClarification?: boolean;
   applicabilityPolicy?: 'answer_or_reviewed_not_applicable';
+  /** SES: fixed fields carry one cell; legacy "additional cells" tables carry editable ranges. */
+  officialTemplate?: { sheet: string; editableRanges: string[]; cell?: string; fixed?: true };
+  sesFixed?: { englishLabel: string; englishContext: string; valueKind: 'number' | 'select' | 'text'; templateValue: string | number | boolean | null };
+  /** Hidden (and not required) while the controlling field's answer is one of notIn. */
+  showWhen?: { fieldId: string; notIn: string[] };
 };
 
 export type System = {
@@ -140,6 +146,35 @@ export const sharedRecordDefinitions = sharedData;
 for (const target of numericTargets) {
   for (const field of [...systems.flatMap((system) => system.fields), ...coordinatorQueue]) {
     if (field.id === target.controlId && !field.unit) field.unit = target.inputUnit;
+  }
+}
+
+// SES: one fixed field per single-value input cell, followed by the sheet's legacy
+// "additional cells" table (large areas not yet mapped) and its evidence field. Each
+// official sheet becomes its own chapter. Legacy field IDs and saved answers are unchanged.
+{
+  const ses = systems.find(system => system.id === 'SES');
+  if (ses) {
+    const legacy = ses.fields;
+    const sheets = [...new Set(legacy.map(field => field.officialTemplate?.sheet).filter((sheet): sheet is string => !!sheet))];
+    const fixedBySheet = new Map<string, Field[]>();
+    for (const field of sesFixedFields as unknown as Field[]) {
+      const list = fixedBySheet.get(field.officialTemplate!.sheet) ?? [];
+      list.push(field); fixedBySheet.set(field.officialTemplate!.sheet, list);
+    }
+    const ordered: Field[] = [];
+    for (const sheet of sheets) {
+      const fixed = fixedBySheet.get(sheet) ?? [];
+      ordered.push(...fixed);
+      for (const field of legacy.filter(item => item.officialTemplate?.sheet === sheet)) {
+        const relabeled = fixed.length && field.kind === 'table'
+          ? { required: false as unknown as true, label: `${sesSheetTitle(sheet)} — תאים נוספים (כתובת ידנית, לא חובה)`, prompt: `השאלות הקבועות בפרק הזה כבר נכתבות לתאים שלהן. כאן מזינים רק תאים באזורים הגדולים שעדיין אין להם שאלה (טבלאות ונתוני בדיקה). כתובת של תא שיש לו שאלה קבועה נחסמת בייצוא. ${field.prompt}` }
+          : {};
+        ordered.push({ ...field, ...relabeled, section: sesSheetTitle(sheet) });
+      }
+    }
+    ordered.push(...legacy.filter(field => !field.officialTemplate?.sheet));
+    ses.fields = ordered;
   }
 }
 
