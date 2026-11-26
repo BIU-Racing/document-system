@@ -7,7 +7,7 @@
  * Limits were read from FS_Rules_2027_v1.0.pdf; where the template has its own PASS/FAIL formula
  * the check agrees with it unless the 2027 text differs.
  */
-import { type Check, type Getter, type RuleRef, ref, fmt, pending, ok, bad, notice, maxCheck, minCheck } from './rule-check-kit';
+import { type Check, type Getter, type RuleRef, type RuleRow, ref, fmt, pending, ok, bad, notice, maxCheck, minCheck } from './rule-check-kit';
 
 /** Same id scheme as lib/ses-fields.ts (kept local so the checks stay small and client-safe). */
 const sesId = (sheet: string, cell: string) => `SESX-${sheet.replace(/[^A-Za-z0-9]+/g, '').toUpperCase()}-${cell}`;
@@ -47,15 +47,19 @@ function tubeCheck(tube: Tube, cls: TubeClass): Check {
       if (!isSteel(material)) return notice(`החומר שנבחר הוא ${material}. המינימום בטבלה 2 של T 3.2.1 הוא לצינורות פלדה; לחומר אחר נדרשת הוכחת שקילות (T 3.4).`);
       const failures: string[] = [];
       if (wall < cls.wall) failures.push(`דופן ${fmt(wall)} mm (נדרש לפחות ${fmt(cls.wall)} mm)`);
-      if (od === undefined) return failures.length ? bad(`חורג מ־T 3.2.1: ${failures.join('; ')}.`) : ok(`עובי הדופן ${fmt(wall)} mm עומד ב־T 3.2.1. הזינו גם את הקוטר החיצוני כדי לבדוק שטח חתך ומומנט התמד.`);
+      const wallRow: RuleRow = { label: 'עובי דופן', value: `${fmt(wall)} mm`, required: `≥ ${fmt(cls.wall)} mm`, ok: wall >= cls.wall };
+      if (od === undefined) return { ...(failures.length ? bad(`חורג מ־T 3.2.1: ${failures.join('; ')}.`) : ok(`עובי הדופן ${fmt(wall)} mm עומד ב־T 3.2.1. הזינו גם את הקוטר החיצוני כדי לבדוק שטח חתך ומומנט התמד.`)), table: [wallRow] };
       const props = section(od, wall, isSquare(tube.shape && get.text(tube.shape)));
       if (!props) return bad(`עובי הדופן (${fmt(wall)} mm) גדול מחצי הקוטר (${fmt(od)} mm). בדקו את הערכים.`);
       const area = Math.round(props.area), inertia = Math.round(props.inertia);
       // The table values are rounded from the reference tubes (25.4 × 1.6 gives 8508.6 mm⁴), so compare rounded values.
       if (area < cls.area) failures.push(`שטח חתך ${area} mm² (נדרש לפחות ${cls.area} mm²)`);
       if (inertia < cls.inertia) failures.push(`מומנט התמד ${inertia} mm⁴ (נדרש לפחות ${cls.inertia} mm⁴)`);
-      if (failures.length) return bad(`חורג מ־T 3.2.1: ${failures.join('; ')}.`);
-      return ok(`עומד ב־T 3.2.1: צינור ${fmt(od)} × ${fmt(wall)} mm, שטח חתך ${area} mm², מומנט התמד ${inertia} mm⁴.`);
+      const table: RuleRow[] = [wallRow,
+        { label: 'שטח חתך (מחושב)', value: `${area} mm²`, required: `≥ ${cls.area} mm²`, ok: area >= cls.area },
+        { label: 'מומנט התמד (מחושב)', value: `${inertia} mm⁴`, required: `≥ ${cls.inertia} mm⁴`, ok: inertia >= cls.inertia }];
+      if (failures.length) return { ...bad(`חורג מ־T 3.2.1: ${failures.join('; ')}.`), table };
+      return { ...ok(`עומד ב־T 3.2.1: צינור ${fmt(od)} × ${fmt(wall)} mm, שטח חתך ${area} mm², מומנט התמד ${inertia} mm⁴.`), table };
     },
   };
 }
@@ -97,7 +101,8 @@ function skinCheck(inner: RuleRef, outer: RuleRef, construction?: RuleRef): Chec
       const a = get.num(inner), b = get.num(outer);
       if (a === undefined || b === undefined) return pending('הזינו את עובי שתי השכבות כדי לבדוק.');
       const thin = Math.min(a, b), thick = Math.max(a, b), required = Math.min(0.4 * thick, 1);
-      return thin >= required ? ok(`עומד ב־T 3.5.4: ${fmt(thin)} mm מול ${fmt(thick)} mm (נדרש לפחות ${fmt(required)} mm).`) : bad(`חורג מ־T 3.5.4: השכבה הדקה ${fmt(thin)} mm, נדרש לפחות ${fmt(required)} mm (40% מ־${fmt(thick)} mm, ולא יותר מ־1 mm).`);
+      const table: RuleRow[] = [{ label: 'השכבה הדקה', value: `${fmt(thin)} mm`, required: `≥ ${fmt(required)} mm`, ok: thin >= required }];
+      return { table, ...(thin >= required ? ok(`עומד ב־T 3.5.4: ${fmt(thin)} mm מול ${fmt(thick)} mm (נדרש לפחות ${fmt(required)} mm).`) : bad(`חורג מ־T 3.5.4: השכבה הדקה ${fmt(thin)} mm, נדרש לפחות ${fmt(required)} mm (40% מ־${fmt(thick)} mm, ולא יותר מ־1 mm).`)) };
     },
   };
 }
