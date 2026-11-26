@@ -7,6 +7,7 @@ import templatesData from '@/private-data/official-workbook-templates.json';
 import { coverage, getFields, getSystem, type CoverageEntry, type Field, type FieldColumn } from './catalog';
 import { canonical, fingerprint, isNotApplicable, isUnknown, type Answer, type Answers, type SystemSnapshot } from './progress';
 import { numericLiteralAlternatives, numericTargetById, parseNumericAnswer } from './official-numeric-targets';
+import { approvalState } from './translation-review';
 export { numericTargets, numericTargetById, parseNumericAnswer } from './official-numeric-targets';
 
 export type OfficialWorkbookKind = 'esf' | 'ases' | 'ses';
@@ -32,6 +33,8 @@ export type OfficialFieldResult = {
   sourceReviewPending?: boolean; engineeringReviewed?: boolean;
   /** True when at least one written cell holds machine-translated English. */
   machineTranslated?: boolean;
+  /** A person approved exactly this English for exactly this Hebrew (lib/translation-review.ts). */
+  translationApproved?: boolean;
 };
 export type OfficialCellWrite = {
   sheet: string; cell: string; type: 'text' | 'number'; value: string;
@@ -335,6 +338,7 @@ export async function buildOfficialWorkbook(input: OfficialWorkbookInput): Promi
         value = item.english;
         if (!value.trim() || !safeText(value)) { unresolved ??= 'invalid_value'; continue; }
         result.machineTranslated = true;
+        result.translationApproved = approvalState(snapshot.review, field.id, answer, englishAnswer) === 'approved';
       }
       const key = sheet.name + '!' + item.ref;
       if (assignedCells.has(key)) throw new Error('Overlapping workbook answer mappings');

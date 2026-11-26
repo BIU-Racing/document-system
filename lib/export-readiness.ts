@@ -131,7 +131,7 @@ export function controlReasons(field: OfficialFieldResult, answers?: Answers): R
     if (field.sourceReviewPending) reasons.push('source_review');
     if (field.engineeringReviewed === false) reasons.push('engineering_review');
   }
-  if (field.status === 'written' && field.machineTranslated) reasons.push('translation_approval');
+  if (field.status === 'written' && field.machineTranslated && !field.translationApproved) reasons.push('translation_approval');
   return reasons;
 }
 
