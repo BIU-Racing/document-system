@@ -9,51 +9,21 @@
  * Status: ok (complies), violation (breaks the rule, shown in red), notice (depends on something
  * the app cannot know, shown in amber), pending (no usable number yet; the rule is still shown).
  *
- * Pure and client-safe. Electrical scope first (EV and T 11); see docs/rule-checks.md.
+ * Pure and client-safe. Electrical checks (EV, T 11) are here; chassis and structure (SES, ASES
+ * protection and cell mounting) are in lib/rule-checks-structural.ts. See docs/rule-checks.md.
  */
-import type { Answer, TableRow } from './progress';
 import { isolateLtr } from './bidi';
+import { type Check, type Getter, type Meta, type RuleAnswers, type RuleRef, type RuleResult, ref, numberFrom, fmt, pending, ok, bad, notice, maxCheck, minCheck, rangeCheck } from './rule-check-kit';
+import { structuralChecks } from './rule-checks-structural';
 
+export { numberFrom } from './rule-check-kit';
+export type { RuleStatus, RuleRef, RuleResult, RuleAnswers } from './rule-check-kit';
 export const RULEBOOK = { title: 'Formula Student Rules 2027', version: '1.0', file: 'FS_Rules_2027_v1.0.pdf' } as const;
-
-export type RuleStatus = 'ok' | 'violation' | 'notice' | 'pending';
-export type RuleRef = { systemId: string; fieldId: string };
-export type RuleResult = { checkId: string; rule: string; page: number; summary: string; status: RuleStatus; message: string; systemId: string; fieldId: string; rowId?: string };
-export type RuleAnswers = Record<string, Record<string, Answer | undefined> | undefined>;
-type Meta = { id: string; rule: string; page: number; summary: string; target: RuleRef; inputs?: RuleRef[] };
-type Check = Meta & { evaluate: (get: Getter) => Omit<RuleResult, keyof Meta | 'checkId' | 'systemId' | 'fieldId'>[] | Omit<RuleResult, keyof Meta | 'checkId' | 'systemId' | 'fieldId'> };
-type Getter = { num: (ref: RuleRef) => number | undefined; text: (ref: RuleRef) => string | undefined; rows: (ref: RuleRef) => TableRow[] };
 
 // New numeric fields added for these checks (lib/rule-fields.ts).
 export const MAX_TS_VOLTAGE: RuleRef = { systemId: 'ACCUMULATOR', fieldId: 'RC-ACC-MAX-TS-VOLTAGE' };
-const ref = (systemId: string, fieldId: string): RuleRef => ({ systemId, fieldId });
 const C = (fieldId: string) => ref('COORDINATOR', fieldId);
 
-/** A plain number, optionally with a trailing unit or "%"; text answers give undefined. */
-export function numberFrom(value: unknown): number | undefined {
-  if (typeof value !== 'string') return undefined;
-  const match = /^\s*([+-]?\d+(?:\.\d+)?)\s*(?:%|[A-Za-zΩ°µ²/]{1,6})?\s*$/.exec(value.replace(/,(?=\d{3}\b)/g, ''));
-  return match ? Number(match[1]) : undefined;
-}
-const fmt = (value: number) => Number.isInteger(value) ? String(value) : String(Number(value.toFixed(3)));
-const pending = (message = 'הזינו מספר כדי לבדוק עמידה בחוק.') => ({ status: 'pending' as const, message });
-const ok = (message: string) => ({ status: 'ok' as const, message });
-const bad = (message: string) => ({ status: 'violation' as const, message });
-const notice = (message: string) => ({ status: 'notice' as const, message });
-
-function maxCheck(value: number | undefined, limit: number, unit: string, rule: string) {
-  if (value === undefined) return pending();
-  return value <= limit ? ok(`עומד ב־${rule}: ${fmt(value)} ${unit} (מותר עד ${fmt(limit)} ${unit}).`) : bad(`חורג מ־${rule}: הוזן ${fmt(value)} ${unit}, מותר עד ${fmt(limit)} ${unit}.`);
-}
-function minCheck(value: number | undefined, limit: number, unit: string, rule: string, strict = false) {
-  if (value === undefined) return pending();
-  const passes = strict ? value > limit : value >= limit;
-  return passes ? ok(`עומד ב־${rule}: ${fmt(value)} ${unit} (נדרש ${strict ? 'יותר מ־' : 'לפחות '}${fmt(limit)} ${unit}).`) : bad(`חורג מ־${rule}: הוזן ${fmt(value)} ${unit}, נדרש ${strict ? 'יותר מ־' : 'לפחות '}${fmt(limit)} ${unit}.`);
-}
-function rangeCheck(value: number | undefined, low: number, high: number, unit: string, rule: string) {
-  if (value === undefined) return pending();
-  return value >= low && value <= high ? ok(`עומד ב־${rule}: ${fmt(value)} ${unit} (טווח ${fmt(low)}–${fmt(high)} ${unit}).`) : bad(`חורג מ־${rule}: הוזן ${fmt(value)} ${unit}, נדרש בין ${fmt(low)} ל־${fmt(high)} ${unit}.`);
-}
 const needsMaxVoltage = 'כדי לבדוק, מלאו את "מתח מרבי של מערכת ההנעה" במערכת הסוללה.';
 const material = (value: string | undefined) => value === 'Steel' ? 'steel' : value === 'Aluminium' ? 'aluminium' : value ? 'other' : undefined;
 
@@ -168,6 +138,19 @@ const checks: Check[] = [
     evaluate: get => minCheck(get.num(ref('SDC', 'RC-SDC-BUTTON-COCKPIT')), 24, 'mm', 'T 11.4.4') },
   { id: 'RC-25', rule: 'EV 4.12.1', page: 77, summary: 'צליל הכניסה למצב R2D נשמע ברציפות לפחות 1 שנייה ולכל היותר 3 שניות.', target: ref('RTD', 'RC-RTD-SOUND'),
     evaluate: get => rangeCheck(get.num(ref('RTD', 'RC-RTD-SOUND')), 1, 3, 's', 'EV 4.12.1') },
+  { id: 'RC-26', rule: 'EV 4.5.3', page: 73, summary: 'דירוג הטמפרטורה של חיווט, חיבורים ובידוד במערכת ההנעה: לפחות 85 °C, ולפי הטמפרטורה הצפויה בסביבה.', target: C('CARD-FG-ESF-DS-02'),
+    evaluate: get => {
+      const rows = get.rows(C('CARD-FG-ESF-DS-02'));
+      if (!rows.length) return pending('אין עדיין שורות בטבלה.');
+      return rows.map((row, index) => {
+        const rated = numberFrom(row['LC-ESF-Datasheets-conductors-G']), label = row['LC-ESF-Datasheets-conductors-C'] || `שורה ${index + 1}`, where = row['LC-ESF-Datasheets-conductors-J'] ?? '';
+        if (rated === undefined) return { ...pending(`${label}: הזינו טמפרטורת עבודה מרבית.`), rowId: row._id };
+        if (rated >= 85) return { ...ok(`מוליך ${label}: מדורג ל־${fmt(rated)} °C (נדרש לפחות 85 °C).`), rowId: row._id };
+        if (/LV|GLV|מתח נמוך|low.?voltage/i.test(where)) return { ...notice(`מוליך ${label}: מדורג ל־${fmt(rated)} °C. תקין רק אם הוא במתח הנמוך ולא במערכת ההנעה.`), rowId: row._id };
+        return { ...bad(`חורג מ־EV 4.5.3: מוליך ${label} מדורג ל־${fmt(rated)} °C, נדרש לפחות 85 °C במערכת ההנעה.`), rowId: row._id };
+      });
+    } },
+  ...structuralChecks,
 ];
 
 function thickness(get: Getter, fieldId: string, steel: number, aluminium: number, name: string) {

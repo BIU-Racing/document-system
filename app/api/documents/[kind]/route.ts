@@ -3,6 +3,7 @@ import { systems, getSystem, getField } from '@/lib/catalog';
 import { buildOfficialWorkbook, getOfficialWorkbookSheet, type OfficialWorkbookKind } from '@/lib/official-workbooks';
 import { computeReadiness, readinessFilename, type ReadinessLabels, type RuleWarning } from '@/lib/export-readiness';
 import { evaluateRules } from '@/lib/rule-checks';
+import { isolateLtr } from '@/lib/bidi';
 import { coverage } from '@/lib/catalog';
 import { getTranslationSnapshot } from '@/lib/translation';
 import { translationConfig } from '@/lib/translation-runtime';
@@ -21,6 +22,12 @@ function documentKind(value: string): OfficialWorkbookKind {
   if (value !== 'esf' && value !== 'ases' && value !== 'ses') throw new ApiError(404, 'המסמך לא נמצא.');
   return value;
 }
+// SES labels repeat across sheets ("Wall, mm"), so rule warnings there also name the sheet.
+const ruleFieldLabel = (systemId: string, fieldId: string) => {
+  const field = readinessLabels.field(systemId, fieldId);
+  if (!field) return fieldId;
+  return systemId === 'SES' && field.section ? `${isolateLtr(field.section)} · ${isolateLtr(field.label)}` : field.label;
+};
 const readinessLabels: ReadinessLabels = {
   system: id => getSystem(id)?.label,
   field: (systemId, fieldId) => {
@@ -56,11 +63,11 @@ export async function GET(request: Request, { params }: Context) {
       answers: Object.fromEntries(snapshots.map(snapshot => [snapshot.id, snapshot.answers])),
     });
     workbook.report.readyForSubmission = readiness.ready;
-    // 2027 rule checks (warnings only): shown on the document the checked field belongs to; new rule fields go to ESF.
-    const documentOf = (systemId: string, fieldId: string) => coverage.entries.find(entry => entry.fieldId === fieldId && (entry.systemId ?? 'COORDINATOR') === systemId)?.official.document.toLowerCase() ?? 'esf';
+    // 2027 rule checks (warnings only): shown on the document the checked field belongs to; fixed SES fields go to SES; new rule fields go to ESF.
+    const documentOf = (systemId: string, fieldId: string) => systemId === 'SES' ? 'ses' : coverage.entries.find(entry => entry.fieldId === fieldId && (entry.systemId ?? 'COORDINATOR') === systemId)?.official.document.toLowerCase() ?? 'esf';
     readiness.ruleWarnings = evaluateRules(Object.fromEntries(snapshots.map(snapshot => [snapshot.id, snapshot.answers])))
       .filter(result => (result.status === 'violation' || result.status === 'notice') && documentOf(result.systemId, result.fieldId) === kind)
-      .map((result): RuleWarning => ({ ...result, status: result.status as RuleWarning['status'], systemLabel: readinessLabels.system(result.systemId) ?? result.systemId, fieldLabel: readinessLabels.field(result.systemId, result.fieldId)?.label ?? result.fieldId }));
+      .map((result): RuleWarning => ({ ...result, status: result.status as RuleWarning['status'], systemLabel: readinessLabels.system(result.systemId) ?? result.systemId, fieldLabel: ruleFieldLabel(result.systemId, result.fieldId) }));
     // SES exceeds Vercel's buffered-response limit; stream the complete workbook.
     if (format === 'download') return new Response(workbookStream(workbook.bytes), { headers: {
       'Content-Type': workbook.mime,
