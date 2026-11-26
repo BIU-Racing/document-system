@@ -17,8 +17,3 @@ test('owner sessions reject wrong, modified, missing and expired credentials',()
  const token=mod.ownerToken();assert.equal(mod.validOwnerToken(token),true);assert.equal(mod.validOwnerToken(token.slice(0,-1)+(token.endsWith('0')?'1':'0')),false);
  assert.equal(mod.validOwnerToken('1000000000000.'+token.split('.')[1]),false);
 });
-test('team access is closed when unconfigured and requires the exact private code',()=>{
- assert.equal(load('lib/team-entry.ts').teamEntryAllowed('any'),false);
- const {teamEntryAllowed}=load('lib/team-entry.ts',{FORMS_TEAM_CODE:'test-team-code'});
- assert.equal(teamEntryAllowed('test-team-code'),true);assert.equal(teamEntryAllowed('other-team-code'),false);assert.equal(teamEntryAllowed(undefined),false);
-});

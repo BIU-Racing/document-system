@@ -1,5 +1,4 @@
 import { cloudDatabase, cloudBucket } from '@/lib/cloud-storage';
-import {teamEntryAllowed} from '@/lib/team-entry';
 import { translationQueueStatement } from '@/lib/translation-version';
 import { getChatGPTUser } from '@/app/chatgpt-auth';
 import { readEmailEntryToken, emailEntryTokenFromCookie, emailEntryTokenHash, newEmailEntryToken, emailEntryCookie, EMAIL_ENTRY_MAX_AGE } from '@/lib/email-entry-session';
@@ -67,11 +66,12 @@ function selfDeclaredSession(member:EmailEntryMember):Session{
   if(!member.active)throw new ApiError(403,'הגישה לחשבון הזה הושבתה. יש לפנות לרכז המסמכים.',{code:'MEMBERSHIP_DISABLED',subject:member.subject});
   // A self-declared session cannot inherit a role changed through the admin UI.
   if(member.auth_source!=='email_entry')throw new ApiError(401,'יש להיכנס מחדש.',{code:'SIGN_IN_REQUIRED'});
-  return {subject:member.subject,role:'contributor',systemIds:systems.map(system=>system.id),authMethod:'email_entry',emailVerified:false};
+  // Team policy (26.11.2026): every university-email member fills, edits, reviews and exports everything.
+  // Administration (members, source import) stays with the owner login: see requireAdmin.
+  return {subject:member.subject,role:'coordinator',systemIds:systems.map(system=>system.id),authMethod:'email_entry',emailVerified:false};
 }
 export async function enterWithEmail(request:Request,body:Record<string,unknown>):Promise<Response>{
   if(!isUniversityEmail(body.email))throw new ApiError(400,'יש להזין כתובת מייל בסיומת @live.biu.ac.il.',{code:'UNIVERSITY_EMAIL_REQUIRED'});
-  if(!teamEntryAllowed(body.accessCode))throw new ApiError(403,'יש להזין את קוד הצוות שקיבלת מרכז התיעוד.',{code:'TEAM_CODE_REQUIRED'});
   const db=database();await requireConfiguredOwner(db);
   const currentToken=emailEntryTokenFromCookie(request.headers.get('cookie'));
   if(currentToken){const current=await emailEntryMember(db,currentToken);if(current)selfDeclaredSession(current);}
@@ -131,6 +131,8 @@ export async function requireAccess(systemId:string,write=false):Promise<Session
   if(write&&member.role==='reviewer')throw new ApiError(403,'בודק הנדסי יכול לבדוק ולאשר, אך אינו עורך את תשובות הצוות.');return member;
 }
 export async function requireCoordinator(){const member=await session();if(member.role!=='coordinator')throw new ApiError(403,'הפעולה מיועדת לרכז המסמכים.');return member;}
+/** Administration (members, bulk source import): the owner login only, never a self-declared email entry. */
+export async function requireAdmin(){const member=await requireCoordinator();if(member.authMethod==='email_entry')throw new ApiError(403,'הפעולה זמינה רק בכניסת המנהל.');return member;}
 type SubmissionRow={id:string;revision:number;answers:string;status:SystemSnapshot['status'];review:string;updated_at:string;last_mutation:string|null};
 type FileRow={id:string;system_id:string;field_id:string;original_name:string;safe_name:string;mime:string;size:number;sha256:string;storage_key:string;state:string;replaces_id:string|null;version:number;created_at:string;mutation_key:string};
 function publicFile(row:FileRow):Attachment{return {id:row.id,systemId:row.system_id,fieldId:row.field_id,originalName:row.original_name,safeName:row.safe_name,mime:row.mime,size:row.size,sha256:row.sha256,state:row.state,replacesId:row.replaces_id,version:row.version,createdAt:row.created_at};}
@@ -324,9 +326,9 @@ export async function uploadFile(id:string,form:FormData){
 }
 export async function restoreRevision(id:string,body:Record<string,unknown>){const member=await requireAccess(id,true),base=requireRevision(body.baseRevision),target=requireRevision(body.revision),mutation=requireMutation(body.mutationId),source=await readRevision(id,target);const hash=await sha256(canonical({type:'restore',id,base,target}));return commitSnapshot(id,member,source.answers,base,mutation,hash,'draft',{}, {action:'restore',reason:'שחזור גרסה '+target,fieldIds:[]});}
 
-export async function getMembers(){await requireCoordinator();const result=await database().prepare('SELECT subject,role,system_ids AS systemIds,active,created_at AS createdAt FROM memberships ORDER BY created_at').all<{subject:string;role:Session['role'];systemIds:string;active:number;createdAt:string}>();return {members:result.results.map(row=>({...row,systemIds:JSON.parse(row.systemIds),active:!!row.active}))};}
+export async function getMembers(){await requireAdmin();const result=await database().prepare('SELECT subject,role,system_ids AS systemIds,active,created_at AS createdAt FROM memberships ORDER BY created_at').all<{subject:string;role:Session['role'];systemIds:string;active:number;createdAt:string}>();return {members:result.results.map(row=>({...row,systemIds:JSON.parse(row.systemIds),active:!!row.active}))};}
 export async function updateMember(body:Record<string,unknown>){
-  const actor=await requireCoordinator(),subject=String(body.subject??''),role=String(body.role??''),scope=body.systemIds;
+  const actor=await requireAdmin(),subject=String(body.subject??''),role=String(body.role??''),scope=body.systemIds;
   if(subject.length<5||subject.length>255||/[\s<>@]/.test(subject))throw new ApiError(400,'יש להזין מזהה חשבון פנימי תקין; אין להזין שם או דואר אלקטרוני.');
   if(!['contributor','reviewer','coordinator'].includes(role)||!Array.isArray(scope)||scope.some(v=>typeof v!=='string'||!getSystem(v)))throw new ApiError(400,'יש לבחור תפקיד ומערכות תקינים.');
   if(role!=='coordinator'&&scope.length===0&&body.active!==false)throw new ApiError(400,'יש להקצות לפחות מערכת אחת.');
@@ -420,7 +422,7 @@ function readEditorialExpectations(body:Record<string,unknown>,incoming:ImportSy
 }
 function importSystemDigest(mode:ImportMode,incoming:ImportSystem,base:number,expectations?:EditorialExpectations){return sha256(importModeDigest(mode,mode==='editorial_revision'?{system:incoming,baseRevision:base,...expectations}:incoming));}
 export async function getImportGaps(){
- await requireCoordinator();
+ await requireAdmin();
  const result=await Promise.all(systems.map(async system=>{
   const current=await readSystem(system.id),protectedFields=await importProtectedFields(system.id,current),emptyFields=[],preservedFields=[];
   for(const field of getFields(system.id)){
@@ -433,7 +435,7 @@ export async function getImportGaps(){
  return {mode:'weekly_empty_fill',schemaVersion:SCHEMA_VERSION,generatedAt:new Date().toISOString(),systems:result,totals:{systems:result.length,empty:result.reduce((n,s)=>n+s.counts.empty,0),preserved:result.reduce((n,s)=>n+s.counts.preserved,0),weeklyImportable:result.reduce((n,s)=>n+s.counts.weeklyImportable,0)}};
 }
 export async function previewSourceImport(input:unknown,modeInput:unknown='manual'){
- await requireCoordinator();const mode=parseImportMode(modeInput),batch=parseImportBatch(input,importFields),digest=await sha256(importModeDigest(mode,batch));
+ await requireAdmin();const mode=parseImportMode(modeInput),batch=parseImportBatch(input,importFields),digest=await sha256(importModeDigest(mode,batch));
  const previews=[];
  for(const incoming of batch.systems){
   if(mode==='weekly_empty_fill')validateWeeklyImport(incoming,getFields(incoming.id));
@@ -448,7 +450,7 @@ export async function previewSourceImport(input:unknown,modeInput:unknown='manua
  return {mode,batchId:batch.batchId,digest,systems:previews,totals:{systems:previews.length,import:previews.reduce((n,s)=>n+s.importCount,0),preserve:previews.reduce((n,s)=>n+s.skipCount,0),sources:previews.reduce((n,s)=>n+s.sourceCount,0)}};
 }
 export async function applySourceImport(body:Record<string,unknown>){
- const member=await requireCoordinator(),mode=parseImportMode(body.mode),batchId=validateBatchId(body.batchId),incoming=parseImportSystem(body.system,importFields),base=requireRevision(body.baseRevision),mutation=requireMutation(body.mutationId),expectations=mode==='editorial_revision'?readEditorialExpectations(body,incoming):undefined,systemDigest=await importSystemDigest(mode,incoming,base,expectations);
+ const member=await requireAdmin(),mode=parseImportMode(body.mode),batchId=validateBatchId(body.batchId),incoming=parseImportSystem(body.system,importFields),base=requireRevision(body.baseRevision),mutation=requireMutation(body.mutationId),expectations=mode==='editorial_revision'?readEditorialExpectations(body,incoming):undefined,systemDigest=await importSystemDigest(mode,incoming,base,expectations);
  if(mode==='weekly_empty_fill')validateWeeklyImport(incoming,getFields(incoming.id));
  if(typeof body.batchDigest!=='string'||!/^[a-f0-9]{64}$/.test(body.batchDigest)||body.systemDigest!==systemDigest)throw new ApiError(400,'תוכן הייבוא או מצב הייבוא השתנו מאז התצוגה המקדימה. יש לבדוק את החבילה מחדש.');
  const expectedMutation=await importMutation(mode,batchId,incoming.id);if(mutation!==expectedMutation)throw new ApiError(400,'מזהה פעולת הייבוא אינו תואם לחבילה ולמצב הייבוא.');

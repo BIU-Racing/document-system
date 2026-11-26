@@ -34,17 +34,17 @@ function fixture(t){
  return {sql,db,server,helper,entry,logout,post,as,enter,sitesReads:()=>sitesReads};
 }
 
-test('email entry creates unverified contributor sessions with independent subjects and no stored address or raw token',async t=>{
+test('email entry creates unverified full-access team sessions with independent subjects and no stored address or raw token',async t=>{
  const f=fixture(t),one=await f.enter('Owner@LIVE.BIU.AC.IL','',{subject:'owner-fixture',role:'coordinator',emailVerified:true,systemIds:['COORDINATOR']}),two=await f.enter('Owner@LIVE.BIU.AC.IL');
  assert.equal(one.response.status,200);assert.equal(one.response.headers.get('cache-control'),'private, no-store');
- assert.equal(one.body.role,'contributor');assert.equal(one.body.authMethod,'email_entry');assert.equal(one.body.emailVerified,false);assert.equal(one.body.systemIds.length,22);assert.equal(one.body.systemIds.includes('COORDINATOR'),false);
+ assert.equal(one.body.role,'coordinator');assert.equal(one.body.authMethod,'email_entry');assert.equal(one.body.emailVerified,false);assert.equal(one.body.systemIds.length,22);assert.equal(one.body.systemIds.includes('COORDINATOR'),false);
  assert.notEqual(one.body.subject,'owner-fixture');assert.notEqual(one.body.subject,two.body.subject);assert.notEqual(one.cookie,two.cookie);
  const token=one.cookie.split('=')[1],rows=f.sql.prepare('SELECT * FROM email_entry_sessions').all();
  assert.match(token,/^[a-f0-9]{64}$/);assert.equal(rows[0].token_hash,await f.helper.emailEntryTokenHash(token));assert.notEqual(rows[0].token_hash,token);assert.ok(rows[0].expires_at>Date.now()+13*86400000);
  assert.equal(JSON.stringify(rows).includes(token),false);assert.equal(JSON.stringify(f.sql.prepare('SELECT * FROM memberships').all()).includes('@'),false);
  assert.equal(JSON.stringify(one.body).includes('@'),false);assert.equal(f.sql.prepare("SELECT COUNT(*) n FROM audit_events WHERE action='self_declared_email_entry'").get().n,2);
  assert.match(one.response.headers.get('set-cookie'),/HttpOnly/);assert.match(one.response.headers.get('set-cookie'),/SameSite=Lax/);assert.match(one.response.headers.get('set-cookie'),/Secure/);assert.match(one.response.headers.get('set-cookie'),/Path=\//);assert.match(one.response.headers.get('set-cookie'),/Max-Age=1209600/);
- const current=await f.as(one.cookie,()=>f.server.session(),{userId:'owner-fixture',email:'owner@example.invalid'});assert.equal(current.subject,one.body.subject);assert.equal(current.role,'contributor');assert.equal(f.sitesReads(),0);
+ const current=await f.as(one.cookie,()=>f.server.session(),{userId:'owner-fixture',email:'owner@example.invalid'});assert.equal(current.subject,one.body.subject);assert.equal(current.role,'coordinator');assert.equal(f.sitesReads(),0);
 });
 
 test('entry rejects nonmatching addresses, malformed bodies, oversized requests and cross-origin writes before creating a member',async t=>{
@@ -58,15 +58,21 @@ test('entry rejects nonmatching addresses, malformed bodies, oversized requests 
  f.sql.prepare('DELETE FROM workspace').run();assert.equal((await f.enter()).response.status,503);assert.equal(f.sql.prepare('SELECT COUNT(*) n FROM memberships').get().n,1);
 });
 
-test('entry contributors can save all systems but cannot review, administer or access coordinator content',async t=>{
+test('team members (no team code) edit everything incl. coordinator content and reviews, but never administer',async t=>{
  const f=fixture(t),one=await f.enter(),two=await f.enter();
+ assert.equal(one.response.status,200,'no team code is required');
  const saved=await f.as(one.cookie,()=>f.server.saveSystem('TSAL',{baseRevision:0,mutationId:'email_entry_save_001',answers:{'EP-C01-F01':{status:'answered',value:'isolated test fixture'}}}));
  assert.equal(saved.answers['EP-C01-F01'].value,'isolated test fixture');assert.equal((await f.as(two.cookie,()=>f.server.readSystem('TSAL'))).revision,1);
  await assert.rejects(()=>f.as(two.cookie,()=>f.server.saveSystem('TSAL',{baseRevision:0,mutationId:'email_entry_save_002',answers:{'EP-C01-F01':{status:'answered',value:'conflicting test fixture'}}})),error=>error.status===409);
- for(const operation of [()=>f.server.requireCoordinator(),()=>f.server.requireAccess('COORDINATOR'),()=>f.server.updateMember({subject:one.body.subject,role:'coordinator'}),()=>f.server.previewSourceImport({}),()=>f.server.reviewSystem('TSAL',{action:'approve',baseRevision:1,reason:'fixture',fieldIds:['EP-C01-F01']})])await assert.rejects(()=>f.as(one.cookie,operation),error=>error.status===403);
+ assert.equal((await f.as(one.cookie,()=>f.server.requireCoordinator())).subject,one.body.subject);
+ assert.equal((await f.as(one.cookie,()=>f.server.requireAccess('COORDINATOR'))).role,'coordinator');
+ const submitted=await f.as(one.cookie,()=>f.server.reviewSystem('TSAL',{action:'submit',baseRevision:1,mutationId:'email_entry_review_01'}));
+ const approved=await f.as(two.cookie,()=>f.server.reviewSystem('TSAL',{action:'approve',baseRevision:submitted.revision,reason:'fixture',fieldIds:['EP-C01-F01'],mutationId:'email_entry_review_02'}));
+ assert.equal(approved.review.fields['EP-C01-F01'].verdict,'approved','any team member may give engineering approval');
+ for(const operation of [()=>f.server.getMembers(),()=>f.server.updateMember({subject:one.body.subject,role:'coordinator'}),()=>f.server.previewSourceImport({}),()=>f.server.getImportGaps()])await assert.rejects(()=>f.as(one.cookie,operation),error=>error.status===403);
  const actors=f.sql.prepare('SELECT actor FROM revisions').all();assert.equal(actors[0].actor,one.body.subject);
  f.sql.prepare("UPDATE memberships SET role='coordinator',system_ids='[\"COORDINATOR\"]' WHERE subject=?").run(one.body.subject);
- assert.equal((await f.as(one.cookie,()=>f.server.session())).role,'contributor');await assert.rejects(()=>f.as(one.cookie,()=>f.server.requireCoordinator()),error=>error.status===403);
+ assert.equal((await f.as(one.cookie,()=>f.server.session())).authMethod,'email_entry');await assert.rejects(()=>f.as(one.cookie,()=>f.server.updateMember({subject:one.body.subject,role:'coordinator'})),error=>error.status===403,'editing the database row never grants administration');
  f.sql.prepare("UPDATE memberships SET auth_source='manual' WHERE subject=?").run(one.body.subject);await assert.rejects(()=>f.as(one.cookie,()=>f.server.session()),error=>error.status===401);
 });
 
@@ -85,7 +91,7 @@ test('disabled, absent, expired, revoked and forged entry identities fail withou
 test('reentry rotates and revokes the old token, signout is same-origin, durable and idempotent',async t=>{
  const f=fixture(t),one=await f.enter(),two=await f.enter('second@live.biu.ac.il',one.cookie);
  await assert.rejects(()=>f.as(one.cookie,()=>f.server.session()),error=>error.status===401);assert.equal((await f.as(two.cookie,()=>f.server.session())).subject,two.body.subject);
- assert.equal((await f.post(f.logout,{},two.cookie,'https://other.invalid')).status,403);assert.equal((await f.as(two.cookie,()=>f.server.session())).role,'contributor');
+ assert.equal((await f.post(f.logout,{},two.cookie,'https://other.invalid')).status,403);assert.equal((await f.as(two.cookie,()=>f.server.session())).role,'coordinator');
  const response=await f.post(f.logout,{},two.cookie);assert.equal(response.status,200);assert.match(response.headers.get('set-cookie'),/Max-Age=0/);assert.match(response.headers.get('set-cookie'),/HttpOnly/);assert.match(response.headers.get('set-cookie'),/Secure/);
  await assert.rejects(()=>f.as(two.cookie,()=>f.server.session()),error=>error.status===401);assert.equal((await f.post(f.logout,{},two.cookie)).status,200);assert.equal((await f.post(f.logout)).status,200);
  assert.equal(f.sql.prepare('SELECT COUNT(*) n FROM email_entry_sessions WHERE revoked_at IS NULL').get().n,0);
