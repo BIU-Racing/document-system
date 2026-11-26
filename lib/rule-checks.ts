@@ -12,6 +12,7 @@
  * Pure and client-safe. Electrical scope first (EV and T 11); see docs/rule-checks.md.
  */
 import type { Answer, TableRow } from './progress';
+import { isolateLtr } from './bidi';
 
 export const RULEBOOK = { title: 'Formula Student Rules 2027', version: '1.0', file: 'FS_Rules_2027_v1.0.pdf' } as const;
 
@@ -182,7 +183,7 @@ export const ruleInputs: RuleRef[] = [...new Map(checks.flatMap(check => [check.
 
 /** Static rule notes for a field, shown even before anything is entered. */
 export function rulesFor(systemId: string, fieldId: string) {
-  return [...new Map(checks.filter(check => check.target.systemId === systemId && check.target.fieldId === fieldId).map(check => [check.rule, { rule: check.rule, page: check.page, summary: check.summary }])).values()];
+  return [...new Map(checks.filter(check => check.target.systemId === systemId && check.target.fieldId === fieldId).map(check => [check.rule, { rule: check.rule, page: check.page, summary: isolateLtr(check.summary) }])).values()];
 }
 
 export function evaluateRules(answers: RuleAnswers): RuleResult[] {
@@ -196,7 +197,8 @@ export function evaluateRules(answers: RuleAnswers): RuleResult[] {
   const out: RuleResult[] = [];
   for (const check of checks) {
     const results = check.evaluate(get);
-    for (const result of Array.isArray(results) ? results : [results]) out.push({ ...result, checkId: check.id, rule: check.rule, page: check.page, summary: check.summary, systemId: check.target.systemId, fieldId: check.target.fieldId });
+    // Messages mix Hebrew with numbers and units; isolate those runs so they never display reversed.
+    for (const result of Array.isArray(results) ? results : [results]) out.push({ ...result, message: isolateLtr(result.message), checkId: check.id, rule: check.rule, page: check.page, summary: isolateLtr(check.summary), systemId: check.target.systemId, fieldId: check.target.fieldId });
   }
   return out;
 }

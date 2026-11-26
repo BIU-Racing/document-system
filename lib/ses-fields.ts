@@ -10,6 +10,7 @@
  */
 import registry from '@/data/ses-fixed-fields.json';
 import curation from '@/data/ses-field-curation.json';
+import { isolateLtr } from './bidi';
 
 export type SesValueKind = 'number' | 'select' | 'text';
 export type SesFixedEntry = {
@@ -66,8 +67,8 @@ function buildFields(): SesFixedField[] {
     const kind = entry.valueKind === 'select' ? 'select' : 'text';
     const field: SesFixedField = {
       id,
-      label: contextHebrew ? `${labelHebrew} · ${contextHebrew}` : labelHebrew,
-      prompt: `בתבנית הרשמית: "${entry.label}"${contextEnglish ? ` (${contextEnglish})` : ''}. ${entry.valueKind === 'number' ? 'יש להזין מספר בלבד' + (entry.unit ? `, ביחידות ${entry.unit}` : '') + '. פירוט נוסף נכתב בהערות.' : entry.valueKind === 'select' ? 'יש לבחור מתוך הרשימה של התבנית.' : 'טקסט חופשי; עברית תתורגם לאנגלית לפני הייצוא.'}`,
+      label: isolateLtr(contextHebrew ? `${labelHebrew} · ${contextHebrew}` : labelHebrew),
+      prompt: isolateLtr(`בתבנית הרשמית: "${entry.label}"${contextEnglish ? ` (${contextEnglish})` : ''}. ${entry.valueKind === 'number' ? 'יש להזין מספר בלבד' + (entry.unit ? `, ביחידות ${entry.unit}` : '') + '. פירוט נוסף נכתב בהערות.' : entry.valueKind === 'select' ? 'יש לבחור מתוך הרשימה של התבנית.' : 'טקסט חופשי; עברית תתורגם לאנגלית לפני הייצוא.'}`),
       kind, type: kind,
       section: sesSheetTitle(entry.sheet),
       ...(entry.unit ? { unit: entry.unit } : {}),

@@ -1,9 +1,10 @@
 'use client';
 import { coverage } from '@/lib/catalog';
 import { fieldDestinations, formatRanges, type Destination, type LocationField } from '@/lib/official-location';
+import { isolateLtr } from '@/lib/bidi';
 
 const modeNote: Record<Exclude<Destination['mode'], 'auto'>, string> = {
-  evidence: 'קובץ או ראיה: לא נכתב לתא, יש לשבץ ב־Excel ידנית',
+  evidence: isolateLtr('קובץ או ראיה: לא נכתב לתא, יש לשבץ ידנית בקובץ Excel'),
   manual: 'לא נכתב אוטומטית: המיפוי דורש הכרעה',
   restricted: 'פרטי קשר: ממולא ידנית',
 };
@@ -20,14 +21,14 @@ export function FieldLocations({ systemId, field }: { systemId: string; field: L
   const result = fieldDestinations(systemId, field, coverage.entries);
 
   if (result.type === 'none') return <div className="field-location field-location-none">
-    <p><span className="field-location-label">לא נכתב לאף מסמך רשמי.</span> התשובה נשמרת בתיק המערכת ובדוח, אבל לא בקובצי ESF ,ASES או SES.</p>
+    <p><span className="field-location-label">לא נכתב לאף מסמך רשמי.</span> {isolateLtr('התשובה נשמרת בתיק המערכת ובדוח, אבל לא בקבצים ESF, ASES או SES.')}</p>
   </div>;
 
   if (result.type === 'chosen_cell') return <div className="field-location field-location-warn">
-    <p><span className="field-location-label">נכתב ל־SES לתא שתבחרו:</span>
+    <p><span className="field-location-label">{isolateLtr('נכתב ל־SES לתא שתבחרו:')}</span>
       <span className="field-location-item">{result.href ? <a href={result.href} target="_blank" rel="noopener"><bdi dir="ltr">SES › {result.sheet}</bdi> <span aria-hidden="true">↗</span></a> : <bdi dir="ltr">SES › {result.sheet}</bdi>}</span>
     </p>
-    <small>ל־SES עדיין אין מיפוי קבוע: כתובת התא שמקלידים בכל שורה היא זו שתיכתב. בדקו אותה מול הגיליון.</small>
+    <small>{isolateLtr('ל־SES אין מיפוי קבוע לאזור הזה: כתובת התא שמקלידים בכל שורה היא זו שתיכתב. בדקו אותה מול הגיליון.')}</small>
   </div>;
 
   const automatic = result.destinations.filter(item => item.mode === 'auto');

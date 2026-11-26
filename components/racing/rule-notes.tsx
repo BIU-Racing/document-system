@@ -1,5 +1,6 @@
 'use client';
 import { RULEBOOK, rulesFor, type RuleResult } from '@/lib/rule-checks';
+import { isolateLtr } from '@/lib/bidi';
 
 const icon: Record<RuleResult['status'], string> = { ok: '✓', violation: '✗', notice: '!', pending: '·' };
 
@@ -12,7 +13,7 @@ export function RuleNotes({ systemId, fieldId, results }: { systemId: string; fi
     {rules.map(rule => <p key={rule.rule} className="rule-text">
       <span className="rule-badge" dir="ltr">{rule.rule}</span>
       <span>{rule.summary}</span>
-      <small>עמוד <bdi>{rule.page}</bdi> ב־<bdi dir="ltr">{RULEBOOK.title}</bdi></small>
+      <small>{isolateLtr(`עמוד ${rule.page} בספר החוקים ${RULEBOOK.title}`)}</small>
     </p>)}
     {shown.length > 0 && <ul className="rule-results">
       {shown.map((result, index) => <li key={result.checkId + (result.rowId ?? '') + index} className={`rule-result ${result.status}`} role={result.status === 'violation' ? 'alert' : undefined}>

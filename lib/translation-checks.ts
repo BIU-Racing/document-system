@@ -7,6 +7,7 @@
  * Pure and client-safe.
  */
 import glossaryData from '@/data/fs-glossary.json';
+import { isolateLtr } from './bidi';
 
 export type TranslationWarningCode = 'number_missing' | 'unit_changed' | 'sentence_missing' | 'negation_lost' | 'obligation_weakened' | 'term_wrong' | 'term_missing' | 'hebrew_left';
 export type TranslationWarning = { code: TranslationWarningCode; detail: string };
@@ -69,7 +70,7 @@ export function checkTranslation(hebrew: string, english: string): TranslationWa
     if (wrong) warnings.push({ code: 'term_wrong', detail: `"${term.he}" תורגם "${wrong}". המונח המקובל: ${term.expect[0]}` });
     else if (!term.expect.some(item => englishLower.includes(lower(item)))) warnings.push({ code: 'term_missing', detail: `"${term.he}" צפוי להופיע כ־${term.expect[0]}` });
   }
-  return [...new Map(warnings.map(warning => [warning.code + warning.detail, warning])).values()];
+  return [...new Map(warnings.map(warning => [warning.code + warning.detail, { ...warning, detail: isolateLtr(warning.detail) }])).values()];
 }
 
 /** Checks a whole answer: plain text, or every translated table cell. */
