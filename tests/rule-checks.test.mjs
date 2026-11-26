@@ -187,3 +187,11 @@ test('SES fields get rule notes in the SES editor', () => {
   assert.deepEqual(rulesFor('SES', ses('T3.9 Main Hoop Tubing', 'D14')).map(item => item.rule), ['T 3.2.1']);
   assert.ok(ruleChecks.filter(check => check.target.systemId === 'SES').length > 100);
 });
+
+test('results carry a compact table: entered against required', () => {
+  const id = `RC-TUBE-${ses('T3.9 Main Hoop Tubing', 'D14').replace('SESX-', '')}`;
+  const tube = one({ SES: { [ses('T3.9 Main Hoop Tubing', 'D13')]: a('25'), [ses('T3.9 Main Hoop Tubing', 'D14')]: a('1.75') } }, id);
+  assert.deepEqual(tube.table.map(line => [line.value, line.required, line.ok]), [['1.75 mm', '≥ 2 mm', false], ['128 mm²', '≥ 173 mm²', false], ['8686 mm⁴', '≥ 11320 mm⁴', false]]);
+  assert.deepEqual(one({ TSAL: { 'RC-TSAL-FREQUENCY': a('4') } }, 'RC-23').table.map(line => [line.value, line.required, line.ok]), [['4 Hz', '2–5 Hz', true]]);
+  assert.equal(one({ IMD: {} }, 'RC-03').table, undefined, 'pending results have no table');
+});

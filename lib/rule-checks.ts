@@ -17,7 +17,7 @@ import { type Check, type Getter, type Meta, type RuleAnswers, type RuleRef, typ
 import { structuralChecks } from './rule-checks-structural';
 
 export { numberFrom } from './rule-check-kit';
-export type { RuleStatus, RuleRef, RuleResult, RuleAnswers } from './rule-check-kit';
+export type { RuleStatus, RuleRef, RuleResult, RuleAnswers, RuleRow } from './rule-check-kit';
 export const RULEBOOK = { title: 'Formula Student Rules 2027', version: '1.0', file: 'FS_Rules_2027_v1.0.pdf' } as const;
 
 // New numeric fields added for these checks (lib/rule-fields.ts).
@@ -69,7 +69,7 @@ const checks: Check[] = [
     target: ref('ACCUMULATOR', 'CARD-FG-ASES-S20-OPEN-01'),
     evaluate: get => get.rows(ref('ACCUMULATOR', 'CARD-FG-ASES-S20-OPEN-01')).map((row, rowIndex) => {
       const result = maxCheck(numberFrom(row[`LC-FG-ASES-S20-OPEN-01-SECTION-${column}`]), limit, unit, 'EV 5.3.4');
-      return { ...result, message: `שורה ${rowIndex + 1}, ${name}: ${result.message}`, rowId: row._id };
+      return { ...result, message: `שורה ${rowIndex + 1}, ${name}: ${result.message}`, rowId: row._id, ...('table' in result ? { table: result.table.map(line => ({ ...line, label: `שורה ${rowIndex + 1} · ${name}` })) } : {}) };
     }),
   })),
   { id: 'RC-10', rule: 'EV 5.3.4', page: 78, summary: 'מתח ואנרגיה למקטע, מחושבים מנתוני התאים: עד 120 V DC ועד 6 MJ (אנרגיית תא = מתח מרבי × קיבולת).', target: C('LC-ESF-Accumulator-segments-C'),
@@ -182,7 +182,7 @@ export function evaluateRules(answers: RuleAnswers): RuleResult[] {
   for (const check of checks) {
     const results = check.evaluate(get);
     // Messages mix Hebrew with numbers and units; isolate those runs so they never display reversed.
-    for (const result of Array.isArray(results) ? results : [results]) out.push({ ...result, message: isolateLtr(result.message), checkId: check.id, rule: check.rule, page: check.page, summary: isolateLtr(check.summary), systemId: check.target.systemId, fieldId: check.target.fieldId });
+    for (const result of Array.isArray(results) ? results : [results]) out.push({ ...result, message: isolateLtr(result.message), ...(result.table ? { table: result.table.map(line => ({ ...line, label: isolateLtr(line.label) })) } : {}), checkId: check.id, rule: check.rule, page: check.page, summary: isolateLtr(check.summary), systemId: check.target.systemId, fieldId: check.target.fieldId });
   }
   return out;
 }
