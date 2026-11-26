@@ -74,11 +74,11 @@ function parseCsvLine(line) {
 
 // ---------------------------------------------------------------- exporter (real code)
 const esbuild = require('esbuild');
-const built = esbuild.buildSync({ entryPoints: ['lib/official-workbooks.ts'], bundle: true, platform: 'node', format: 'cjs', target: 'node22', write: false, logLevel: 'silent' });
+const built = esbuild.buildSync({ stdin: { contents: "export * from './lib/official-workbooks'; export { sesFixedFields } from './lib/ses-fields';", resolveDir: root, loader: 'ts' }, bundle: true, platform: 'node', format: 'cjs', target: 'node22', write: false, logLevel: 'silent' });
 const bundleFile = path.resolve('lib/mapping-certificate-bundle.cjs');
 const bundle = new Module(bundleFile, null); bundle.filename = bundleFile; bundle.paths = Module._nodeModulePaths(path.resolve('lib'));
 bundle._compile(built.outputFiles[0].text, bundleFile);
-const { buildOfficialWorkbook, numericTargetById } = bundle.exports;
+const { buildOfficialWorkbook, numericTargetById, sesFixedFields } = bundle.exports;
 
 const canonical = v => Array.isArray(v) ? '[' + v.map(canonical).join(',') + ']' : v && typeof v === 'object' ? '{' + Object.entries(v).sort(([a], [b]) => a.localeCompare(b)).map(([k, x]) => JSON.stringify(k) + ':' + canonical(x)).join(',') + '}' : JSON.stringify(v) ?? 'null';
 const sha = value => crypto.createHash('sha256').update(value).digest('hex');
@@ -263,13 +263,82 @@ for (const kind of ['esf', 'ases']) {
   console.log(kind.toUpperCase(), JSON.stringify(counts));
 }
 
-// ---------------------------------------------------------------- SES (no fixed mapping)
-const sesRows = systems.find(system => system.id === 'SES').fields.map(field => ({
-  section: field.section, question: field.label, fieldId: field.id, kind: field.kind === 'file' ? 'קובץ / ראיה' : 'טבלה: המשתמש מקליד כתובת תא',
-  sheet: field.officialTemplate?.sheet ?? '', ranges: (field.officialTemplate?.editableRanges ?? []).join(', '),
-  status: field.kind === 'file' ? 'NOT_WRITTEN' : 'NO_FIXED_MAPPING',
-}));
-summary.documents.SES = { fields: sesRows.length, noFixedMapping: sesRows.filter(r => r.status === 'NO_FIXED_MAPPING').length, files: sesRows.filter(r => r.status === 'NOT_WRITTEN').length };
+// ---------------------------------------------------------------- SES (fixed single-value cells)
+{
+  const template = templates.ses;
+  const original = unzipSync(Buffer.from(template.base64, 'base64'));
+  const originalShared = sharedStrings(original);
+  const values = {}, expected = new Map(), serialOf = new Map();
+  for (const field of sesFixedFields) {
+    const kind = field.sesFixed.valueKind, options = (field.options ?? []).map(option => option.value);
+    serialOf.set(field.id, serial);
+    let value;
+    // Construction-type selectors take the option that shows both tube and composite inputs.
+    if (field.sesFixed.englishLabel === 'Enter construction type' && options.includes('Tubes + composite')) value = 'Tubes + composite';
+    else if (kind === 'select') value = options[0];
+    else if (kind === 'number') value = String(1000 + serial);
+    else value = `${marker(serial)} SES`;
+    serial++;
+    values[field.id] = { status: 'answered', sourceReview: 'confirmed', value };
+  }
+  const build = async () => {
+    const snapshot = { id: 'SES', answers: values, revision: 1, status: 'draft', attachments: [], review: { fields: {} } };
+    return buildOfficialWorkbook({ kind: 'ses', snapshots: [snapshot], generatedAt: '2026-11-26T00:00:00.000Z' });
+  };
+  // Some numeric cells carry an Excel range rule; a refused synthetic number is replaced by the
+  // template's own value (or 1) once, so the cell itself is still exercised.
+  let workbook = await build();
+  for (const result of workbook.report.fields) {
+    const field = sesFixedFields.find(item => item.id === result.fieldId);
+    if (field && result.status === 'invalid_value' && field.sesFixed.valueKind === 'number') {
+      const fallback = typeof field.sesFixed.templateValue === 'number' ? field.sesFixed.templateValue : 1;
+      values[field.id] = { ...values[field.id], value: String(fallback) };
+    }
+  }
+  workbook = await build();
+  for (const field of sesFixedFields) {
+    const raw = values[field.id].value;
+    expected.set(field.id, field.sesFixed.valueKind === 'number' ? String(Number(raw)) : raw);
+  }
+  fs.writeFileSync(path.join(outDir, 'SES-marked.xlsx'), Buffer.from(workbook.bytes));
+  const produced = unzipSync(workbook.bytes), producedShared = sharedStrings(produced);
+  const accounted = new Set(workbook.report.writtenCells.map(write => write.sheet + '!' + write.cell));
+  const unexpected = [];
+  const producedCells = new Map();
+  for (const sheet of template.sheets) {
+    const before = readSheet(original, sheet.path, originalShared), after = readSheet(produced, sheet.path, producedShared);
+    producedCells.set(sheet.name, after);
+    for (const ref of new Set([...before.keys(), ...after.keys()])) {
+      const a = before.get(ref), b = after.get(ref);
+      if ((a?.value ?? null) !== (b?.value ?? null) || !!a?.formula !== !!b?.formula) {
+        if (a?.formula && b?.formula) continue;
+        if (!accounted.has(sheet.name + '!' + ref)) unexpected.push(sheet.name + '!' + ref);
+      }
+    }
+  }
+  const report = new Map(workbook.report.fields.map(field => [field.fieldId, field]));
+  const counts = { mapped: sesFixedFields.length, written: 0, failed: 0, notWritten: 0, unexpectedChangedCells: unexpected.length };
+  for (const field of sesFixedFields) {
+    const result = report.get(field.id), want = expected.get(field.id), sheet = field.officialTemplate.sheet, cell = field.officialTemplate.cell;
+    const got = producedCells.get(sheet)?.get(cell);
+    let status, detail = '';
+    if (result?.status === 'written' && result.writtenCells.length === 1 && result.writtenCells[0] === cell && got?.value === want && !got.formula) { status = 'OK'; counts.written++; }
+    else if (result?.status === 'written') { status = 'FAIL'; detail = `נמצא "${got?.value ?? ''}" במקום "${want}"`; counts.failed++; }
+    else { status = 'FAIL'; detail = 'לא נכתב: ' + (result?.status ?? 'חסר') + (result?.status === 'invalid_value' ? ' (הערך נדחה גם בניסיון השני)' : ''); counts.failed++; }
+    rows.push({
+      document: 'SES', marker: field.sesFixed.valueKind === 'text' ? marker(serialOf.get(field.id)) : '', testValue: want,
+      system: 'SES', systemId: 'SES', section: field.section, question: field.label, fieldId: field.id, controlId: field.id,
+      cell: `${sheet}!${cell}`, rowLabel: field.sesFixed.englishLabel, columnHeader: field.sesFixed.englishContext,
+      status, detail, qaResult: '', qaLabel: '', qaNote: '',
+    });
+  }
+  if (unexpected.length) counts.unexpectedSample = unexpected.slice(0, 20);
+  const legacy = systems.find(system => system.id === 'SES').fields;
+  counts.manualTables = legacy.filter(field => field.kind === 'table').length;
+  counts.files = legacy.filter(field => field.kind === 'file').length;
+  summary.documents.SES = { file: 'SES-marked.xlsx', ...counts };
+  console.log('SES', JSON.stringify(counts));
+}
 
 // ---------------------------------------------------------------- fields that reach no document
 const mappedKeys = new Set(coverage.filter(e => e.fieldId).map(e => (e.systemId ?? 'COORDINATOR') + ':' + e.fieldId));
@@ -309,12 +378,12 @@ const summarySheet = {
     [['נוצר מנתונים סינתטיים בלבד, עם מנוע הייצוא האמיתי. ' + summary.generatedAt.slice(0, 10), STYLE.muted]],
     [],
     [['', STYLE.header], ['ESF', STYLE.header], ['ASES', STYLE.header], ['SES', STYLE.header]],
-    [['רשומות מיפוי בתבנית'], [counts('ESF').mapped], [counts('ASES').mapped], [counts('SES').fields]],
-    [['✓ נכתבו לתא הממופה ונקראו בחזרה מהקובץ', STYLE.ok], [counts('ESF').written], [counts('ASES').written], [0]],
-    [['✗ שגיאות כתיבה', STYLE.fail], [counts('ESF').failed], [counts('ASES').failed], [0]],
+    [['רשומות מיפוי בתבנית'], [counts('ESF').mapped], [counts('ASES').mapped], [counts('SES').mapped]],
+    [['✓ נכתבו לתא הממופה ונקראו בחזרה מהקובץ', STYLE.ok], [counts('ESF').written], [counts('ASES').written], [counts('SES').written]],
+    [['✗ שגיאות כתיבה', STYLE.fail], [counts('ESF').failed], [counts('ASES').failed], [counts('SES').failed]],
     [['— לא נכתבים אוטומטית (קבצים, הכרעות מיפוי, פרטי קשר)', STYLE.muted], [counts('ESF').notWritten], [counts('ASES').notWritten], [counts('SES').files]],
-    [['! אין מיפוי קבוע (המשתמש מקליד כתובת תא)', STYLE.warn], [0], [0], [counts('SES').noFixedMapping]],
-    [['תאים אחרים בקובץ שהשתנו בלי הסבר', counts('ESF').unexpectedChangedCells + counts('ASES').unexpectedChangedCells ? STYLE.fail : STYLE.ok], [counts('ESF').unexpectedChangedCells], [counts('ASES').unexpectedChangedCells], ['']],
+    [['! טבלאות "תאים נוספים" עם כתובת ידנית (אזורים גדולים, לא חובה)', STYLE.warn], [0], [0], [counts('SES').manualTables]],
+    [['תאים אחרים בקובץ שהשתנו בלי הסבר', counts('ESF').unexpectedChangedCells + counts('ASES').unexpectedChangedCells + counts('SES').unexpectedChangedCells ? STYLE.fail : STYLE.ok], [counts('ESF').unexpectedChangedCells], [counts('ASES').unexpectedChangedCells], [counts('SES').unexpectedChangedCells]],
     [],
     [[`שדות באפליקציה שלא נכתבים לאף מסמך רשמי: ${unmapped.length} מתוך ${totalFields} (ללא SES)`, STYLE.warn]],
     [],
@@ -326,15 +395,11 @@ const summarySheet = {
     [['"✓ נכתב לתא הממופה" מוכיח שהמערכת כותבת לתא שהוגדר. רק בדיקה אנושית מוכיחה שהתא נכון הנדסית.', STYLE.wrap]],
   ],
 };
-const sesSheet = {
-  name: 'SES', columns: [['פרק', 24], ['השאלה באפליקציה', 44], ['סוג', 30], ['גיליון', 24], ['טווח מותר', 30], ['מצב', 22], ['מזהה שדה', 16]],
-  rows: sesRows.map(r => [[r.section], [r.question, STYLE.wrap], [r.kind], [r.sheet], [r.ranges, STYLE.wrap], [statusText[r.status], statusStyle[r.status]], [r.fieldId]]),
-};
 const unmappedSheet = {
   name: 'לא נכתב ל-Excel', columns: [['מערכת', 24], ['פרק', 26], ['השאלה באפליקציה', 50], ['סוג', 10], ['מזהה שדה', 18]],
   rows: unmapped.map(r => [[r.system], [r.section], [r.question, STYLE.wrap], [r.kind], [r.fieldId]]),
 };
-fs.writeFileSync(path.join(outDir, 'mapping-review.xlsx'), writeXlsx([summarySheet, docSheet('ESF'), docSheet('ASES'), sesSheet, unmappedSheet]));
+fs.writeFileSync(path.join(outDir, 'mapping-review.xlsx'), writeXlsx([summarySheet, docSheet('ESF'), docSheet('ASES'), docSheet('SES'), unmappedSheet]));
 fs.writeFileSync(path.join(outDir, 'summary.json'), JSON.stringify(summary, null, 2));
 fs.writeFileSync(path.join(outDir, 'results.json'), JSON.stringify(rows.map(({ document, controlId, systemId, fieldId, cell, status, detail }) => ({ document, controlId, systemId, fieldId, cell, status, detail })), null, 2));
 console.log('fields without an Excel cell:', unmapped.length, 'of', totalFields);

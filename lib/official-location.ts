@@ -32,7 +32,7 @@ export type LocationField = {
   needsClarification?: boolean;
   recordKeys?: string[];
   sourceInputSchema?: Record<string, unknown>;
-  officialTemplate?: { sheet: string; editableRanges: string[] };
+  officialTemplate?: { sheet: string; editableRanges: string[]; cell?: string; fixed?: boolean };
 };
 
 export type Destination = {
@@ -127,6 +127,7 @@ export function fieldDestinations(systemId: string, field: LocationField, entrie
   if (systemId === 'SES') {
     const template = field.officialTemplate;
     if (!template?.sheet) return { type: 'none' };
+    if (template.fixed && template.cell) return { type: 'cells', destinations: [{ controlId: field.id, document: 'SES', kind: 'ses', sheet: template.sheet, ranges: [template.cell], mode: 'auto', href: documentHref('ses', template.sheet, template.cell) }] };
     if (field.kind === 'file') return { type: 'cells', destinations: [{ controlId: field.id, document: 'SES', kind: 'ses', sheet: template.sheet, ranges: [], mode: 'evidence', href: documentHref('ses', template.sheet) }] };
     return { type: 'chosen_cell', document: 'SES', sheet: template.sheet, ranges: template.editableRanges ?? [], href: documentHref('ses', template.sheet) };
   }

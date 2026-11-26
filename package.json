@@ -19,6 +19,7 @@
     "catalog:check": "node scripts/generate-overview-catalog.mjs --check",
     "catalog:generate": "node scripts/generate-overview-catalog.mjs",
     "mapping:certificate": "node scripts/mapping-certificate.mjs",
+    "ses:fields": "node scripts/generate-ses-fields.mjs",
     "templates:prepare": "node scripts/prepare-templates.mjs",
     "setup:local": "npm run templates:prepare",
     "deploy": "node scripts/deploy-info.mjs",

@@ -9,12 +9,13 @@ import { execFileSync } from 'node:child_process';
 test('mapping certificate: every written field lands in its mapped cell and nothing else changes', () => {
   execFileSync(process.execPath, ['scripts/mapping-certificate.mjs'], { stdio: 'pipe' });
   const summary = JSON.parse(fs.readFileSync('outputs/mapping-certificate/summary.json', 'utf8'));
-  for (const doc of ['ESF', 'ASES']) {
+  for (const doc of ['ESF', 'ASES', 'SES']) {
     const result = summary.documents[doc];
     assert.equal(result.failed, 0, `${doc}: fields written to a wrong cell or with a wrong value`);
     assert.equal(result.unexpectedChangedCells, 0, `${doc}: cells changed that no mapping explains`);
     assert.ok(result.written > 0, `${doc}: nothing was written`);
     assert.equal(result.written + result.notWritten, result.mapped, `${doc}: every mapping entry is classified`);
+    if (doc === 'SES') assert.equal(result.written, result.mapped, 'SES: every fixed field is written to its own cell');
   }
-  for (const file of ['ESF-marked.xlsx', 'ASES-marked.xlsm', 'mapping-review.xlsx']) assert.ok(fs.existsSync('outputs/mapping-certificate/' + file), file);
+  for (const file of ['ESF-marked.xlsx', 'ASES-marked.xlsm', 'SES-marked.xlsx', 'mapping-review.xlsx']) assert.ok(fs.existsSync('outputs/mapping-certificate/' + file), file);
 });

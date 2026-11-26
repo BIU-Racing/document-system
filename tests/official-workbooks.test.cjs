@@ -157,7 +157,7 @@ test('theme indexes preserve white headers and black instruction text instead of
 
 test('SES preserves all 49 sheets and every ZIP part outside explicit cell writes and recalc metadata',async()=>{
  const field=fields('SES').find(f=>f.kind==='table'&&f.officialTemplate.sheet==='Cover Sheet');
- const s=snapshot('SES',{[field.id]:{status:'answered',value:[{_id:'ses1',[field.id+'-CELL']:'D14',[field.id+'-VALUE']:'Bar-Ilan University',[field.id+'-UNIT']:'',[field.id+'-SOURCE']:''}]}});
+ const s=snapshot('SES',{[field.id]:{status:'answered',value:[{_id:'ses1',[field.id+'-CELL']:'O24',[field.id+'-VALUE']:'Bar-Ilan University',[field.id+'-UNIT']:'',[field.id+'-SOURCE']:''}]}});
  const result=await buildOfficialWorkbook({kind:'ses',snapshots:[s]});assert.equal(result.sheets.length,49);assert.equal(result.report.fields.find(f=>f.fieldId===field.id).status,'written');
  const before=original('ses'),after=unzipSync(result.bytes);assert.deepEqual(Object.keys(before).sort(),Object.keys(after).sort());
  const allowed=new Set(result.report.changedParts);for(const name of Object.keys(before))if(!allowed.has(name))assert.deepEqual(after[name],before[name],name);
@@ -178,7 +178,7 @@ test('SES rejects out-of-range, merged non-anchor, duplicate and formula cells w
 });
 test('SES Hebrew waits for matching translation and rejects stale or changed row identity',async()=>{
  const field=fields('SES').find(f=>f.kind==='table'&&f.officialTemplate.sheet==='Cover Sheet');
- const answer={status:'answered',value:[{_id:'r1',[field.id+'-CELL']:'D14',[field.id+'-VALUE']:'אוניברסיטת בר אילן'}]},s=snapshot('SES',{[field.id]:answer});
+ const answer={status:'answered',value:[{_id:'r1',[field.id+'-CELL']:'O24',[field.id+'-VALUE']:'אוניברסיטת בר אילן'}]},s=snapshot('SES',{[field.id]:answer});
  const translated={...answer,value:[{...answer.value[0],[field.id+'-VALUE']:'Bar-Ilan University'}]},ready=translation(s,{[field.id]:translated});
  for(const state of [undefined,{...ready,sourceRevision:1},{...ready,sourceHash:'wrong'}]){
   const result=await buildOfficialWorkbook({kind:'ses',snapshots:[s],translations:state?[state]:[]});assert.equal(result.report.writtenCells.length,0);assert.equal(result.report.fields.find(f=>f.fieldId===field.id).status,'translation_pending');
@@ -187,6 +187,28 @@ test('SES Hebrew waits for matching translation and rejects stale or changed row
  const changed=translation(s,{[field.id]:{...translated,value:[{...translated.value[0],_id:'other'}]}});
  assert.equal((await buildOfficialWorkbook({kind:'ses',snapshots:[s],translations:[changed]})).report.fields.find(f=>f.fieldId===field.id).status,'source_conflict');
  assert.equal(s.answers[field.id].value[0][field.id+'-VALUE'],'אוניברסיטת בר אילן');
+});
+test('SES fixed fields write only their own cell, validate kind, and block manual addresses on fixed cells',async()=>{
+ const catalogBuild=esbuild.buildSync({entryPoints:['lib/catalog.ts'],bundle:true,platform:'node',format:'cjs',target:'node22',write:false,logLevel:'silent'});
+ const catalogModule=new Module(path.resolve('lib/catalog-test.cjs'),module);catalogModule.paths=module.paths;catalogModule._compile(catalogBuild.outputFiles[0].text,path.resolve('lib/catalog-test.cjs'));
+ const all=catalogModule.exports.getFields('SES'),byCell=(sheet,cell)=>all.find(f=>f.officialTemplate?.fixed&&f.officialTemplate.sheet===sheet&&f.officialTemplate.cell===cell);
+ const university=byCell('Cover Sheet','D14'),tubes=byCell('T3.11.5 T3.6 MHoop Brace Spt','E15'),construction=byCell('T3.11.5 T3.6 MHoop Brace Spt','F2'),core=byCell('T3.11.5 T3.6 MHoop Brace Spt','F19'),cover=all.find(f=>f.kind==='table'&&f.officialTemplate.sheet==='Cover Sheet');
+ assert.ok(university&&tubes&&construction&&core&&cover);
+ const answers={[university.id]:{status:'answered',value:'Bar-Ilan University'},[tubes.id]:{status:'answered',value:'25.40'},[construction.id]:{status:'answered',value:'Tubing only'},[core.id]:{status:'answered',value:'12'},
+  [cover.id]:{status:'answered',value:[{_id:'clash',[cover.id+'-CELL']:'D14',[cover.id+'-VALUE']:'Other University'}]}};
+ const result=await buildOfficialWorkbook({kind:'ses',snapshots:[snapshot('SES',answers)]}),status=id=>result.report.fields.find(f=>f.fieldId===id);
+ assert.equal(status(university.id).status,'written');assert.deepEqual(status(university.id).writtenCells,['D14']);
+ assert.equal(status(tubes.id).status,'written');const tube=result.report.writtenCells.find(w=>w.fieldId===tubes.id);assert.equal(tube.cell,'E15');assert.equal(tube.type,'number');assert.equal(tube.value,'25.4');
+ assert.equal(status(core.id).status,'condition_hidden','composite core is hidden for "Tubing only"');
+ const unansweredHidden=all.find(f=>f.officialTemplate?.fixed&&f.officialTemplate.sheet==='T3.11.5 T3.6 MHoop Brace Spt'&&f.officialTemplate.cell==='F20');assert.equal(status(unansweredHidden.id).status,'condition_hidden','unanswered hidden fields are not missing');
+ assert.equal(status(cover.id).status,'protected');assert.match(status(cover.id).message,/שאלה קבועה/);
+ assert.equal(result.report.writtenCells.filter(w=>w.sheet==='Cover Sheet'&&w.cell==='D14').length,1);assert.equal(result.report.writtenCells.find(w=>w.cell==='D14').value,'Bar-Ilan University');
+ const bad=await buildOfficialWorkbook({kind:'ses',snapshots:[snapshot('SES',{[tubes.id]:{status:'answered',value:'25.4 mm'},[construction.id]:{status:'answered',value:'Not a template option'}})]});
+ assert.equal(bad.report.fields.find(f=>f.fieldId===tubes.id).status,'invalid_value');assert.equal(bad.report.fields.find(f=>f.fieldId===construction.id).status,'invalid_value');assert.equal(bad.report.writtenCells.length,0);
+ const hebrew=snapshot('SES',{[university.id]:{status:'answered',value:'אוניברסיטת בר אילן'}});
+ assert.equal((await buildOfficialWorkbook({kind:'ses',snapshots:[hebrew]})).report.fields.find(f=>f.fieldId===university.id).status,'translation_pending');
+ const translated=await buildOfficialWorkbook({kind:'ses',snapshots:[hebrew],translations:[translation(hebrew,{[university.id]:{status:'answered',value:'Bar-Ilan University'}})]});
+ const written=translated.report.fields.find(f=>f.fieldId===university.id);assert.equal(written.status,'written');assert.equal(written.machineTranslated,true);
 });
 test('SES evidence and missing authorization never produce invented inputs',async()=>{
  const field=fields('SES').find(f=>f.kind==='file'),s=snapshot('SES',{[field.id]:{status:'answered',value:'',attachmentIds:['test-proof']}});

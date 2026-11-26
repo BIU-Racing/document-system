@@ -22,7 +22,9 @@ export type OfficialWorkbookInput = {
 };
 export type OfficialCellStatus = 'written' | 'empty' | 'unknown' | 'not_applicable' |
   'translation_pending' | 'translation_failed' | 'manual_mapping' | 'evidence_required' |
-  'invalid_value' | 'protected' | 'out_of_scope' | 'overflow' | 'source_conflict' | 'restricted';
+  'invalid_value' | 'protected' | 'out_of_scope' | 'overflow' | 'source_conflict' | 'restricted' |
+  /** SES: hidden by the sheet's construction type; the template cell is left as it is. */
+  'condition_hidden';
 export type OfficialFieldResult = {
   controlId: string; systemId: string | null; fieldId?: string; columnId?: string;
   sheet: string; ranges: string[]; status: OfficialCellStatus; message: string;
@@ -186,6 +188,7 @@ const messages: Record<OfficialCellStatus, string> = {
   overflow: 'מספר הרשומות חורג ממספר השורות הממופות בתבנית. הטבלה לא נכתבה חלקית.',
   source_conflict: 'התרגום או מבנה השורות אינם תואמים לגרסת המקור.',
   restricted: 'פרטי קשר מוגבלים אינם ממולאים אוטומטית.',
+  condition_hidden: 'השאלה אינה רלוונטית לסוג המבנה שנבחר.',
 };
 
 /** Creates a fresh working copy, never modifies the source template or snapshots. */
