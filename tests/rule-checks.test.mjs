@@ -57,7 +57,8 @@ test('pre-charge: 95% in 2027, checked in the field that matches the chosen end 
   const old = one(pc('Ratio', '92%', ''), 'RC-05');
   assert.equal(old.status, 'violation');
   assert.match(old.message, /90%/, 'explains the outdated template check');
-  assert.equal(one(pc('Delta Voltage', '92', '25'), 'RC-05').status, 'notice');
+  assert.equal(one(pc('Delta Voltage', '92', '25'), 'RC-05').status, 'pending', 'other method: no warning');
+  assert.equal(one(pc('Ratio', '95', '25'), 'RC-06').status, 'pending', 'the delta field is not a warning when the method is Ratio');
   assert.equal(one(pc('Delta Voltage', '', '25'), 'RC-06').status, 'ok');
   assert.equal(one(pc('Delta Voltage', '', '40'), 'RC-06').status, 'violation');
 });
