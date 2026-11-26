@@ -28,6 +28,8 @@ export type OfficialFieldResult = {
   sheet: string; ranges: string[]; status: OfficialCellStatus; message: string;
   writtenCells: string[]; rowIds?: string[]; sourceRevision?: number;
   sourceReviewPending?: boolean; engineeringReviewed?: boolean;
+  /** True when at least one written cell holds machine-translated English. */
+  machineTranslated?: boolean;
 };
 export type OfficialCellWrite = {
   sheet: string; cell: string; type: 'text' | 'number'; value: string;
@@ -38,7 +40,9 @@ export type OfficialCellWrite = {
 };
 export type OfficialWorkbookReport = {
   format: 'BIU-OFFICIAL-WORKBOOK-DRAFT'; version: 1; kind: OfficialWorkbookKind;
-  workingSeason: 2027; generatedAt: string; readyForSubmission: false;
+  workingSeason: 2027; generatedAt: string;
+  /** Builders always emit false; only the pre-export readiness check may set true. */
+  readyForSubmission: boolean;
   template: { filename: string; year: number; sha256: string; submission2027Verified: false };
   sourceSnapshots: { systemId: string; revision: number; sourceHash: string }[];
   projectMetadata: { key: 'team_name' | 'university' | 'competition_year'; sheet: string; cell: string; value?: string; type: 'text' | 'number'; source: 'project_identity' | 'saved_answer'; status: 'written' | 'saved_answer_pending'; lockedCellOverride: boolean }[];
@@ -327,6 +331,7 @@ export async function buildOfficialWorkbook(input: OfficialWorkbookInput): Promi
         }
         value = item.english;
         if (!value.trim() || !safeText(value)) { unresolved ??= 'invalid_value'; continue; }
+        result.machineTranslated = true;
       }
       const key = sheet.name + '!' + item.ref;
       if (assignedCells.has(key)) throw new Error('Overlapping workbook answer mappings');

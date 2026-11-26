@@ -27,14 +27,20 @@ export function savedChapterProgress(fields:(ProgressField&{section?:string})[],
 type UploadAttempt={fieldId:string;file:File;replaces?:string;base:Snapshot;mutationId:string};
 type ConflictView={server:Snapshot;fieldIds:string[]};
 type RequestFailure=Error&{status?:number;data?:{code?:string;server?:Snapshot;base?:Snapshot;conflictFieldIds?:string[];attachment?:Attachment}};
-export function Editor({id,session,demo,onBack,onSaved}:{id:string;session:Session;demo:boolean;onBack:()=>void;onSaved:(s:Snapshot)=>void}){
+export function Editor({id,session,demo,focusField,onBack,onSaved}:{id:string;session:Session;demo:boolean;focusField?:string;onBack:()=>void;onSaved:(s:Snapshot)=>void}){
  const system=getSystem(id)!;
  const readOnly=session.role==='reviewer';
  const fields=system.fields as FieldShape[];
  const sections=Array.from(new Set(fields.map(f=>f.section||'תיעוד המערכת')));
- const [chapter,setChapter]=useState(0);const [snapshot,setSnapshot]=useState<Snapshot>(emptySnapshot(id));const [answers,setAnswers]=useState<Answers>({});
+ const [chapter,setChapter]=useState(()=>{const target=fields.find(f=>f.id===focusField);return target?Math.max(0,sections.indexOf(target.section||'תיעוד המערכת')):0;});const [snapshot,setSnapshot]=useState<Snapshot>(emptySnapshot(id));const [answers,setAnswers]=useState<Answers>({});
  const [loadAttempt,setLoadAttempt]=useState(0);const [uploadUncertain,setUploadUncertain]=useState(false);const uploadAttempt=useRef<UploadAttempt|null>(null);
- const loadedRef=useRef(demo);const [loaded,setLoaded]=useState(demo);const [saveState,setSaveState]=useState(demo?'demo':'loading');const [message,setMessage]=useState('');const [conflict,setConflict]=useState<ConflictView|null>(null);const [conflictOpen,setConflictOpen]=useState(false);const [conflictChoices,setConflictChoices]=useState<Record<string,'local'|'server'>>({});const [leaveOpen,setLeaveOpen]=useState(false);const [recoverOpen,setRecoverOpen]=useState(false);const [drafts,setDrafts]=useState<LocalDraft[]>([]);
+ const loadedRef=useRef(demo);const [loaded,setLoaded]=useState(demo);
+  // Scroll once to a field opened from the document readiness panel. The jump is instant:
+  // a smooth scroll is cancelled while the editor is still settling after it opens.
+  const focusedRef=useRef(false);
+  useEffect(()=>{if(!loaded||!focusField||focusedRef.current)return;const element=document.getElementById(`field-${focusField}`);if(!element)return;element.classList.add('field-focus');
+   const scroll=window.setTimeout(()=>{focusedRef.current=true;element.scrollIntoView({block:'center',behavior:'instant'});},250);
+   window.setTimeout(()=>element.classList.remove('field-focus'),4500);return()=>window.clearTimeout(scroll);},[loaded,focusField]);const [saveState,setSaveState]=useState(demo?'demo':'loading');const [message,setMessage]=useState('');const [conflict,setConflict]=useState<ConflictView|null>(null);const [conflictOpen,setConflictOpen]=useState(false);const [conflictChoices,setConflictChoices]=useState<Record<string,'local'|'server'>>({});const [leaveOpen,setLeaveOpen]=useState(false);const [recoverOpen,setRecoverOpen]=useState(false);const [drafts,setDrafts]=useState<LocalDraft[]>([]);
  const [uploading,setUploading]=useState<string|null>(null);const [reviewAction,setReviewAction]=useState<string|null>(null);const [reason,setReason]=useState('');const [reviewBusy,setReviewBusy]=useState(false);const [confirmingSource,setConfirmingSource]=useState<string|null>(null);const [reviewFieldIds,setReviewFieldIds]=useState<string[]>([]);const [storageLimited,setStorageLimited]=useState(false);const [historyOpen,setHistoryOpen]=useState(false);
  const localDurable=useRef(true);const current=useRef<Pending|null>(null);const currentSnapshot=useRef<Snapshot>(emptySnapshot(id));const answersRef=useRef<Answers>({});const sending=useRef(false);const operationBusy=useRef(false);const mounted=useRef(true);const timer=useRef<ReturnType<typeof setTimeout>|null>(null);const blocked=useRef(false);const saveTask=useRef<Promise<Snapshot|null>|null>(null);const retryDelay=useRef(3000);const leaveTarget=useRef<(()=>void)|null>(null);const persistRef=useRef<()=>Promise<Snapshot|null>>(async()=>null);
  const showAnswers=useCallback((next:Answers)=>{answersRef.current=next;if(mounted.current)setAnswers(next);},[]);
