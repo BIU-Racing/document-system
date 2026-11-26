@@ -70,6 +70,6 @@ flowchart LR
 | [wrangler.jsonc](../wrangler.jsonc) | משאבי Cloudflare היסטוריים; אינם נדרשים לפריסה הנוכחית |
 | [.gitignore](../.gitignore) | מה נשאר במחשב ולא נכנס למאגר |
 
-שם היסטורי אחד עדיין קיים: `app/chatgpt-auth.ts`. הוא קורא כיום את עוגיית הרכז שנחתמת ב־`lib/owner-session.ts`; אין תלות בחשבון ChatGPT. כניסת הצוות נבדקת ב־`lib/team-entry.ts`, והחיבור לנתונים ב־`lib/cloud-storage.ts`. קבצי Cloudflare נשמרו לצורך שחזור היסטורי בלבד.
+שם היסטורי אחד עדיין קיים: `app/chatgpt-auth.ts`. הוא קורא כיום את עוגיית הרכז שנחתמת ב־`lib/owner-session.ts`; אין תלות בחשבון ChatGPT. כניסת הצוות (מייל אוניברסיטאי בלבד) נבדקת ב־`enterWithEmail` שב־`lib/server.ts`, והחיבור לנתונים ב־`lib/cloud-storage.ts`. קבצי Cloudflare נשמרו לצורך שחזור היסטורי בלבד.
 
 </div>
