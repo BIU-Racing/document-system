@@ -4,6 +4,7 @@ import guards from '@/data/ses-export-guards.json';
 import {getFields} from './catalog';
 import {canonical,fingerprint,fieldVisible,type Answer} from './progress';
 import {sesFixedCellKeys} from './ses-fields';
+import {approvalState} from './translation-review';
 import type {OfficialWorkbookInput,OfficialWorkbookResult,OfficialWorkbookReport,OfficialFieldResult,OfficialCellStatus,OfficialCellWrite} from './official-workbooks';
 type Template={filename:string;year:number;sha256:string;base64:string;sheets:{name:string;path:string;state:string;writableCells:string[];formulaCells:string[]}[]};
 const template=(templatesData as unknown as {ses:Template}).ses;
@@ -92,7 +93,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
    else if(/[\u0590-\u05ff]/.test(value)){
     const translated=current&&translation.fieldStates[field.id]==='ready'?translation.englishAnswers[field.id]?.value:undefined;
     if(typeof translated!=='string'||!translated.trim()){finish(current?'translation_pending':translation?'source_conflict':'translation_pending');continue;}
-    value=translated.trim();result.machineTranslated=true;
+    value=translated.trim();result.machineTranslated=true;result.translationApproved=approvalState(snapshot.review,field.id,answer,translation.englishAnswers[field.id])==='approved';
    }
    if(value.length>32767||/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u0590-\u05ff]/.test(value)){finish('invalid_value');continue;}
    if(!sheet||!guard)throw new Error('SES sheet mapping missing');
@@ -112,6 +113,7 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
    if(!translated||!Array.isArray(translated.value)||translated.value.length!==answer.value.length||answer.value.some((row,i)=>row._id!==(translated.value as Record<string,string>[])[i]._id||canonical(Object.keys(row).sort())!==canonical(Object.keys((translated.value as Record<string,string>[])[i]).sort()))){finish('source_conflict');continue;}
    english=translated;
    result.machineTranslated=true;
+   result.translationApproved=approvalState(snapshot.review,field.id,answer,translated)==='approved';
   }
   if(!sheet||!guard)throw new Error('SES sheet mapping missing');
   const xml=strFromU8(parts[sheet.path]),cellMap=new Map<string,{attributes:string;body:string}>();

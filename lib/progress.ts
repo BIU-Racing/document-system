@@ -4,7 +4,9 @@ export type Answer = { status: 'answered'|'unknown'|'na'; value: string|TableRow
 export type Answers = Record<string,Answer>;
 export type Attachment = { id:string; systemId:string; fieldId:string; originalName:string; safeName:string; mime:string; size:number; sha256:string; state:string; replacesId:string|null; version:number; createdAt:string };
 export type ReviewField = { fingerprint:string; verdict:'approved'|'changes_requested'; reason:string; role:string; at:string };
-export type Review = { fields?:Record<string,ReviewField>; submittedRevision?:number; submittedAt?:string };
+/** Human approval of the English text of one answer. source/english are fingerprints; any change to either voids it. */
+export type TranslationApproval = { source:string; english:string; value?:string|TableRow[]; role:string; at:string };
+export type Review = { fields?:Record<string,ReviewField>; translations?:Record<string,TranslationApproval>; submittedRevision?:number; submittedAt?:string };
 export type Progress = { complete:number; total:number; percent:number; filled:number;fillPercent:number;populated:number;sourcePending:number;sourceConfirmed:number; missing:{id:string;label:string;reason:string}[] };
 export type SystemSnapshot = { id:string; answers:Answers; revision:number; status:'draft'|'in_review'|'changes_requested'|'approved'; attachments:Attachment[]; progress:Progress; updatedAt:string|null; review:Review; schemaVersion:string; contentHash?:string };
 export type ProgressField = {id:string;label:string;required?:boolean;showWhen?:{fieldId:string;notIn:string[]};type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};

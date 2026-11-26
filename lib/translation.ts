@@ -4,6 +4,7 @@ import {makeTranslationPlan,assembleTranslation,translationSourceHash,type Trans
 import {validateLocalTranslation} from './local-translation-validation';
 import {LOCAL_MODEL} from './local-translation-config';
 import {TRANSLATION_VERSION} from './translation-version';
+import {applyTranslationOverrides} from './translation-review';
 export {translationSourceHash} from './translation-content';
 export type TranslationConfig={model?:string};
 export type TranslationStatus='queued'|'processing'|'partial'|'ready'|'failed';
@@ -21,7 +22,7 @@ async function cached(db:D1Database,plan:TranslationPlan){
  return new Map(result.results.map(row=>[row.input_hash,row.translated_text]));
 }
 /** Read-only. Caller must authorize this system. */
-export async function getTranslationSnapshot(db:D1Database,snapshot:Pick<SystemSnapshot,'id'|'revision'|'answers'>,_config:TranslationConfig={}):Promise<TranslationSnapshot>{
+export async function getTranslationSnapshot(db:D1Database,snapshot:Pick<SystemSnapshot,'id'|'revision'|'answers'>&{review?:SystemSnapshot['review']},_config:TranslationConfig={}):Promise<TranslationSnapshot>{
  const hash=await translationSourceHash(snapshot.answers);
  const plan=await makeTranslationPlan(snapshot.id,getFields(snapshot.id),snapshot.answers,LOCAL_MODEL);
  const cache=await cached(db,plan),assembled=assembleTranslation(plan,cache);
@@ -30,8 +31,12 @@ export async function getTranslationSnapshot(db:D1Database,snapshot:Pick<SystemS
  const pending=[...new Map(plan.chunks.filter(chunk=>!cache.has(chunk.key)).map(chunk=>[chunk.key,chunk])).values()];
  let status:TranslationStatus=pending.length?(assembled.completedFields?'partial':'queued'):'ready',errorCode:string|undefined;
  if(job&&job.source_hash!==hash){status='failed';errorCode='SOURCE_HASH_MISMATCH';assembled.englishAnswers={};assembled.completedFields=0;for(const id of Object.keys(assembled.fieldStates))assembled.fieldStates[id]='failed';}
+ // English corrected by a person replaces the machine text for that answer while its Hebrew is unchanged.
+ const reviewed=applyTranslationOverrides(snapshot.answers,snapshot.review,assembled.englishAnswers,assembled.fieldStates);
+ const completedFields=Object.values(reviewed.fieldStates).filter(state=>state==='ready').length;
+ if(status!=='ready'&&!errorCode&&completedFields===assembled.totalFields)status='ready';
  return {systemId:snapshot.id,sourceRevision:snapshot.revision,sourceHash:hash,status,isCurrent:(current?.revision??0)===snapshot.revision,
- providerConfigured:true,retryable:status!=='ready'&&!errorCode,...assembled,updatedAt:job?.updated_at??null,errorCode,
+ providerConfigured:true,retryable:status!=='ready'&&!errorCode,...assembled,...reviewed,completedFields,updatedAt:job?.updated_at??null,errorCode,
  model:LOCAL_MODEL,promptVersion:TRANSLATION_VERSION,engine:'browser-local',pendingChunks:errorCode?[]:pending.slice(0,32),pendingChunkCount:pending.length};
 }
 /** Writer authorization is mandatory. This function never changes source answers. */

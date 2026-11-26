@@ -467,6 +467,58 @@ export async function applySourceImport(body:Record<string,unknown>){
  const system=await commitSnapshot(incoming.id,member,answers,base,mutation,hash,'draft',review,{action,reason:mode==='manual'?'ייבוא מקורות לאימות הצוות':mode==='editorial_revision'?'עריכת תוכן מפורשת ממקורות — לאימות הצוות':'השלמת שדות ריקים בלבד ממקורות — לאימות הצוות',fieldIds:importedIds},mode==='weekly_empty_fill'?importedIds:undefined,expectations?{fieldIds:importedIds,attachmentIds:expectations.expectedAttachmentIds}:undefined);
  return {mode,system,imported:merged.imported,skipped:merged.skipped,replayed:false};
 }
+/**
+ * Human approval of the English text of one answer (separate from engineering approval).
+ * approve: confirms the English the reviewer saw (englishFingerprint must still match).
+ * approve with english: stores a corrected English text and approves it (not for reviewers).
+ * revoke: removes the approval and any correction.
+ * Saved answers never change; the approval is void as soon as the Hebrew or the English changes.
+ */
+export async function reviewTranslation(id:string,body:Record<string,unknown>){
+ // Loaded on use: the translation engine is only needed by this action.
+ const [{getTranslationSnapshot},{englishPrint,needsTranslation}]=await Promise.all([import('@/lib/translation'),import('@/lib/translation-review')]);
+ const member=await requireAccess(id),base=requireRevision(body.baseRevision),mutation=requireMutation(body.mutationId),fieldId=String(body.fieldId??''),action=String(body.action??'');
+ if(!['approve','revoke'].includes(action))throw new ApiError(400,'פעולת אישור התרגום אינה מוכרת.');
+ const edited=action==='approve'&&body.english!==undefined;
+ if(edited&&member.role==='reviewer')throw new ApiError(403,'בודק הנדסי יכול לאשר תרגום, אך לא לערוך אותו.');
+ const hash=await sha256(canonical({type:'translation_review',id,base,fieldId,action,english:body.english??null,seen:body.englishFingerprint??null})),key=member.subject+':'+mutation;
+ const previous=await database().prepare('SELECT system_id,payload_hash,revision FROM mutations WHERE id=?').bind(key).first<{system_id:string;payload_hash:string;revision:number}>();
+ if(previous){if(previous.system_id!==id||previous.payload_hash!==hash)throw new ApiError(409,'מזהה האישור כבר שימש לפעולה אחרת.');return readRevision(id,previous.revision);}
+ const current=await readSystem(id);if(current.revision!==base)throw new ApiError(409,'התשובה השתנתה. יש לפתוח את הגרסה העדכנית לפני אישור התרגום.',{code:'CONFLICT',server:current});
+ const field=getFields(id).find(item=>item.id===fieldId),answer=current.answers[fieldId];
+ if(!field||!needsTranslation(answer))throw new ApiError(400,'לשדה הזה אין טקסט בעברית לתרגום.');
+ const review:Review={...current.review,translations:{...current.review.translations}};
+ if(action==='revoke'){
+  if(!review.translations![fieldId])throw new ApiError(400,'אין אישור תרגום לבטל.');
+  delete review.translations![fieldId];
+  return commitSnapshot(id,member,current.answers,base,mutation,hash,current.status,review,{action:'translation_revoke',reason:'אישור התרגום בוטל.',fieldIds:[fieldId]});
+ }
+ let english:Answer['value'];
+ if(edited){
+  english=validateEnglish(field,answer!,body.english);
+ }else{
+  const translation=await getTranslationSnapshot(database(),current),machine=translation.englishAnswers[fieldId];
+  if(translation.fieldStates[fieldId]!=='ready'||!machine)throw new ApiError(409,'התרגום עדיין לא מוכן. אפשר לאשר אחרי שהאנגלית תופיע, או לכתוב אותה בעצמכם.');
+  if(body.englishFingerprint!==englishPrint(machine))throw new ApiError(409,'נוסח האנגלית השתנה מאז שנפתח. יש לקרוא שוב לפני האישור.',{code:'CONFLICT'});
+  english=machine.value;
+ }
+ review.translations![fieldId]={source:fingerprint(answer),english:englishPrint({value:english}),...(edited?{value:english}:{}),role:member.role,at:new Date().toISOString()};
+ return commitSnapshot(id,member,current.answers,base,mutation,hash,current.status,review,{action:edited?'translation_edit':'translation_approve',reason:edited?'האנגלית תוקנה ואושרה בידי אדם; אין בכך אישור הנדסי.':'האנגלית נקראה ואושרה כנאמנה לעברית; אין בכך אישור הנדסי.',fieldIds:[fieldId]});
+}
+/** Corrected English must keep the answer's shape (same rows and columns) and contain no Hebrew. */
+function validateEnglish(field:{kind:string;columns?:{id:string}[]},answer:Answer,input:unknown):Answer['value']{
+ const clean=(value:unknown)=>{if(typeof value!=='string'||value.length>50000)throw new ApiError(400,'נוסח האנגלית אינו תקין.');if(/[\u0590-\u05FF]/.test(value))throw new ApiError(400,'בנוסח האנגלית נשארה עברית.');return value;};
+ if(typeof answer.value==='string'){const value=clean(input);if(!value.trim())throw new ApiError(400,'נוסח האנגלית ריק.');return value;}
+ if(!Array.isArray(input)||input.length!==answer.value.length)throw new ApiError(400,'מבנה הטבלה באנגלית אינו תואם לתשובה.');
+ return answer.value.map((row,index)=>{
+  const english=input[index] as Record<string,unknown>;
+  if(!english||typeof english!=='object'||english._id!==row._id)throw new ApiError(400,'שורות הטבלה באנגלית אינן תואמות לתשובה.');
+  const out:Record<string,string>={_id:row._id};
+  for(const [column,value] of Object.entries(row)){if(column==='_id')continue;out[column]=english[column]===undefined?value:clean(english[column]);}
+  if(Object.keys(english).some(column=>column!=='_id'&&!(column in row)))throw new ApiError(400,'עמודה לא מוכרת בטבלה באנגלית.');
+  return out as Answer['value'] extends (infer R)[]?R:never;
+ }) as Answer['value'];
+}
 export async function confirmSourceContent(id:string,body:Record<string,unknown>){
  const member=await requireAccess(id,true),base=requireRevision(body.baseRevision),mutation=requireMutation(body.mutationId),fieldId=String(body.fieldId??''),hash=await sha256(canonical({type:'source_confirm',id,base,fieldId})),key=member.subject+':'+mutation;
  const previous=await database().prepare('SELECT system_id,payload_hash,revision FROM mutations WHERE id=?').bind(key).first<{system_id:string;payload_hash:string;revision:number}>();

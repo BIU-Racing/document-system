@@ -1,0 +1,25 @@
+{
+  "note": "Formula Student terms for checking English translations. 'he' is matched in the Hebrew source; the English must contain one of 'expect'; any of 'wrong' in the English is flagged. Seeded from the QA audit of 22.11.2026 (docs/qa/evidence/translation-results.json). Proposed; extend with the engineering team.",
+  "terms": [
+    { "he": "מעגל הניתוק", "expect": ["shutdown circuit", "SDC"], "wrong": ["detachable circuit", "disconnect circuit", "disconnection circuit"] },
+    { "he": "ממסרי הניתוק", "expect": ["AIR", "accumulator isolation relay"], "wrong": ["detachable relay", "disconnect relay"] },
+    { "he": "ממסר הניתוק", "expect": ["AIR", "accumulator isolation relay"], "wrong": ["detachable relay", "disconnect relay"] },
+    { "he": "טעינה מוקדמת", "expect": ["precharge", "pre-charge"], "wrong": ["early loading", "preloader", "pre-loading", "early charging"] },
+    { "he": "הטעינה המוקדמת", "expect": ["precharge", "pre-charge"], "wrong": ["early loading", "preloader", "pre-loading", "early charging"] },
+    { "he": "מערכת ההנעה", "expect": ["tractive system", "TS"], "wrong": ["propulsion system", "drive system"] },
+    { "he": "המפסק הראשי של ההנעה", "expect": ["tractive system master switch", "TSMS"], "wrong": ["main drive circuit breaker"] },
+    { "he": "מארז המצבר", "expect": ["accumulator container", "TSAC"], "wrong": ["battery pack", "battery case", "battery box"] },
+    { "he": "מצבר", "expect": ["accumulator"], "wrong": [] },
+    { "he": "חיישן הזרם", "expect": ["current sensor"], "wrong": ["power sensor"] },
+    { "he": "העתקה", "expect": ["displacement", "deflection"], "wrong": ["copy"] },
+    { "he": "מוארק", "expect": ["grounded", "earthed"], "wrong": ["illuminated", "lit"] },
+    { "he": "מוארקים", "expect": ["grounded", "earthed"], "wrong": ["illuminated", "lit"] },
+    { "he": "הממיר", "expect": ["inverter", "motor controller"], "wrong": ["converter"] },
+    { "he": "מגעונים", "expect": ["contactor"], "wrong": [] },
+    { "he": "תא הנהג", "expect": ["cockpit"], "wrong": ["driver's compartment"] },
+    { "he": "כפיפה בשלוש נקודות", "expect": ["three-point bend", "3-point bend", "3pt bend"], "wrong": [] },
+    { "he": "מערכת המתח הנמוך", "expect": ["low voltage", "GLV", "LV"], "wrong": [] },
+    { "he": "נתיך", "expect": ["fuse"], "wrong": [] },
+    { "he": "פריקה", "expect": ["discharge"], "wrong": [] }
+  ]
+}

@@ -13,7 +13,7 @@ export const reasonLabels: Record<ReadinessReason, string> = {
   translation_pending: 'ממתין לתרגום',
   source_review: 'תוכן מיובא שטרם אושר',
   engineering_review: 'טרם אושר הנדסית',
-  translation_approval: 'תרגום מכונה שטרם אושר',
+  translation_approval: 'תרגום שטרם אושר',
   mapping_unresolved: 'המיפוי לתא דורש הכרעה',
   not_applicable_reason: '"לא רלוונטי" ללא נימוק',
   evidence_placement: 'ראיה שיש לשבץ ידנית ב־Excel',
@@ -22,7 +22,7 @@ export const reasonLabels: Record<ReadinessReason, string> = {
 };
 
 const reasonHelp: Partial<Record<ReadinessReason, string>> = {
-  translation_approval: 'אישור אנושי לתרגומים עדיין לא קיים במערכת, ולכן כל טקסט שתורגם במכונה חוסם כרגע אימות.',
+  translation_approval: 'פתחו את השדה, קראו את האנגלית מול העברית ואשרו או תקנו. אישור מתבטל אוטומטית כשהעברית משתנה.',
   engineering_review: 'בודק הנדסי או רכז צריכים לאשר את התשובה הנוכחית. כל שינוי בתשובה מבטל אישור קודם.',
   mapping_unresolved: 'השדה נשמר, אך הכתיבה שלו לתבנית דורשת הכרעה במיפוי. זו משימת פיתוח או רכז, לא של ממלא השדה.',
   manual_cell_address: 'ב־SES, שורה ב"תאים נוספים" נכתבת לכתובת שהוקלדה. יש לוודא בגיליון שזה התא הנכון, או להעביר את הערך לשאלה קבועה אם קיימת.',
