@@ -131,6 +131,15 @@ export function ReadinessPanel({ readiness }: { readiness: DocumentReadiness }) 
       {readiness.documentBlockers.map(blocker => <li key={blocker.code}>{blockerText[blocker.code]}</li>)}
     </ul>}
 
+    {!!readiness.ruleWarnings?.length && <div className={styles.rules} aria-label="תקנון 2027">
+      <strong>תקנון 2027: {readiness.ruleWarnings.filter(item => item.status === 'violation').length} חריגות, {readiness.ruleWarnings.filter(item => item.status === 'notice').length} לבדיקה</strong>
+      <ul>{readiness.ruleWarnings.map((item, index) => <li key={item.checkId + (item.rowId ?? '') + index} data-status={item.status}>
+        <span className={styles.ruleBadge} dir="ltr">{item.rule}</span>
+        <span><bdi>{item.systemLabel}</bdi> · <bdi>{item.fieldLabel}</bdi>: {item.message}</span>
+        <a href={`/?${new URLSearchParams({ system: item.systemId, field: item.fieldId }).toString()}`}>מעבר לשדה <span aria-hidden="true">←</span></a>
+      </li>)}</ul>
+    </div>}
+
     {readiness.issues.length > 0 && <>
       <div className={styles.filters} role="group" aria-label="סינון לפי סוג">
         {([['all', 'הכול', readiness.issues.length], ['blocker', 'חוסמים', totals.blockers], ['warning', 'אזהרות', totals.warnings]] as const).map(([value, label, count]) =>

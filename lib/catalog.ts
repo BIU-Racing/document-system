@@ -11,6 +11,7 @@ import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
 import { numericTargets } from './official-numeric-targets';
 import { sesFixedFields, sesSheetTitle } from './ses-fields';
+import { ruleFields, RULE_FIELDS_SECTION } from './rule-fields';
 
 export type FieldKind = 'text' | 'table' | 'file' | 'select';
 
@@ -176,6 +177,17 @@ for (const target of numericTargets) {
     ordered.push(...legacy.filter(field => !field.officialTemplate?.sheet));
     ses.fields = ordered;
   }
+}
+
+// Optional numeric fields that 2027 rule checks read (lib/rule-checks.ts), in their own chapter.
+for (const ruleField of ruleFields) {
+  const system = systems.find(item => item.id === ruleField.systemId);
+  if (!system || system.fields.some(field => field.id === ruleField.id)) continue;
+  system.fields.push({
+    id: ruleField.id, label: ruleField.label, prompt: ruleField.prompt, kind: 'text', type: 'text', unit: ruleField.unit,
+    section: RULE_FIELDS_SECTION, required: false as unknown as true, exampleIds: [], exampleStatus: 'example_gap', exampleNote: '',
+    sourceControlIds: [ruleField.id], ruleRefs: [ruleField.rule], applicabilityPolicy: 'answer_or_reviewed_not_applicable',
+  });
 }
 
 /** Administrative route, deliberately excluded from the 21-system map/count. */

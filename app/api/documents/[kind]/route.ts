@@ -1,7 +1,9 @@
 import { guard, session, readSystem, database, readJson, ApiError, json } from '@/lib/server';
 import { systems, getSystem, getField } from '@/lib/catalog';
 import { buildOfficialWorkbook, getOfficialWorkbookSheet, type OfficialWorkbookKind } from '@/lib/official-workbooks';
-import { computeReadiness, readinessFilename, type ReadinessLabels } from '@/lib/export-readiness';
+import { computeReadiness, readinessFilename, type ReadinessLabels, type RuleWarning } from '@/lib/export-readiness';
+import { evaluateRules } from '@/lib/rule-checks';
+import { coverage } from '@/lib/catalog';
 import { getTranslationSnapshot } from '@/lib/translation';
 import { translationConfig } from '@/lib/translation-runtime';
 
@@ -54,6 +56,11 @@ export async function GET(request: Request, { params }: Context) {
       answers: Object.fromEntries(snapshots.map(snapshot => [snapshot.id, snapshot.answers])),
     });
     workbook.report.readyForSubmission = readiness.ready;
+    // 2027 rule checks (warnings only): shown on the document the checked field belongs to; new rule fields go to ESF.
+    const documentOf = (systemId: string, fieldId: string) => coverage.entries.find(entry => entry.fieldId === fieldId && (entry.systemId ?? 'COORDINATOR') === systemId)?.official.document.toLowerCase() ?? 'esf';
+    readiness.ruleWarnings = evaluateRules(Object.fromEntries(snapshots.map(snapshot => [snapshot.id, snapshot.answers])))
+      .filter(result => (result.status === 'violation' || result.status === 'notice') && documentOf(result.systemId, result.fieldId) === kind)
+      .map((result): RuleWarning => ({ ...result, status: result.status as RuleWarning['status'], systemLabel: readinessLabels.system(result.systemId) ?? result.systemId, fieldLabel: readinessLabels.field(result.systemId, result.fieldId)?.label ?? result.fieldId }));
     // SES exceeds Vercel's buffered-response limit; stream the complete workbook.
     if (format === 'download') return new Response(workbookStream(workbook.bytes), { headers: {
       'Content-Type': workbook.mime,
