@@ -7,6 +7,7 @@ import type {OfficialWorkbookReport,OfficialWorkbookSheet} from '@/lib/official-
 import type {WorkbookPreview,WorkbookPreviewCell} from '@/lib/official-workbook-preview';
 import type {DocumentReadiness} from '@/lib/export-readiness';
 import {ReadinessPanel} from './readiness-panel';
+import {rangeBounds} from '@/lib/official-location';
 import styles from './official-document.module.css';
 
 type DocumentKind='esf'|'ases'|'ses';
@@ -19,7 +20,15 @@ const canTranslate=(summary:TranslationSummary)=>summary.providerConfigured&&sum
 function columnName(value:number){let result='';while(value){value--;result=String.fromCharCode(65+value%26)+result;value=Math.floor(value/26);}return result;}
 
 /** Uses the template's actual sparse cell grid; it never evaluates spreadsheet formulas. */
-export function WorkbookSheet({sheet,zoom}:{sheet:WorkbookPreview;zoom:number}){
+/** Bounds of a highlighted range, widened to the merged block that starts at its first cell. */
+function highlightBounds(sheet:WorkbookPreview,range:string){
+ const bounds=rangeBounds(range);if(!bounds||bounds.row>sheet.rowCount||bounds.column>sheet.columnCount)return null;
+ const merge=sheet.merges.find(item=>item.row===bounds.row&&item.column===bounds.column);
+ return merge&&bounds.rowSpan===1&&bounds.colSpan===1?{...bounds,rowSpan:merge.rowSpan,colSpan:merge.colSpan}:bounds;
+}
+
+export function WorkbookSheet({sheet,zoom,highlight}:{sheet:WorkbookPreview;zoom:number;highlight?:string}){
+ const marked=highlight?highlightBounds(sheet,highlight):null;
  const layout=useMemo(()=>{
   const x=[0],y=[0];for(const column of sheet.columns)x.push(x.at(-1)!+(column.hidden?0:column.width));for(const row of sheet.rows)y.push(y.at(-1)!+(row.hidden?0:row.height));
   const mergedRows=new Map<number,typeof sheet.merges>();
@@ -48,12 +57,14 @@ export function WorkbookSheet({sheet,zoom}:{sheet:WorkbookPreview;zoom:number}){
      return <div key={cell.ref} role="cell" aria-colindex={cell.column} aria-rowspan={cell.rowSpan>1?cell.rowSpan:undefined} aria-colspan={cell.colSpan>1?cell.colSpan:undefined} aria-label={cell.formula?`${cell.ref}: ${formulaLabel}`:undefined} data-cell={cell.ref} data-origin={cell.origin} className={`${styles.cell} ${cell.formula?styles.formulaCell:''}`} title={label} style={{...cellStyle,insetInlineStart:layout.x[cell.column-1],width,height,justifyContent:alignment}}><span className={styles.cellText}>{cell.formula?<span className={styles.formulaPending} aria-label={formulaLabel}>—</span>:cell.runs?.length?cell.runs.map((run,index)=><span style={run.style as CSSProperties} key={index}>{run.text}</span>):cell.text}</span></div>;
     })}</div>)}
    </div>
+   {marked&&<div id="highlighted-cell" className={styles.highlightCell} role="img" aria-label={`התא ${highlight} מסומן`} style={{insetInlineStart:42+layout.x[marked.column-1],top:28+layout.y[marked.row-1],width:Math.max(8,layout.x[Math.min(sheet.columnCount,marked.column+marked.colSpan-1)]-layout.x[marked.column-1]),height:Math.max(8,layout.y[Math.min(sheet.rowCount,marked.row+marked.rowSpan-1)]-layout.y[marked.row-1])}}/>}
    <div className={styles.drawings} style={{insetInlineStart:42,top:28,width:layout.width-42,height:layout.height-28}}>{sheet.images.map((image,index)=><img key={`${image.id}-${index}`} src={image.dataUrl} alt={image.name||'איור מתוך התבנית הרשמית'} style={{left:image.left,top:image.top,width:image.width,height:image.height}}/>)}{sheet.drawings.map((drawing,index)=><div key={index} className={styles.drawingPlaceholder} style={{left:drawing.left,top:drawing.top,width:drawing.width,height:drawing.height}}><span>{drawing.text||'Drawing available in Excel'}</span></div>)}</div>
   </div>
  </div>;
 }
 
-export function OfficialDocument({kind}:{kind:DocumentKind}){
+export function OfficialDocument({kind,initialSheet='',focusCell=''}:{kind:DocumentKind;initialSheet?:string;focusCell?:string}){
+ const [focus,setFocus]=useState(rangeBounds(focusCell)?focusCell:''),scrolledFocus=useRef(false);
  const [data,setData]=useState<DocumentResponse|null>(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[authStatus,setAuthStatus]=useState(0),[requestedSheet,setRequestedSheet]=useState(''),[zoom,setZoom]=useState(1),[processing,setProcessing]=useState(false),[processingError,setProcessingError]=useState(''),[retrying,setRetrying]=useState(false),[retrySystem,setRetrySystem]=useState(''),[retryMessage,setRetryMessage]=useState(''),[now,setNow]=useState(Date.now);
  const version=useRef(0),loadController=useRef<AbortController|null>(null),retryController=useRef<AbortController|null>(null),processingRequest=useRef(false),backgroundLoad=useRef(false),loadActive=useRef(false),sheetRef=useRef(''),scrollRef=useRef<HTMLDivElement|null>(null);
  const load=useCallback(async(sheet='',background=false)=>{
@@ -63,7 +74,10 @@ export function OfficialDocument({kind}:{kind:DocumentKind}){
   catch(failure){if(controller.signal.aborted||token!==version.current)return;const status=(failure as {status?:number}).status||0;setError(errorText(failure));if(status===401||status===403){setAuthStatus(status);setData(null);}}
   finally{if(token===version.current){setLoading(false);backgroundLoad.current=false;loadActive.current=false;}}
  },[kind]);
- useEffect(()=>{void load();return()=>{version.current++;loadController.current?.abort();retryController.current?.abort();};},[load]);
+ useEffect(()=>{void load(initialSheet);return()=>{version.current++;loadController.current?.abort();retryController.current?.abort();};},[load,initialSheet]);
+ // The deep-linked cell is shown only on the sheet it belongs to, and scrolled to once.
+ const focusActive=!!focus&&!!data&&(!initialSheet||data.sheetView.name===initialSheet);
+ useEffect(()=>{if(!focusActive||scrolledFocus.current)return;scrolledFocus.current=true;document.getElementById('highlighted-cell')?.scrollIntoView({block:'center',inline:'center',behavior:'instant'});},[focusActive]);
  useEffect(()=>{if(data?.canProcess)for(const system of data.translationsSummary.systems)if(system.status!=='ready'&&system.revision>0)void scheduleLocalTranslation(system.id,system.revision);},[data]);
  useEffect(()=>{const completed=()=>void load(sheetRef.current,true);window.addEventListener('biu-translation-complete',completed);return()=>window.removeEventListener('biu-translation-complete',completed);},[load]);
  async function retryTranslations(){
@@ -92,9 +106,10 @@ export function OfficialDocument({kind}:{kind:DocumentKind}){
     </section>
     <ReadinessPanel readiness={data.readiness}/>
     <section className={styles.workbook} aria-label={`תצוגת טופס ${title}`}>
+     {focusActive&&<div className={styles.focusNote} role="status"><span>התא <bdi dir="ltr">{focus}</bdi> בגיליון <bdi dir="ltr">{data.sheetView.name}</bdi> מסומן: לשם תיכתב התשובה מהשאלה שממנה הגעתם.</span><button type="button" onClick={()=>document.getElementById('highlighted-cell')?.scrollIntoView({block:'center',inline:'center',behavior:'instant'})}>הצגת התא</button><button type="button" onClick={()=>setFocus('')}>הסתרת הסימון</button></div>}
      <div className={styles.workbookTools}><div><strong dir="auto">{data.sheetView.name}</strong><small>תצוגה לקריאה בלבד</small></div><div className={styles.zoom}><button type="button" onClick={()=>setZoom(value=>Math.max(.25,Math.round((value-.1)*100)/100))} disabled={zoom<=.25} aria-label="הקטנת התצוגה">−</button><output aria-label="גודל תצוגה"><bdi>{Math.round(zoom*100)}%</bdi></output><button type="button" onClick={()=>setZoom(value=>Math.min(2,Math.round((value+.1)*100)/100))} disabled={zoom>=2} aria-label="הגדלת התצוגה">+</button><button type="button" className={styles.fit} onClick={fitWidth}>התאמה לרוחב</button></div></div>
      <div className={styles.sheetTabs} role="tablist" aria-label="גיליונות הטופס" dir="ltr">{data.sheets.map((sheet,index)=><button key={sheet.name} type="button" role="tab" id={`sheet-tab-${index}`} aria-controls="workbook-sheet" aria-selected={sheet.name===data.sheetView.name} tabIndex={sheet.name===data.sheetView.name?0:-1} onKeyDown={tabKey} onClick={()=>chooseSheet(sheet.name)} className={sheet.name===requestedSheet&&loading?styles.loadingTab:''}>{sheet.name}{sheet.state!=='visible'&&<span title="גיליון מוסתר בקובץ המקורי"> ◌</span>}</button>)}</div>
-     <div className={styles.sheetViewport} ref={scrollRef} tabIndex={0} id="workbook-sheet" role="tabpanel" aria-labelledby={`sheet-tab-${data.sheets.findIndex(sheet=>sheet.name===data.sheetView.name)}`} aria-busy={loading} aria-describedby="workbook-help" dir="ltr"><WorkbookSheet sheet={data.sheetView} zoom={zoom}/>{loading&&<div className={styles.sheetLoading} role="status">טוענים גיליון…</div>}</div>
+     <div className={styles.sheetViewport} ref={scrollRef} tabIndex={0} id="workbook-sheet" role="tabpanel" aria-labelledby={`sheet-tab-${data.sheets.findIndex(sheet=>sheet.name===data.sheetView.name)}`} aria-busy={loading} aria-describedby="workbook-help" dir="ltr"><WorkbookSheet sheet={data.sheetView} zoom={zoom} highlight={focusActive?focus:undefined}/>{loading&&<div className={styles.sheetLoading} role="status">טוענים גיליון…</div>}</div>
      <div className={styles.sheetFoot} id="workbook-help"><span>אפשר לגלול לרוחב ולהגדיל. עיצוב ומידות בדפדפן עשויים להשתנות מעט; הקובץ להורדה שומר את התבנית.</span>{formulaCount>0&&<span><bdi>—</bdi> נוסחה שממתינה לחישוב מחדש ב־Excel. ערכים ישנים אינם מוצגים.</span>}</div>
     </section>
     <details className={styles.details}><summary>פרטי הטיוטה והמיפוי</summary><p>התשובות בעברית נשמרות בנפרד. תרגום באנגלית מופיע במסמך רק כשהוא מתאים לגרסה השמורה. העתקת תשובה לטופס אינה אישור הנדסי.</p>{data.sheetView.drawings.length>0&&<p>תרשימים או צורות מיוחדות מסומנים במיקומם בתצוגה ונשמרים בקובץ האקסל.</p>}<p>מקור התבנית: <bdi>{data.report.template.filename}</bdi></p><a href={`/api/documents/${kind}?format=report`}>הורדת דוח המיפוי והפערים <bdi>JSON</bdi> ↓</a></details>
