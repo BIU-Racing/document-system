@@ -79,7 +79,8 @@ const checks: Check[] = [
   { id: 'RC-05', rule: 'EV 5.7.1', page: 80, summary: 'לפני סגירת ה־AIR השני, הטעינה המוקדמת חייבת להגיע ל־95% לפחות ממתח הסוללה (ב־2026 היה 90%).', target: C('LC-ESF-S05-D14'), inputs: [C('LC-ESF-S05-D11')],
     evaluate: get => {
       const mode = get.text(C('LC-ESF-S05-D11'));
-      if (mode && mode !== 'Ratio') return notice(`שיטת הסיום שנבחרה היא ${mode}. הבדיקה של 95% נעשית בשדה המתאים לשיטה.`);
+      // Not relevant for the chosen end condition: no warning, only a neutral note.
+      if (mode && mode !== 'Ratio') return pending(`לא נבדק: שיטת הסיום שנבחרה היא ${mode}, והבדיקה נעשית בשדה המתאים לה.`);
       const value = get.num(C('LC-ESF-S05-D14'));
       const result = minCheck(value, 95, '%', 'EV 5.7.1');
       return result.status === 'violation' && value !== undefined && value >= 90 ? bad(`${result.message} שימו לב: תבנית ה־ESF בודקת 90% (כלל ישן), ולכן היא עלולה להציג OK.`) : result;
@@ -87,7 +88,7 @@ const checks: Check[] = [
   { id: 'RC-06', rule: 'EV 5.7.1', page: 80, summary: 'הטעינה המוקדמת חייבת להגיע ל־95% לפחות, כלומר הפרש המתחים בסיום הוא לכל היותר 5% מהמתח.', target: C('LC-ESF-S05-D13'), inputs: [C('LC-ESF-S05-D11'), MAX_TS_VOLTAGE],
     evaluate: get => {
       const mode = get.text(C('LC-ESF-S05-D11'));
-      if (mode && mode !== 'Delta Voltage') return notice(`שיטת הסיום שנבחרה היא ${mode}. השדה הזה נבדק רק כשהשיטה היא Delta Voltage.`);
+      if (mode && mode !== 'Delta Voltage') return pending(`לא נבדק: שיטת הסיום שנבחרה היא ${mode}, והשדה הזה רלוונטי רק לשיטת Delta Voltage.`);
       const delta = get.num(C('LC-ESF-S05-D13')), volts = get.num(MAX_TS_VOLTAGE);
       if (delta === undefined) return pending();
       if (volts === undefined) return pending(needsMaxVoltage);
