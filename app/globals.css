@@ -213,3 +213,11 @@ button[aria-busy=true]{cursor:progress}
 .translation-checks-ok{margin:4px 0;color:#3d6b57;font-size:12px}.translation-note{margin:0 0 8px;color:var(--muted);font-size:12px}
 .translation-edit{display:grid;gap:6px;margin-bottom:8px}.translation-edit label{font-size:12px;color:var(--muted)}.translation-edit textarea{text-align:left;font-size:13px;min-height:80px}
 .translation-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}.translation-footnote{display:block;margin-top:8px;font-size:10px;color:#8d9890}
+/* Formula Student 2027 rule notes and live check results (warnings only). */
+.rule-notes{margin-top:12px;padding:10px 12px;border:1px solid #d9e3ec;border-radius:8px;background:#f6f9fc;font-size:12px}
+.rule-text{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0 0 4px;color:#30474f;line-height:1.6}.rule-text small{color:#7a8d93;font-size:11px}
+.rule-badge{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;background:#e4ecf3;color:#24485a}
+.rule-results{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.rule-result{padding:6px 10px;border-radius:6px;font-size:12px;line-height:1.6}.rule-result.ok{background:#e5f5ec;color:#11553f}.rule-result.violation{background:#fde4e1;color:#9b2a1b;font-weight:600}.rule-result.notice{background:#fcf1dc;color:#7a4f0c}.rule-result.pending{background:#eef2f5;color:#5f6b6e}
+.answer-field:has(.rule-result.violation){border-color:#d0553f;box-shadow:0 0 0 2px #d0553f33}
+.answer-field:has(.rule-result.violation) .rule-notes{border-color:#efb3a8;background:#fff6f4}

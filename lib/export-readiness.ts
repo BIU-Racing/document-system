@@ -58,8 +58,13 @@ export type ReadinessSystemSummary = {
   warnings: number;
 };
 
+/** A 2027 rule check that is violated (red) or needs a decision (amber). Warnings only. */
+export type RuleWarning = { checkId: string; rule: string; page: number; status: 'violation' | 'notice'; message: string; systemId: string; fieldId: string; rowId?: string; systemLabel: string; fieldLabel: string };
+
 export type DocumentReadiness = {
   kind: OfficialWorkbookKind;
+  /** Filled by the document route from lib/rule-checks.ts; never affects ready/state. */
+  ruleWarnings?: RuleWarning[];
   state: 'validated' | 'draft';
   ready: boolean;
   totals: { items: number; ready: number; blockers: number; warnings: number };

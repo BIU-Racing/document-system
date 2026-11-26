@@ -1,6 +1,7 @@
 'use client';
 import { useMemo, useState } from 'react';
 import type { DocumentReadiness, ReadinessIssue, ReadinessReason, DocumentBlockerCode } from '@/lib/export-readiness';
+import { isolateLtr } from '@/lib/bidi';
 import styles from './readiness-panel.module.css';
 
 export const reasonLabels: Record<ReadinessReason, string> = {
@@ -35,6 +36,13 @@ const blockerText: Record<DocumentBlockerCode, string> = {
 };
 
 type Filter = 'all' | 'blocker' | 'warning' | ReadinessReason;
+
+/** "תקנון 2027: חריגה אחת, 2 לבדיקה" with Hebrew number agreement. */
+function ruleHeadline(items: NonNullable<DocumentReadiness['ruleWarnings']>) {
+  const violations = items.filter(item => item.status === 'violation').length, notices = items.length - violations;
+  const parts = [violations === 1 ? 'חריגה אחת' : violations ? `${violations} חריגות` : '', notices === 1 ? 'פריט אחד לבדיקה' : notices ? `${notices} פריטים לבדיקה` : ''].filter(Boolean);
+  return isolateLtr(`תקנון 2027: ${parts.join(', ')}`);
+}
 const PAGE = 40;
 
 function fieldHref(issue: ReadinessIssue) {
@@ -128,8 +136,17 @@ export function ReadinessPanel({ readiness }: { readiness: DocumentReadiness }) 
     <div className={styles.meter} role="img" aria-label={`${readyPercent}% מהשדות מוכנים`}><span style={{ inlineSize: `${readyPercent}%` }} /></div>
 
     {readiness.documentBlockers.length > 0 && <ul className={styles.documentBlockers} aria-label="חסמים ברמת המסמך">
-      {readiness.documentBlockers.map(blocker => <li key={blocker.code}>{blockerText[blocker.code]}</li>)}
+      {readiness.documentBlockers.map(blocker => <li key={blocker.code}>{isolateLtr(blockerText[blocker.code])}</li>)}
     </ul>}
+
+    {!!readiness.ruleWarnings?.length && <div className={styles.rules} aria-label="תקנון 2027">
+      <strong>{ruleHeadline(readiness.ruleWarnings)}</strong>
+      <ul>{readiness.ruleWarnings.map((item, index) => <li key={item.checkId + (item.rowId ?? '') + index} data-status={item.status}>
+        <span className={styles.ruleBadge} dir="ltr">{item.rule}</span>
+        <span><bdi>{item.systemLabel}</bdi> · <bdi>{item.fieldLabel}</bdi>: {item.message}</span>
+        <a href={`/?${new URLSearchParams({ system: item.systemId, field: item.fieldId }).toString()}`}>מעבר לשדה <span aria-hidden="true">←</span></a>
+      </li>)}</ul>
+    </div>}
 
     {readiness.issues.length > 0 && <>
       <div className={styles.filters} role="group" aria-label="סינון לפי סוג">
@@ -139,7 +156,7 @@ export function ReadinessPanel({ readiness }: { readiness: DocumentReadiness }) 
         {reasonCounts.map(({ reason, count }) =>
           <button key={reason} type="button" data-reason={reason} aria-pressed={filter === reason} onClick={() => setFilter(filter === reason ? 'all' : reason)}>{reasonLabels[reason]} <bdi>{count}</bdi></button>)}
       </div>
-      {help && <p className={styles.help}>{help}</p>}
+      {help && <p className={styles.help}>{isolateLtr(help)}</p>}
       <div className={styles.groups}>
         {groups.map(([key, group], index) => <SystemGroup key={`${filter}:${key}`} label={group.label} issues={group.issues} defaultOpen={index === 0 && groups.length <= 3} />)}
       </div>

@@ -469,6 +469,20 @@ export async function applySourceImport(body:Record<string,unknown>){
  const system=await commitSnapshot(incoming.id,member,answers,base,mutation,hash,'draft',review,{action,reason:mode==='manual'?'ייבוא מקורות לאימות הצוות':mode==='editorial_revision'?'עריכת תוכן מפורשת ממקורות — לאימות הצוות':'השלמת שדות ריקים בלבד ממקורות — לאימות הצוות',fieldIds:importedIds},mode==='weekly_empty_fill'?importedIds:undefined,expectations?{fieldIds:importedIds,attachmentIds:expectations.expectedAttachmentIds}:undefined);
  return {mode,system,imported:merged.imported,skipped:merged.skipped,replayed:false};
 }
+/** Saved answers of every field a 2027 rule check reads, from the systems this member may read. */
+export async function getRuleContext(){
+ const {ruleInputs}=await import('@/lib/rule-checks');
+ const member=await session(),answers:Record<string,Answers>={};
+ const bySystem=new Map<string,string[]>();
+ for(const input of ruleInputs){const list=bySystem.get(input.systemId)??[];list.push(input.fieldId);bySystem.set(input.systemId,list);}
+ for(const [systemId,fieldIds] of bySystem){
+  const allowed=systemId==='COORDINATOR'?member.role==='coordinator':member.systemIds.includes(systemId);
+  if(!allowed||!getSystem(systemId))continue;
+  const snapshot=await readSystem(systemId);
+  answers[systemId]=Object.fromEntries(fieldIds.filter(id=>snapshot.answers[id]).map(id=>[id,snapshot.answers[id]]));
+ }
+ return {answers};
+}
 /**
  * Human approval of the English text of one answer (separate from engineering approval).
  * approve: confirms the English the reviewer saw (englishFingerprint must still match).
