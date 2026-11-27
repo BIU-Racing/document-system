@@ -61,9 +61,9 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
  const original=Uint8Array.from(atob(template.base64),c=>c.charCodeAt(0));if(await hash(original)!==template.sha256)throw new Error('SES template checksum mismatch');
  const parts=unzipSync(original),generatedAt=input.generatedAt??new Date().toISOString();if(!Number.isFinite(Date.parse(generatedAt)))throw new Error('Invalid workbook date');
  const report:OfficialWorkbookReport={format:'BIU-OFFICIAL-WORKBOOK-DRAFT',version:1,kind:'ses',workingSeason:2027,generatedAt,readyForSubmission:false,
- template:{filename:template.filename,year:template.year,sha256:template.sha256,submission2027Verified:false},
+ template:{filename:template.filename,year:template.year,sha256:template.sha256,officialSubmission:true},
  sourceSnapshots:snapshot?[{systemId:'SES',revision:snapshot.revision,sourceHash}]:[],projectMetadata:[],fields:[],writtenCells:[],clearedTemplateValues:[],preservedTemplateValues:[],unmappedSourceFields:[],changedParts:[],formulaResults:'not_calculated_open_in_excel',
- warnings:['תבנית Italy SES 2026 v1.3; קבלה לעונת 2027 טרם אומתה.','שיוך האחריות לצוותי מכניקה הוא הצעה שטרם אושרה.','ערכי תבנית שלא הוחלפו נשמרים כערכי תבנית, ואינם תשובות או אישור של BIU.','יש לפתוח ב־Excel 2021 ומעלה לחישוב נוסחאות, אימות תלוי נוסחה ושיבוץ ראיות.']};
+ warnings:['קובץ BIU Racing על תבנית ההגשה הרשמית Italy SES 2026 v1.3.','שיוך האחריות לצוותי מכניקה הוא הצעה שטרם אושרה.','ערכי תבנית שלא הוחלפו נשמרים כערכי תבנית, ואינם תשובות או אישור של BIU.','יש לפתוח ב־Excel 2021 ומעלה לחישוב נוסחאות, אימות תלוי נוסחה ושיבוץ ראיות.']};
  const patches=new Map<string,Map<string,OfficialCellWrite>>();
  const xmlCache=new Map<string,string>(),sheetXml=(path:string)=>{let xml=xmlCache.get(path);if(xml===undefined){xml=strFromU8(parts[path]);xmlCache.set(path,xml);}return xml;};
  for(const field of getFields('SES')){

@@ -7,7 +7,7 @@ import Module, { createRequire } from 'node:module';
 import { computeReadiness, controlReasons, readinessFilename } from '../lib/export-readiness.ts';
 
 const field = (over = {}) => ({ controlId: 'C1', systemId: 'BMS', fieldId: 'F1', sheet: 'S', ranges: ['A1'], status: 'written', message: '', writtenCells: ['A1'], engineeringReviewed: true, ...over });
-const report = (fields, over = {}) => ({ kind: 'esf', template: { submission2027Verified: false }, fields, ...over });
+const report = (fields, over = {}) => ({ kind: 'esf', template: { officialSubmission: true }, fields, ...over });
 
 test('a reviewed, non-translated written value is ready', () => {
   assert.deepEqual(controlReasons(field()), []);
@@ -32,7 +32,7 @@ test('N/A is a warning without a reason and still needs engineering review', () 
 });
 
 test('evidence placement alone is a warning, not a blocker', () => {
-  const result = computeReadiness({ report: report([field({ status: 'evidence_required' })], { template: { submission2027Verified: true } }), completeScope: true });
+  const result = computeReadiness({ report: report([field({ status: 'evidence_required' })]), completeScope: true });
   assert.equal(result.totals.warnings, 1);
   assert.equal(result.totals.blockers, 0);
   assert.equal(result.ready, true, 'warnings never block validation');
@@ -50,11 +50,11 @@ test('table columns of one field merge into a single issue', () => {
   assert.equal(result.totals.items, 1);
 });
 
-test('document-level blockers: unverified template and partial scope', () => {
+test('document-level blockers: only partial scope; the bundled templates are the official ones', () => {
   const clean = [field()];
-  const verified = { template: { submission2027Verified: true } };
-  assert.equal(computeReadiness({ report: report(clean, verified), completeScope: true }).ready, true);
-  assert.deepEqual(computeReadiness({ report: report(clean), completeScope: true }).documentBlockers.map(b => b.code), ['template_unverified']);
+  const verified = {};
+  assert.equal(computeReadiness({ report: report(clean), completeScope: true }).ready, true, 'a complete, reviewed document is validated');
+  assert.deepEqual(computeReadiness({ report: report(clean), completeScope: true }).documentBlockers, []);
   assert.deepEqual(computeReadiness({ report: report(clean, { ...verified, kind: 'ses' }), completeScope: true }).documentBlockers.map(b => b.code), [], 'SES has a fixed mapping now');
   const partial = computeReadiness({ report: report([...clean, field({ controlId: 'X', systemId: 'TSAL', fieldId: 'T', status: 'out_of_scope' })], verified), completeScope: true });
   assert.deepEqual(partial.documentBlockers, [{ code: 'partial_scope', count: 1 }]);
@@ -110,7 +110,7 @@ test('ESF export: translated, untranslated and reviewed answers are classified',
 
 test('SES: written manual cell addresses need a check, empty optional tables are not required', () => {
   const labels = { system: () => 'SES', field: (_s, id) => id === 'TABLE' ? { label: 'תאים נוספים', optional: true, manualAddress: true } : { label: 'שאלה קבועה' } };
-  const verified = { kind: 'ses', template: { submission2027Verified: true } };
+  const verified = { kind: 'ses' };
   const empty = computeReadiness({ report: report([field({ systemId: 'SES', fieldId: 'TABLE', status: 'empty', engineeringReviewed: undefined }), field({ systemId: 'SES', fieldId: 'F1' })], verified), completeScope: true, labels });
   assert.equal(empty.ready, true);
   assert.equal(empty.totals.items, 1, 'an empty optional table is not counted');

@@ -48,7 +48,8 @@ export type OfficialWorkbookReport = {
   workingSeason: 2027; generatedAt: string;
   /** Builders always emit false; only the pre-export readiness check may set true. */
   readyForSubmission: boolean;
-  template: { filename: string; year: number; sha256: string; submission2027Verified: false };
+  /** Team decision (27.11.2026): the bundled Italy templates are the official submission templates. */
+  template: { filename: string; year: number; sha256: string; officialSubmission: true };
   sourceSnapshots: { systemId: string; revision: number; sourceHash: string }[];
   projectMetadata: { key: 'team_name' | 'university' | 'competition_year'; sheet: string; cell: string; value?: string; type: 'text' | 'number'; source: 'project_identity' | 'saved_answer'; status: 'written' | 'saved_answer_pending'; lockedCellOverride: boolean }[];
   fields: OfficialFieldResult[]; writtenCells: OfficialCellWrite[];
@@ -233,11 +234,11 @@ export async function buildOfficialWorkbook(input: OfficialWorkbookInput): Promi
   const cellIndexes = new Map([...sheets].map(([name, sheet]) => [name, cells(sheet.xml, needed.get(name) ?? new Set())]));
   const report: OfficialWorkbookReport = {
     format: 'BIU-OFFICIAL-WORKBOOK-DRAFT', version: 1, kind: input.kind, workingSeason: 2027, generatedAt, readyForSubmission: false,
-    template: { filename: template.filename, year: template.year, sha256: template.sha256, submission2027Verified: false },
+    template: { filename: template.filename, year: template.year, sha256: template.sha256, officialSubmission: true },
     sourceSnapshots: [...snapshots].map(([systemId, snapshot]) => ({ systemId, revision: snapshot.revision, sourceHash: hashes.get(systemId)! })),
     projectMetadata: [], fields: [], writtenCells: [], clearedTemplateValues: [], preservedTemplateValues: [], unmappedSourceFields: [], changedParts: [], formulaResults: 'not_calculated_open_in_excel',
     warnings: [
-      `טיוטת BIU Racing לעונת 2027 על בסיס תבנית Italy ${template.year}. תבנית הגשה לאיטליה 2027 טרם אומתה.`,
+      `קובץ BIU Racing על תבנית ההגשה הרשמית Italy ${template.year}.`,
       'ברירות מחדל נמחקו רק מתאי קלט ממופים שאינם נעולים או נוסחאות. ערכים מוגנים שנשארו הם ערכי תבנית ולא תשובות BIU.',
       'הנוסחאות נשמרות. השרת אינו מחשב אותן ואינו מפעיל מאקרו; יש לפתוח ביישום Excel תואם לחישוב מחדש.',
       'הקובץ אינו אישור הנדסי. מצב תרגום, בדיקת צוות, תחולה וראיות נשמרים בנפרד בדוח.',

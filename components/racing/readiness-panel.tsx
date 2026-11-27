@@ -31,7 +31,6 @@ const reasonHelp: Partial<Record<ReadinessReason, string>> = {
 };
 
 const blockerText: Record<DocumentBlockerCode, string> = {
-  template_unverified: 'התבנית בקוד לא אומתה עדיין כתבנית ההגשה הרשמית לתחרות 2027.',
   partial_scope: 'המסמך נבנה רק מהמערכות שבהרשאה שלכם. רק רכז עם גישה לכל המערכות יכול לאמת מסמך שלם.',
 };
 

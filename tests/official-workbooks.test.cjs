@@ -33,7 +33,7 @@ test('both original template checksums, complete mappings and every unmodified O
  for(const [kind,count] of [['esf',272],['ases',453]]){
   const t=templates[kind];assert.equal(hash(Buffer.from(t.base64,'base64')),t.sha256);
   const w=await blank(kind),after=unzipSync(w.bytes),before=original(kind);
-  assert.equal(w.report.fields.length,count);assert.equal(w.report.workingSeason,2027);assert.equal(w.report.readyForSubmission,false);assert.equal(w.report.template.submission2027Verified,false);
+  assert.equal(w.report.fields.length,count);assert.equal(w.report.workingSeason,2027);assert.equal(w.report.readyForSubmission,false);assert.equal(w.report.template.officialSubmission,true);
   assert.deepEqual(Object.keys(after).sort(),Object.keys(before).sort());
   assert.equal(w.report.writtenCells.length,0);assert.equal(w.report.fields.filter(f=>f.status==='restricted').length,kind==='ases'?4:0);
   for(const p of Object.keys(before)){
@@ -161,7 +161,7 @@ test('SES preserves all 49 sheets and every ZIP part outside explicit cell write
  const result=await buildOfficialWorkbook({kind:'ses',snapshots:[s]});assert.equal(result.sheets.length,49);assert.equal(result.report.fields.find(f=>f.fieldId===field.id).status,'written');
  const before=original('ses'),after=unzipSync(result.bytes);assert.deepEqual(Object.keys(before).sort(),Object.keys(after).sort());
  const allowed=new Set(result.report.changedParts);for(const name of Object.keys(before))if(!allowed.has(name))assert.deepEqual(after[name],before[name],name);
- assert.equal(result.report.readyForSubmission,false);assert.equal(result.report.template.submission2027Verified,false);
+ assert.equal(result.report.readyForSubmission,false);assert.equal(result.report.template.officialSubmission,true);
 });
 test('SES rejects out-of-range, merged non-anchor, duplicate and formula cells without partial writes',async()=>{
  const cover=fields('SES').find(f=>f.kind==='table'&&f.officialTemplate.sheet==='Cover Sheet');

@@ -7,8 +7,8 @@
  *
  * A document is "validated" only when nothing blocks it. Passing software
  * checks is not engineering approval, so unreviewed fields, unapproved machine
- * translation, an unverified 2027 template and an unverified SES mapping all
- * block validation.
+ * translation and an unverified SES mapping all block validation. The bundled
+ * Italy templates are the official submission templates (team decision, 27.11.2026).
  */
 import type { OfficialFieldResult, OfficialWorkbookKind, OfficialWorkbookReport } from './official-workbooks';
 import type { Answers } from './progress';
@@ -32,7 +32,7 @@ export type ReadinessReason =
   | 'restricted_manual'
   | 'manual_cell_address';
 
-export type DocumentBlockerCode = 'template_unverified' | 'partial_scope';
+export type DocumentBlockerCode = 'partial_scope';
 
 export type ReadinessIssue = {
   /** Stable key: one entry per saved field (table columns are merged). */
@@ -192,7 +192,6 @@ export function computeReadiness(input: ReadinessInput): DocumentReadiness {
   }
 
   const documentBlockers: DocumentReadiness['documentBlockers'] = [];
-  if (!report.template.submission2027Verified) documentBlockers.push({ code: 'template_unverified' });
   if (!input.completeScope || outOfScope > 0) documentBlockers.push({ code: 'partial_scope', ...(outOfScope ? { count: outOfScope } : {}) });
 
   const list = [...issues.values()].sort((a, b) =>

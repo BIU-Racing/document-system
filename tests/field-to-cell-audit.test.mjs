@@ -74,7 +74,7 @@ const issues={
 console.log('BIU-FIELD-CELL-AUDIT',JSON.stringify({summary,issues,notes:[
  'Automatic workbook cell permission verification does not prove semantic correctness of a destination',
  'SES asks a user to select specific target cell addresses within allowed ranges',
- 'Templates are historical and not yet verified as Italy 2027 submission templates'
+ 'Bundled Italy templates (ESF FEI2023, ASES FS26, SES FS26) are the official submission templates by team decision'
 ]},null,2));
 test('verify source field identifiers and workbook sheet/hash consistency',()=>{
  assert.equal(issues.missingStructural.length,0,'Mapping registry has structurally broken source or target references');

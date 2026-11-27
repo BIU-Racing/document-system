@@ -55,7 +55,7 @@ export async function GET(request:Request){return guard(request,async()=>{
   }}
   await add('attachments.json',attachmentIndex);
   const readingGuide=wanted==='all'?'פתחו report.html לקריאה או להדפסה. PDF נכלל בייצוא של מערכת בודדת; החבילה המלאה כוללת את כל התוכן ב־HTML.':'פתחו report.html או report.pdf לקריאה.';
-  entries.push(await textEntry('README.txt',`BIU Racing | תיק החשמל 2027\nחבילה פרטית ועצמאית. ${readingGuide} answers.json כולל תשובות ומזהים קבועים; field-definitions.json כולל את ההגדרות; history-index.json ו־history/ שומרים גרסאות ובדיקות; files/ מכיל את הקבצים המקוריים, גם בגרסאות קודמות. source-registry/ מכיל את מיפוי המקור המלא, הנוסחאות ומטריצת הדוגמאות. manifest.json מכיל גדלים וחותמות SHA-256.\nתבניות ההגשה לאיטליה 2027 ודוגמאות חסרות נשארות להשלמה. החבילה אינה הגשה לתחרות ואינה אישור הנדסי.\n`));
+  entries.push(await textEntry('README.txt',`BIU Racing | תיק החשמל 2027\nחבילה פרטית ועצמאית. ${readingGuide} answers.json כולל תשובות ומזהים קבועים; field-definitions.json כולל את ההגדרות; history-index.json ו־history/ שומרים גרסאות ובדיקות; files/ מכיל את הקבצים המקוריים, גם בגרסאות קודמות. source-registry/ מכיל את מיפוי המקור המלא, הנוסחאות ומטריצת הדוגמאות. manifest.json מכיל גדלים וחותמות SHA-256.\nדוגמאות חסרות נשארות להשלמה. החבילה אינה הגשה לתחרות ואינה אישור הנדסי.\n`));
   const count=indexes.reduce((n,i)=>n+i.revisions.length,0);
   if(count+entries.length>65000)throw new ApiError(413,'מספר גרסאות התיעוד גדול מדי לחבילה אחת. יש לייצא כל מערכת בנפרד.');
   let estimated=entries.reduce((n,e)=>n+e.size+2048,0);
