@@ -68,13 +68,14 @@ export async function buildSesWorkbook(input:OfficialWorkbookInput):Promise<Offi
  const xmlCache=new Map<string,string>(),sheetXml=(path:string)=>{let xml=xmlCache.get(path);if(xml===undefined){xml=strFromU8(parts[path]);xmlCache.set(path,xml);}return xml;};
  for(const field of getFields('SES')){
   const mapping=(field as unknown as {officialTemplate:{sheet:string;editableRanges:string[]}}).officialTemplate;
+  if(!mapping)continue; // UI-only controls (repeated-block counts) have no cell.
   const sheet=template.sheets.find(s=>s.name===mapping.sheet),guard=guards.find(g=>g.sheet===mapping.sheet);
   const result:OfficialFieldResult={controlId:field.id,systemId:'SES',fieldId:field.id,sheet:mapping.sheet,ranges:mapping.editableRanges,status:'empty',message:'',writtenCells:[],sourceRevision:snapshot?.revision};
   const finish=(status:OfficialCellStatus)=>{result.status=status;result.message=messages[status]??status;report.fields.push(result);};
   if(!snapshot){finish('out_of_scope');continue;}
   const fixedTemplate=(field as unknown as {officialTemplate:{fixed?:boolean}}).officialTemplate;
   // A fixed field hidden by its sheet's construction type is not required, answered or not.
-  if(fixedTemplate.fixed&&!fieldVisible(field as {showWhen?:{fieldId:string;notIn:string[]}},snapshot.answers)){finish('condition_hidden');continue;}
+  if(fixedTemplate.fixed&&!fieldVisible(field as Parameters<typeof fieldVisible>[0],snapshot.answers)){finish('condition_hidden');continue;}
   const answer=snapshot.answers[field.id];
   if(!answer){finish('empty');continue;}
   result.sourceReviewPending=answer.sourceReview==='pending';
