@@ -26,7 +26,7 @@ test('navigation catalog excludes prompts, columns, evidence and source registri
  const implementation=read('lib/overview-catalog.ts');
  assert.match(implementation,/systems\.overview\.json/);
  assert.doesNotMatch(implementation,/from\s+['"][^'"]*(?:\/catalog|systems\.normalized|coverage|examples|coordinator)/);
- assert.match(read('components/racing/system-map.tsx'),/import \{ systems \} from '@\/lib\/overview-catalog'/);
+ assert.match(read('components/racing/system-map.tsx'),/import \{ systems[^}]*\} from '@\/lib\/overview-catalog'/);
 });
 
 test('generator check is read-only and resolves data from its own location',()=>{

@@ -247,6 +247,22 @@ export const departments = [
   { id: 'LV_HV', label: 'ממשקים ואינטגרציה' },
 ];
 
+/** The official documents a system fills (from its visible form fields), in ESF, ASES, SES order. */
+export function systemDocuments(id: string): ('ESF' | 'ASES' | 'SES')[] {
+  const found = new Set<string>();
+  for (const field of getSystem(id)?.fields ?? []) {
+    if (field.retired) continue;
+    if (field.officialTemplate) found.add('SES');
+    for (const ref of field.officialRefs ?? []) found.add(ref.document.toUpperCase());
+  }
+  return (['ESF', 'ASES', 'SES'] as const).filter(document => found.has(document));
+}
+
+/** The teams (and the coordinator) that fill an official document, for the home page guide. */
+export function documentTeams(document: 'ESF' | 'ASES' | 'SES'): { id: string; label: string }[] {
+  return [...systems, coordinatorSystem].filter(system => systemDocuments(system.id).includes(document)).map(system => ({ id: system.id, label: system.id === 'COORDINATOR' ? 'ריכוז מסמכים' : system.label }));
+}
+
 export function getSystem(id: string): System | undefined {
   if (id === 'COORDINATOR') return coordinatorSystem;
   return systems.find((system) => system.id === id);

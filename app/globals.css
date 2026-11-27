@@ -243,3 +243,7 @@ button[aria-busy=true]{cursor:progress}
 /* Chapter menu groups: the team's form questions first, then its internal documentation. */
 .chapter-group{margin:14px 8px 6px;font-size:13px;font-weight:700;color:#087d7c;letter-spacing:.2px}.chapter-group:first-of-type{margin-top:2px}
 .chapter-tabs{display:flex;flex-wrap:wrap;gap:8px 16px;margin:6px 0 0;font-size:14px}.chapter-tabs a{color:#087d7c;font-weight:600;text-decoration:none}.chapter-tabs a:hover{text-decoration:underline}
+
+/* Home guide: which teams fill which official document. */
+.document-card-teams{margin:6px 0 14px;font-size:13px;line-height:1.7;opacity:.85;max-width:36ch}.document-card-teams>span{font-weight:700}
+.tile-forms{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.tile-form{font-size:13px;line-height:1;padding:4px 8px;border-radius:999px;border:1px solid #5fd0c066;color:#9fe7dc;font-weight:600}.tile-form-none{border-color:#ffffff33;color:#b9c7cc;font-weight:500}
