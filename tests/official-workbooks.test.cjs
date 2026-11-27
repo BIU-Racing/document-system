@@ -13,6 +13,7 @@ const coverage=JSON.parse(fs.readFileSync('data/coverage.normalized.json','utf8'
 const systems=JSON.parse(fs.readFileSync('data/systems.normalized.json','utf8'));
 const queue=JSON.parse(fs.readFileSync('data/coordinator.normalized.json','utf8'));
 const templates=JSON.parse(fs.readFileSync('private-data/official-workbook-templates.json','utf8'));
+require('./route-raw-data.cjs').routeRawData(coverage,queue,systems);
 const fields=id=>id==='COORDINATOR'?queue:systems.find(s=>s.id===id).fields;
 const canonical=value=>Array.isArray(value)?'['+value.map(canonical).join(',')+']':value&&typeof value==='object'?'{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}':JSON.stringify(value)??'null';
 const hash=value=>crypto.createHash('sha256').update(typeof value==='string'?value:Buffer.from(value)).digest('hex');

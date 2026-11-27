@@ -24,6 +24,7 @@ const templates = load('private-data/official-workbook-templates.json');
 const entries = load('data/coverage.normalized.json').entries;
 const coordinator = load('data/coordinator.normalized.json');
 const systems = load('data/systems.normalized.json');
+require('./route-raw-data.cjs').routeRawData(entries, coordinator, systems);
 const fieldsOf = id => id === 'COORDINATOR' ? coordinator : systems.find(s => s.id === id).fields;
 const canonical = v => Array.isArray(v) ? '[' + v.map(canonical).join(',') + ']' : v && typeof v === 'object' ? '{' + Object.entries(v).sort(([a], [b]) => a.localeCompare(b)).map(([k, x]) => JSON.stringify(k) + ':' + canonical(x)).join(',') + '}' : JSON.stringify(v) ?? 'null';
 const sha = v => crypto.createHash('sha256').update(v).digest('hex');
@@ -151,7 +152,7 @@ test('QA-01 all 13 audited numeric answers are written as real Excel numbers', a
 test('QA-01 precharge ratio check (D14 < 90 -> WARNING) gives the right answer below, at and above the threshold', async () => {
   const cases = [['80', 'WARNING'], ['89.99', 'WARNING'], ['90', 'OK'], ['90.01', 'OK'], ['95%', 'OK'], ['85 %', 'WARNING']];
   for (const [value, expected] of cases) {
-    const w = await exportAnswers('esf', { COORDINATOR: { 'LC-ESF-S05-D11': 'Ratio', 'LC-ESF-S05-D14': value } });
+    const w = await exportAnswers('esf', { PRECHARGE: { 'LC-ESF-S05-D11': 'Ratio', 'LC-ESF-S05-D14': value } });
     assert.equal(check(w.bytes, 'esf', 'PrechargeDischarge', 'F14'), expected, `ratio ${value}`);
   }
 });
@@ -200,7 +201,7 @@ test('QA-01 identifiers and free text stay strings (no blanket number conversion
 test('QA-02 charger power: the template unit is kW, the app asks for W, and export converts exactly once', async () => {
   const cells = book(await blankBook('esf'), 'esf').sheet('Charging');
   assert.equal(cells.E10.value, 'kW');
-  const field = coordinator.find(f => f.id === 'LC-ESF-S06-D10');
+  const field = fieldsOf('CHARGER').find(f => f.id === 'LC-ESF-S06-D10');
   assert.equal(field.unit, 'W'); assert.match(field.prompt, /ביחידות W/);
   for (const [watts, kw] of [['3000', 3], ['6600', 6.6], ['1500.5', 1.5005], ['0', 0], ['250', 0.25]]) {
     const w = await one('LC-ESF-S06-D10', watts);
@@ -212,7 +213,7 @@ test('QA-02 charger power: the template unit is kW, the app asks for W, and expo
   for (const value of ['3 kW', '3000 W', '-100', '3,000']) assert.equal(status(await one('LC-ESF-S06-D10', value), 'LC-ESF-S06-D10'), 'invalid_value', value);
   // Exactly once: the stored answer is untouched and a second export gives the same cell.
   const answers = { 'LC-ESF-S06-D10': '3000' }, before = JSON.stringify(answers);
-  const a = await exportAnswers('esf', { COORDINATOR: answers }), b = await exportAnswers('esf', { COORDINATOR: answers });
+  const a = await exportAnswers('esf', { CHARGER: answers }), b = await exportAnswers('esf', { CHARGER: answers });
   assert.equal(JSON.stringify(answers), before);
   assert.equal(book(a.bytes, 'esf').sheet('Charging').D10.value, 3); assert.equal(book(b.bytes, 'esf').sheet('Charging').D10.value, 3);
 });
