@@ -7,9 +7,11 @@ export type ReviewField = { fingerprint:string; verdict:'approved'|'changes_requ
 /** Human approval of the English text of one answer. source/english are fingerprints; any change to either voids it. */
 export type TranslationApproval = { source:string; english:string; value?:string|TableRow[]; role:string; at:string };
 export type Review = { fields?:Record<string,ReviewField>; translations?:Record<string,TranslationApproval>; submittedRevision?:number; submittedAt?:string };
-export type Progress = { complete:number; total:number; percent:number; filled:number;fillPercent:number;populated:number;sourcePending:number;sourceConfirmed:number; missing:{id:string;label:string;reason:string}[] };
+/** forms: fields written to (or placed in) an official workbook; internal: the system's own documentation. */
+export type ProgressPart = { filled:number; total:number; fillPercent:number };
+export type Progress = { complete:number; total:number; percent:number; filled:number;fillPercent:number;populated:number;sourcePending:number;sourceConfirmed:number; missing:{id:string;label:string;reason:string}[]; forms?:ProgressPart; internal?:ProgressPart };
 export type SystemSnapshot = { id:string; answers:Answers; revision:number; status:'draft'|'in_review'|'changes_requested'|'approved'; attachments:Attachment[]; progress:Progress; updatedAt:string|null; review:Review; schemaVersion:string; contentHash?:string };
-export type ProgressField = {id:string;label:string;required?:boolean;showWhen?:{fieldId:string;notIn:string[]};showWhenCount?:ShowWhenCount;type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
+export type ProgressField = {id:string;label:string;required?:boolean;officialRefs?:unknown[];officialTemplate?:unknown;showWhen?:{fieldId:string;notIn:string[]};showWhenCount?:ShowWhenCount;type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
 export function canonical(value:unknown):string {
   if(Array.isArray(value)) return '['+value.map(canonical).join(',')+']';
   if(value && typeof value==='object') return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';
@@ -48,7 +50,8 @@ export function fieldVisible(field:{id?:string;showWhen?:ShowWhen;showWhenCount?
 export function computeProgress(fields:ProgressField[],answers:Answers,attachments:Attachment[]=[],review:Review={}):Progress {
   const unique = [...new Map(fields.filter(f=>f.required!==false&&fieldVisible(f,answers)).map(f=>[f.id,f])).values()];
   const missing:Progress['missing']=[];
-  let filled=0;
+  let filled=0,formsFilled=0;
+  const isForm=(field:ProgressField)=>!!field.officialRefs?.length||!!field.officialTemplate;
   for(const field of unique){
     const answer=answers[field.id]; const inspected=review.fields?.[field.id];
     const currentReview=inspected?.fingerprint===fingerprint(answer)?inspected:undefined;
@@ -75,7 +78,7 @@ export function computeProgress(fields:ProgressField[],answers:Answers,attachmen
     }
     // Assess the same content and evidence requirements once. Source verification
     // affects formal completion, while filled tracks usable documentation.
-    if(!reason)filled++;
+    if(!reason){filled++;if(isForm(field))formsFilled++;}
     if(answer?.sourceReview==='pending')reason='תוכן מהמקורות — ממתין לאימות הצוות';
     if(reason) missing.push({id:field.id,label:field.label,reason});
   }
@@ -84,5 +87,6 @@ export function computeProgress(fields:ProgressField[],answers:Answers,attachmen
   const sourcePending=unique.filter(field=>answers[field.id]?.sourceReview==='pending').length;
   const sourceConfirmed=unique.filter(field=>answers[field.id]?.sourceReview==='confirmed'&&answers[field.id].provenance?.length).length;
   const percentage=(count:number)=>total===0?0:count===total?100:Math.min(99,Math.floor(count*100/total));
-  return {complete,total,filled,fillPercent:percentage(filled),populated,sourcePending,sourceConfirmed,percent:percentage(complete),missing};
+  const formsTotal=unique.filter(isForm).length,part=(done:number,of:number):ProgressPart=>({filled:done,total:of,fillPercent:of===0?0:done===of?100:Math.min(99,Math.floor(done*100/of))});
+  return {complete,total,filled,fillPercent:percentage(filled),populated,sourcePending,sourceConfirmed,percent:percentage(complete),missing,forms:part(formsFilled,formsTotal),internal:part(filled-formsFilled,total-formsTotal)};
 }

@@ -1,7 +1,7 @@
 'use client';
 import { systems } from '@/lib/overview-catalog';
 import type { Summary, Session } from '@/lib/client-types';
-import { engineeringStatusLabel, dateLabel, fillCount, fillPercent, sourceValidationLabel } from '@/lib/client-types';
+import { engineeringStatusLabel, dateLabel, fillCount, fillPercent, fillParts, sourceValidationLabel } from '@/lib/client-types';
 import { OverviewIcon, Arrow, Lock } from './icons';
 import { Modal } from './modal';
 
@@ -23,11 +23,12 @@ export function SystemMap({items,session,selected,onSelect,onOpen,demo,demoPerce
   <div className="overview-heading"><span role="status" aria-live="polite" aria-atomic="true"><i aria-hidden="true"/> {items.length===1?'מערכת אחת בתצוגה':`${items.length} מערכות בתצוגה`}</span><span>מילוי התיעוד <span className="overview-key-line" aria-hidden="true"/></span></div>
   <div className="overview-grid">{items.map(item=>{
    const system=systems.find(s=>s.id===item.id)!;
-   const percent=demo?demoPercent:fillPercent(item.progress);
+   const parts=fillParts(item.progress),main=parts.forms??parts.internal;
+   const percent=demo?demoPercent:main?.fillPercent??fillPercent(item.progress);
    return <button type="button" className={`system-card ${percent===100?'complete':''} ${selected===item.id?'selected':''}`} key={item.id} onClick={()=>onSelect(item.id)} aria-haspopup="dialog" aria-expanded={selected===item.id} aria-label={`${system.label}, ${descriptions[item.id]}, ${percent}% מילוי התיעוד, פתיחת פרטי המערכת${allowed(item.id)?'':', ללא הרשאת עריכה'}`}>
     <span className="tile-symbol"><OverviewIcon id={item.id}/></span>
     <span className="tile-copy"><span className="tile-name" dir="auto">{system.label}</span><span className="tile-description">{descriptions[item.id]}</span></span>
-    <span className="tile-meter"><span className="tile-progress"><bdi>{percent}<small>%</small></bdi></span><span className="tile-progress-track" aria-hidden="true"><span style={{width:`${percent}%`}} data-progress-percent={percent}/></span><span className="tile-count">{demo?'נתוני הדמיה':<><bdi>{fillCount(item.progress)} / {item.progress.total}</bdi> שדות</>}</span></span>
+    <span className="tile-meter"><span className="tile-progress"><bdi>{percent}<small>%</small></bdi></span><span className="tile-progress-track" aria-hidden="true"><span style={{width:`${percent}%`}} data-progress-percent={percent}/></span><span className="tile-count">{demo?'נתוני הדמיה':parts.forms?<>טפסים <bdi>{parts.forms.filled}/{parts.forms.total}</bdi>{parts.internal&&<> · פנימי <bdi>{parts.internal.fillPercent}%</bdi></>}</>:<>פנימי <bdi>{fillCount(item.progress)}/{item.progress.total}</bdi></>}</span></span>
     <span className="tile-open" aria-hidden="true">{allowed(item.id)?<Arrow/>:<Lock/>}</span>
    </button>;
   })}</div>
