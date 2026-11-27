@@ -74,11 +74,23 @@ function parseCsvLine(line) {
 
 // ---------------------------------------------------------------- exporter (real code)
 const esbuild = require('esbuild');
-const built = esbuild.buildSync({ stdin: { contents: "export * from './lib/official-workbooks'; export { sesFixedFields } from './lib/ses-fields';", resolveDir: root, loader: 'ts' }, bundle: true, platform: 'node', format: 'cjs', target: 'node22', write: false, logLevel: 'silent' });
+const built = esbuild.buildSync({ stdin: { contents: "export * from './lib/official-workbooks'; export { sesFixedFields } from './lib/ses-fields'; export { coordinatorFieldOwner } from './lib/field-routing';", resolveDir: root, loader: 'ts' }, bundle: true, platform: 'node', format: 'cjs', target: 'node22', write: false, logLevel: 'silent' });
 const bundleFile = path.resolve('lib/mapping-certificate-bundle.cjs');
 const bundle = new Module(bundleFile, null); bundle.filename = bundleFile; bundle.paths = Module._nodeModulePaths(path.resolve('lib'));
 bundle._compile(built.outputFiles[0].text, bundleFile);
 const { buildOfficialWorkbook, numericTargetById, sesFixedFields } = bundle.exports;
+// Same team ownership as the app (lib/field-routing.ts): ESF tabs moved from the coordinator to the owning teams.
+for (const entry of coverage) {
+  if (!entry.fieldId || entry.systemId !== null || entry.privateContact || entry.official.document !== 'ESF') continue;
+  const owner = bundle.exports.coordinatorFieldOwner(entry.fieldId);
+  if (owner !== 'COORDINATOR') entry.systemId = owner;
+}
+for (const field of [...coordinatorFields]) {
+  const owner = bundle.exports.coordinatorFieldOwner(field.id);
+  if (owner === 'COORDINATOR') continue;
+  coordinatorFields.splice(coordinatorFields.indexOf(field), 1);
+  fieldsOf.get(owner).push(field);
+}
 
 const canonical = v => Array.isArray(v) ? '[' + v.map(canonical).join(',') + ']' : v && typeof v === 'object' ? '{' + Object.entries(v).sort(([a], [b]) => a.localeCompare(b)).map(([k, x]) => JSON.stringify(k) + ':' + canonical(x)).join(',') + '}' : JSON.stringify(v) ?? 'null';
 const sha = value => crypto.createHash('sha256').update(value).digest('hex');

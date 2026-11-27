@@ -15,6 +15,7 @@
 import { isolateLtr } from './bidi';
 import { type Check, type Getter, type Meta, type RuleAnswers, type RuleRef, type RuleResult, ref, numberFrom, fmt, pending, ok, bad, notice, maxCheck, minCheck, rangeCheck } from './rule-check-kit';
 import { structuralChecks } from './rule-checks-structural';
+import { coordinatorFieldOwner } from './field-routing';
 
 export { numberFrom } from './rule-check-kit';
 export type { RuleStatus, RuleRef, RuleResult, RuleAnswers, RuleRow } from './rule-check-kit';
@@ -22,7 +23,8 @@ export const RULEBOOK = { title: 'Formula Student Rules 2027', version: '1.0', f
 
 // New numeric fields added for these checks (lib/rule-fields.ts).
 export const MAX_TS_VOLTAGE: RuleRef = { systemId: 'ACCUMULATOR', fieldId: 'RC-ACC-MAX-TS-VOLTAGE' };
-const C = (fieldId: string) => ref('COORDINATOR', fieldId);
+/** An ESF field from the source registry's coordinator list, at the team that owns it now (lib/field-routing.ts). */
+const C = (fieldId: string) => ref(coordinatorFieldOwner(fieldId), fieldId);
 
 const needsMaxVoltage = 'כדי לבדוק, מלאו את "מתח מרבי של מערכת ההנעה" במערכת הסוללה.';
 const material = (value: string | undefined) => value === 'Steel' ? 'steel' : value === 'Aluminium' ? 'aluminium' : value ? 'other' : undefined;

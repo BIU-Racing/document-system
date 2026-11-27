@@ -239,3 +239,6 @@ button[aria-busy=true]{cursor:progress}
 
 /* Field explanation: opening sentence visible, the rest on "עוד". */
 .prompt-more{display:inline}.prompt-more>summary{display:inline;cursor:pointer;list-style:none;color:#087d7c;font-weight:600}.prompt-more>summary::-webkit-details-marker{display:none}.prompt-more>summary:hover{text-decoration:underline}.prompt-more[open]>summary .prompt-more-open,.prompt-more:not([open])>summary .prompt-more-close{display:none}
+
+/* Chapter menu groups: the team's form questions first, then its internal documentation. */
+.chapter-group{margin:14px 8px 6px;font-size:13px;font-weight:700;color:#087d7c;letter-spacing:.2px}.chapter-group:first-of-type{margin-top:2px}

@@ -52,7 +52,7 @@ test('maximum TS voltage and the checks that depend on it', () => {
 });
 
 test('pre-charge: 95% in 2027, checked in the field that matches the chosen end condition', () => {
-  const pc = (mode, ratio, delta) => ({ ACCUMULATOR: { 'RC-ACC-MAX-TS-VOLTAGE': a('600') }, COORDINATOR: { 'LC-ESF-S05-D11': a(mode), 'LC-ESF-S05-D14': a(ratio), 'LC-ESF-S05-D13': a(delta) } });
+  const pc = (mode, ratio, delta) => ({ ACCUMULATOR: { 'RC-ACC-MAX-TS-VOLTAGE': a('600') }, PRECHARGE: { 'LC-ESF-S05-D11': a(mode), 'LC-ESF-S05-D14': a(ratio), 'LC-ESF-S05-D13': a(delta) } });
   assert.equal(one(pc('Ratio', '95', ''), 'RC-05').status, 'ok');
   const old = one(pc('Ratio', '92%', ''), 'RC-05');
   assert.equal(old.status, 'violation');
@@ -70,7 +70,7 @@ test('ASES sections: each row is checked for 12 kg, 120 V and 6 MJ', () => {
 });
 
 test('segment voltage/energy and temperature sensor share are computed from cell data', () => {
-  const cells = (series, parallel, sensors) => ({ COORDINATOR: { 'LC-ESF-Accumulator-segments-C': a(series), 'LC-ESF-Accumulator-segments-B': a(parallel), 'LC-ESF-Accumulator-segments-D': a(sensors), 'LC-ESF-S02-D6': a('4.2'), 'LC-ESF-S02-D5': a('5') } });
+  const cells = (series, parallel, sensors) => ({ ACCUMULATOR: { 'LC-ESF-Accumulator-segments-C': a(series), 'LC-ESF-Accumulator-segments-B': a(parallel), 'LC-ESF-Accumulator-segments-D': a(sensors) }, COORDINATOR: { 'LC-ESF-S02-D6': a('4.2'), 'LC-ESF-S02-D5': a('5') } });
   assert.equal(one(cells('24', '3', '22'), 'RC-10').status, 'ok', '24 × 4.2 V = 100.8 V; 24 × 3 × 4.2 V × 5 Ah = 5.4 MJ');
   assert.equal(one(cells('30', '3', '27'), 'RC-10').status, 'violation', '30 × 4.2 V = 126 V');
   assert.match(one(cells('24', '5', '36'), 'RC-10').message, /9\.072 MJ/, '24 × 5 × 4.2 V × 5 Ah = 9.07 MJ');

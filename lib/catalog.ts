@@ -10,6 +10,7 @@ import coverageData from '@/data/coverage.normalized.json';
 import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
 import { numericTargets } from './official-numeric-targets';
+import { coordinatorFieldOwner } from './field-routing';
 import { sesBlockControls, sesFixedFields, sesSheetTitle } from './ses-fields';
 import { ruleFields, RULE_FIELDS_SECTION } from './rule-fields';
 
@@ -78,6 +79,8 @@ export type Field = {
   recordKeys?: string[];
   needsClarification?: boolean;
   applicabilityPolicy?: 'answer_or_reviewed_not_applicable';
+  /** A general question that was removed from the questionnaire: shown only if it already has an answer. */
+  retired?: true;
   /** SES: fixed fields carry one cell; legacy "additional cells" tables carry editable ranges. */
   officialTemplate?: { sheet: string; editableRanges: string[]; cell?: string; fixed?: true };
   sesFixed?: { englishLabel: string; englishContext: string; valueKind: 'number' | 'select' | 'text'; templateValue: string | number | boolean | null };
@@ -190,6 +193,40 @@ for (const ruleField of ruleFields) {
     section: RULE_FIELDS_SECTION, required: false as unknown as true, exampleIds: [], exampleStatus: 'example_gap', exampleNote: '',
     sourceControlIds: [ruleField.id], ruleRefs: [ruleField.rule], applicabilityPolicy: 'answer_or_reviewed_not_applicable',
   });
+}
+
+// Team structure (27.11.2026): each team finds its own form questions first, then a short,
+// optional description of the system.
+export const FORMS_FIRST_NOTE = 'למסמכי התחרות';
+/** The six general questions kept from the 35-question template, as one optional chapter. */
+export const DESCRIPTION_SECTION = 'תיאור המערכת (רשות)';
+const KEPT_GENERAL = ['EP-C02-F01', 'EP-C04-F01', 'EP-C08-F01', 'EP-C09-F01', 'EP-C10-F01', 'EP-C11-F01'];
+{
+  // 1. ESF tabs move from the coordinator to the owning team (lib/field-routing.ts).
+  for (const entry of coverage.entries) if (entry.fieldId && entry.systemId === null && !entry.privateContact && entry.official.document === 'ESF') entry.systemId = coordinatorFieldOwner(entry.fieldId) === 'COORDINATOR' ? null : coordinatorFieldOwner(entry.fieldId);
+  for (const field of [...coordinatorQueue]) {
+    const owner = coordinatorFieldOwner(field.id), system = owner === 'COORDINATOR' ? undefined : systems.find(item => item.id === owner);
+    if (!system) continue;
+    coordinatorQueue.splice(coordinatorQueue.indexOf(field), 1);
+    // The shared precharge/discharge/TSMP tab gets a chapter name per team.
+    if (field.id.startsWith('LC-ESF-S05-')) field.section = ({ PRECHARGE: 'טעינה מוקדמת', DISCHARGE: 'מעגל הפריקה', INTEGRATION: 'נגדי נקודות המדידה (TSMP)' } as Record<string, string>)[owner] ?? field.section;
+    system.fields.push(field);
+  }
+  // 2. Forms first, then the system's own 2027 questions and rule fields, then the short description.
+  const isForm = (field: Field) => !!field.officialRefs?.length || !!field.officialTemplate;
+  for (const system of systems) {
+    if (system.id === 'SES') continue;
+    const isGeneral = (field: Field) => field.id.startsWith('EP-C') && !isForm(field);
+    const general = system.fields.filter(isGeneral);
+    for (const field of general) {
+      field.section = DESCRIPTION_SECTION;
+      field.required = false as unknown as true;
+      if (!KEPT_GENERAL.includes(field.id)) field.retired = true;
+    }
+    general.sort((a, b) => Number(!!a.retired) - Number(!!b.retired) || KEPT_GENERAL.indexOf(a.id) - KEPT_GENERAL.indexOf(b.id));
+    const forms = system.fields.filter(isForm), rest = system.fields.filter(field => !isForm(field) && !isGeneral(field));
+    system.fields = [...forms, ...rest, ...general];
+  }
 }
 
 /** Administrative route, deliberately excluded from the 21-system map/count. */
