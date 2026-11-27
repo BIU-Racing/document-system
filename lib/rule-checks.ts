@@ -150,8 +150,77 @@ const checks: Check[] = [
         return { ...bad(`חורג מ־EV 4.5.3: מוליך ${label} מדורג ל־${fmt(rated)} °C, נדרש לפחות 85 °C במערכת ההנעה.`), rowId: row._id };
       });
     } },
+  // Electrical rules with a clear number, on optional fields from lib/rule-fields.ts (rule coverage map, 27.11.2026).
+  ...electricalLimits([
+    ['RC-27', 'T 11.6.2', 49, 'BSPD', 'RC-BSPD-DELAY', 'ה־BSPD חייב לפתוח את מעגל הניתוק אם חוסר ההתאמה נמשך יותר מ־500 ms.', ['max', 500, 'ms']],
+    ['RC-28', 'T 11.6.5', 49, 'BSPD', 'RC-BSPD-PRESSURE', 'בלימה חזקה מזוהה בחיישן לחץ, בסף שלא נועל גלגלים ולא עולה על 30 bar.', ['max', 30, 'bar']],
+    ['RC-29', 'T 11.8.8', 50, 'DRIVE', 'RC-DRIVE-APPS-DELAY', 'חוסר התאמה בין חיישני דוושת התאוצה שנמשך יותר מ־100 ms מחייב ניתוק מלא של ההספק למנועים.', ['max', 100, 'ms']],
+    ['RC-30', 'T 11.8.12', 50, 'DRIVE', 'RC-DRIVE-RELEASED-TORQUE', 'דוושת תאוצה משוחררת במצב ידני חייבת לתת מומנט של 0 Nm או פחות בגלגלים.', ['max', 0, 'Nm']],
+    ['RC-31', 'T 11.9.4', 51, 'INTEGRATION', 'RC-INT-SCS-DELAY', 'ההשהיה המרבית שנקבעת להודעות של אותות קריטיים לא תעלה על 500 ms.', ['max', 500, 'ms']],
+    ['RC-32', 'T 11.9.6', 51, 'INTEGRATION', 'RC-INT-INDICATOR-TEST', 'נוריות אזהרה שמצבן הבטוח הוא "דולקת" נדלקות לבדיקה למשך 1 עד 3 שניות אחרי הפעלת ה־LVMS.', ['range', 1, 3, 's']],
+    ['RC-33', 'T 11.11.1', 51, 'INTEGRATION', 'RC-INT-FAN-POWER', 'ההספק הנקוב הכולל של כל ההתקנים שמזיזים אוויר, כולל מאווררי קירור, הוא 500 W לכל היותר.', ['max', 500, 'W']],
+    ['RC-34', 'EV 3.1.1', 70, 'INTEGRATION', 'RC-INT-ENCLOSURE-LAYER', 'מארז של מערכת ההנעה עשוי משכבה מוליכה מוארקת בעובי 0.5 mm לפחות (אלומיניום או טוב יותר), או מחומר מבודד לפי התקנון.', ['min', 0.5, 'mm']],
+    ['RC-35', 'EV 3.1.3', 71, 'INTEGRATION', 'RC-INT-GROUND-RESISTANCE', 'חלק מוליך נחשב מוארק אם ההתנגדות שלו לאדמת המתח הנמוך נמוכה מ־100 mΩ, במדידה בזרם של 1 A.', ['less', 100, 'mΩ']],
+    ['RC-36', 'EV 3.1.4', 71, 'INTEGRATION', 'RC-INT-NEAR-TS-RESISTANCE', 'חלקים שעלולים להיות מוליכים, עד 100 mm מרכיב של מערכת ההנעה, חייבים התנגדות נמוכה מ־100 Ω לאדמת המתח הנמוך.', ['less', 100, 'Ω']],
+    ['RC-37', 'EV 3.2.6', 71, 'INTEGRATION', 'RC-INT-FUSE-TEMP-MIN', 'הגנות זרם היתר מתוכננות לטווח הטמפרטורות הצפוי, ולפחות מ־0 °C עד 85 °C.', ['max', 0, '°C']],
+    ['RC-38', 'EV 3.2.6', 71, 'INTEGRATION', 'RC-INT-FUSE-TEMP-MAX', 'הגנות זרם היתר מתוכננות לטווח הטמפרטורות הצפוי, ולפחות מ־0 °C עד 85 °C.', ['min', 85, '°C']],
+    ['RC-40', 'EV 4.3.6', 72, 'INTEGRATION', 'RC-INT-PCB-GROOVE', 'בלוח שיש בו גם מתח גבוה וגם מתח נמוך, חריצים שנועדו להאריך את מרחק הזחילה צריכים להיות ברוחב 1.5 mm לפחות.', ['min', 1.5, 'mm']],
+    ['RC-41', 'EV 4.7.3', 74, 'INTEGRATION', 'RC-INT-TSMP-RATING', 'נקודות המדידה הן שקעי בננה מוגנים בקוטר 4 mm, מדורגים ל־600 V CAT III לפחות.', ['min', 600, 'V']],
+    ['RC-43', 'EV 4.5.8', 73, 'HV_CONNECTORS', 'RC-HVC-MOUNT-FORCE', 'חיווט מערכת ההנעה מחוץ למארזים מעוגן לפחות בשני קצותיו, כך שיעמוד בכוח של 200 N בלי להשתחרר.', ['min', 200, 'N']],
+    ['RC-44', 'EV 4.8.1', 75, 'HVD', 'RC-HVD-HEIGHT', 'ה־HVD נמצא בגובה של יותר מ־350 mm מעל הקרקע, ונשלף בלי לפרק את המרכב.', ['more', 350, 'mm']],
+    ['RC-45', 'EV 4.8.2', 75, 'HVD', 'RC-HVD-REMOVAL-TIME', 'אדם מיומן מוציא את ה־HVD תוך 10 שניות לכל היותר, כשהרכב במצב מוכן למרוץ.', ['max', 10, 's']],
+    ['RC-47', 'EV 4.12.2', 77, 'RTD', 'RC-RTD-SOUND-LEVEL', 'עוצמת צליל ה־R2D היא בין 80 ל־90 dB(A), בשקלול מהיר, ברדיוס של 2 m מהרכב.', ['range', 80, 90, 'dB']],
+    ['RC-48', 'EV 5.8.6', 81, 'BMS', 'RC-BMS-SENSOR-GAP', 'בין חיישן הטמפרטורה של התא לנקודת המדידה יש פחות מ־0.5 mm של חומר לא מתכתי, כמו ציפוי או דבק.', ['less', 0.5, 'mm']],
+    ['RC-49', 'EV 5.8.10', 81, 'BMS', 'RC-BMS-TRIP-VI', 'ה־AMS פותח את מעגל הניתוק אם חריגה במתח או בזרם נמשכת יותר מ־500 ms.', ['max', 500, 'ms']],
+    ['RC-50', 'EV 5.8.10', 81, 'BMS', 'RC-BMS-TRIP-TEMP', 'ה־AMS פותח את מעגל הניתוק אם חריגה בטמפרטורה נמשכת יותר משנייה אחת.', ['max', 1, 's']],
+    ['RC-51', 'EV 6.2.3', 83, 'TSMS', 'RC-TSMS-CIRCLE', 'ה־TSMS מותקן במרכז עיגול כתום מלא בקוטר 50 mm לפחות, על רקע בניגודיות גבוהה.', ['min', 50, 'mm']],
+    ['RC-52', 'T 11.2.1', 47, 'TSMS', 'RC-TSMS-HANDLE', 'מפסק ראשי הוא מפסק סיבובי מכני עם ידית אדומה נשלפת ברוחב 50 mm לפחות.', ['min', 50, 'mm']],
+    ['RC-53', 'T 11.3.2', 48, 'LVMS', 'RC-LVMS-CIRCLE', 'ה־LVMS מותקן במרכז עיגול אדום מלא בקוטר 50 mm לפחות, על רקע בניגודיות גבוהה.', ['min', 50, 'mm']],
+    ['RC-54', 'T 11.2.1', 47, 'LVMS', 'RC-LVMS-HANDLE', 'מפסק ראשי הוא מפסק סיבובי מכני עם ידית אדומה נשלפת ברוחב 50 mm לפחות.', ['min', 50, 'mm']],
+    ['RC-55', 'T 11.7.6', 49, 'LV_BATTERY', 'RC-LVB-SHORT-DISTANCE', 'סוללות המתח הנמוך מוגנות מקצר, במרחק של 100 mm לכל היותר מההדקים הלא מוארקים.', ['max', 100, 'mm']],
+    ['RC-56', 'T 11.5.2', 48, 'SDC', 'RC-SDC-INERTIA-G', 'מתג האינרציה מופעל בתאוטה של בין 8 g ל־11 g, לפי משך התאוטה.', ['range', 8, 11, 'g']],
+    ['RC-57', 'T 11.10.1', 51, 'DASHBOARD', 'RC-DASH-LIGHT-AREA', 'לנורית מצב מערכת יש שטח מואר של 15 cm² לפחות, בעוצמה אחידה, על רקע שחור.', ['min', 15, 'cm²']],
+    ['RC-58', 'EV 7.1.5', 84, 'CHARGER', 'RC-CHG-ESTOP', 'במטען יש לחצן חירום נגיש מסוג לחיצה, בקוטר 40 mm לפחות.', ['min', 40, 'mm']],
+  ]),
+  { id: 'RC-39', rule: 'EV 4.3.4', page: 72, summary: 'במארז שיש בו גם מתח גבוה וגם מתח נמוך, מפרידים ביניהם במחיצה מבודדת עמידה ללחות, או במרווח של 20 mm לפחות באוויר או על פני משטח.', target: ref('INTEGRATION', 'RC-INT-TS-LV-SPACING'),
+    evaluate: get => {
+      const result = minCheck(get.num(ref('INTEGRATION', 'RC-INT-TS-LV-SPACING')), 20, 'mm', 'EV 4.3.4');
+      return result.status === 'violation' ? { ...notice(`${result.message.replace('חורג מ־', 'מתחת לנדרש ב־')} תקין רק אם יש במקום הזה מחיצה מבודדת עמידה ללחות.`), table: result.table } : result;
+    } },
+  { id: 'RC-42', rule: 'EV 4.7.6', page: 74, summary: 'כל נקודת מדידה מוגנת בנגד שמגביל את הזרם, לפי המתח המרבי: מתחת ל־200 V נגד של 5 kΩ, עד 400 V נגד של 10 kΩ, ועד 600 V נגד של 15 kΩ. אסור לשים נתיך.', target: ref('INTEGRATION', 'RC-INT-TSMP-RESISTOR'), inputs: [MAX_TS_VOLTAGE],
+    evaluate: get => {
+      const kOhm = get.num(ref('INTEGRATION', 'RC-INT-TSMP-RESISTOR')), volts = get.num(MAX_TS_VOLTAGE);
+      if (kOhm === undefined) return pending();
+      if (volts === undefined) return pending(needsMaxVoltage);
+      if (volts > 600) return bad(`המתח המרבי שהוזן, ${fmt(volts)} V, גבוה מ־600 V, ולכן אין ערך נגד מתאים בטבלה של EV 4.7.6.`);
+      const required = volts < 200 ? 5 : volts <= 400 ? 10 : 15;
+      const table = [{ label: 'ערך הנגד', value: `${fmt(kOhm)} kΩ`, required: `${fmt(required)} kΩ`, ok: kOhm >= required }];
+      if (kOhm === required) return { ...ok(`עומד ב־EV 4.7.6: ${fmt(kOhm)} kΩ במתח מרבי של ${fmt(volts)} V.`), table };
+      if (kOhm > required) return { ...notice(`לפי EV 4.7.6, במתח של ${fmt(volts)} V נדרש נגד של ${fmt(required)} kΩ. הוזן ${fmt(kOhm)} kΩ, ערך שונה מהטבלה. מומלץ לבדוק מול התקנון.`), table };
+      return { ...bad(`חורג מ־EV 4.7.6: במתח מרבי של ${fmt(volts)} V נדרש נגד של ${fmt(required)} kΩ. הוזן ${fmt(kOhm)} kΩ.`), table };
+    } },
+  { id: 'RC-46', rule: 'EV 4.10.7', page: 76, summary: 'ה־TSAL, כולל העיגון, נמוך מהנקודה הגבוהה של הקשת הראשית, אבל לא יותר מ־75 mm מתחתיה.', target: ref('TSAL', 'RC-TSAL-BELOW-HOOP'),
+    evaluate: get => {
+      const value = get.num(ref('TSAL', 'RC-TSAL-BELOW-HOOP'));
+      if (value === undefined) return pending();
+      const passes = value > 0 && value <= 75, table = [{ label: 'מרחק מתחת לקשת', value: `${fmt(value)} mm`, required: '0–75 mm', ok: passes }];
+      if (passes) return { ...ok(`עומד ב־EV 4.10.7: ${fmt(value)} mm מתחת לנקודה הגבוהה של הקשת (נדרש עד 75 mm).`), table };
+      return { ...bad(value <= 0 ? `חורג מ־EV 4.10.7: ה־TSAL חייב להיות נמוך מהנקודה הגבוהה של הקשת הראשית. הוזן ${fmt(value)} mm.` : `חורג מ־EV 4.10.7: ${fmt(value)} mm מתחת לקשת. מותר עד 75 mm.`), table };
+    } },
   ...structuralChecks,
 ];
+
+type Limit = ['max' | 'min' | 'less' | 'more', number, string] | ['range', number, number, string];
+/** Checks of one optional number against a fixed limit from the rulebook. */
+function electricalLimits(list: [id: string, rule: string, page: number, systemId: string, fieldId: string, summary: string, limit: Limit][]): Check[] {
+  return list.map(([id, rule, page, systemId, fieldId, summary, limit]) => ({ id, rule, page, summary, target: ref(systemId, fieldId),
+    evaluate: get => {
+      const value = get.num(ref(systemId, fieldId));
+      if (limit[0] === 'range') return rangeCheck(value, limit[1], limit[2], limit[3], rule);
+      const [kind, bound, unit] = limit;
+      return kind === 'max' || kind === 'less' ? maxCheck(value, bound, unit, rule, kind === 'less') : minCheck(value, bound, unit, rule, kind === 'more');
+    } }));
+}
 
 function thickness(get: Getter, fieldId: string, steel: number, aluminium: number, name: string) {
   const value = get.num(ref('ACCUMULATOR', fieldId)), kind = material(get.text(ref('ACCUMULATOR', 'LC-ASES-S05-E12')));
