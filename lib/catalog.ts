@@ -195,12 +195,10 @@ for (const ruleField of ruleFields) {
   });
 }
 
-// Team structure (27.11.2026): each team finds its own form questions first, then a short,
-// optional description of the system.
-export const FORMS_FIRST_NOTE = 'למסמכי התחרות';
-/** The six general questions kept from the 35-question template, as one optional chapter. */
-export const DESCRIPTION_SECTION = 'תיאור המערכת (רשות)';
-const KEPT_GENERAL = ['EP-C02-F01', 'EP-C04-F01', 'EP-C08-F01', 'EP-C09-F01', 'EP-C10-F01', 'EP-C11-F01'];
+// Team structure (27.11.2026): each team sees two kinds of chapters only: its form questions
+// ("למסמכי התחרות") and "התקנון שלנו" (targeted 2027 questions and rule-checked numbers).
+/** The 35-question general template, removed from the fill-in screens (answers stay stored). */
+export const RETIRED_SECTION = 'שאלון כללי (הוסר)';
 {
   // 1. ESF tabs move from the coordinator to the owning team (lib/field-routing.ts).
   for (const entry of coverage.entries) if (entry.fieldId && entry.systemId === null && !entry.privateContact && entry.official.document === 'ESF') entry.systemId = coordinatorFieldOwner(entry.fieldId) === 'COORDINATOR' ? null : coordinatorFieldOwner(entry.fieldId);
@@ -212,19 +210,19 @@ const KEPT_GENERAL = ['EP-C02-F01', 'EP-C04-F01', 'EP-C08-F01', 'EP-C09-F01', 'E
     if (field.id.startsWith('LC-ESF-S05-')) field.section = ({ PRECHARGE: 'טעינה מוקדמת', DISCHARGE: 'מעגל הפריקה', INTEGRATION: 'נגדי נקודות המדידה (TSMP)' } as Record<string, string>)[owner] ?? field.section;
     system.fields.push(field);
   }
-  // 2. Forms first, then the system's own 2027 questions and rule fields, then the short description.
+  // 2. Forms first, then "התקנון שלנו"; the general template is retired (hidden, not deleted).
   const isForm = (field: Field) => !!field.officialRefs?.length || !!field.officialTemplate;
   for (const system of systems) {
     if (system.id === 'SES') continue;
     const isGeneral = (field: Field) => field.id.startsWith('EP-C') && !isForm(field);
     const general = system.fields.filter(isGeneral);
     for (const field of general) {
-      field.section = DESCRIPTION_SECTION;
+      field.section = RETIRED_SECTION;
       field.required = false as unknown as true;
-      if (!KEPT_GENERAL.includes(field.id)) field.retired = true;
+      field.retired = true;
     }
-    general.sort((a, b) => Number(!!a.retired) - Number(!!b.retired) || KEPT_GENERAL.indexOf(a.id) - KEPT_GENERAL.indexOf(b.id));
     const forms = system.fields.filter(isForm), rest = system.fields.filter(field => !isForm(field) && !isGeneral(field));
+    for (const field of rest) field.section = RULE_FIELDS_SECTION;
     system.fields = [...forms, ...rest, ...general];
   }
 }

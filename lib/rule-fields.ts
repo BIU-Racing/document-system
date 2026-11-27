@@ -5,7 +5,8 @@
  */
 export type RuleField = { systemId: string; id: string; label: string; unit: string; prompt: string; rule: string };
 
-export const RULE_FIELDS_SECTION = 'נתונים לבדיקת תקנון 2027';
+/** One chapter per system: its targeted 2027 questions and the numbers checked against the rulebook. */
+export const RULE_FIELDS_SECTION = 'התקנון שלנו';
 
 export const ruleFields: RuleField[] = [
   { systemId: 'ACCUMULATOR', id: 'RC-ACC-MAX-TS-VOLTAGE', label: 'מתח מרבי של מערכת ההנעה', unit: 'V', rule: 'EV 4.1.1', prompt: 'המתח המרבי בפועל: מספר התאים בטור × המתח המרבי של תא. משמש גם לבדיקות ה־IMD, ה־BSPD ודירוג הרכיבים.' },

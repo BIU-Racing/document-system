@@ -109,7 +109,7 @@ test('rule notes are attached only to checked fields; new fields are optional an
   assert.deepEqual(rulesFor('IMD', 'EP-C05-F02'), []);
   for (const field of ruleFields) {
     const defined = getFields(field.systemId).find(item => item.id === field.id);
-    assert.ok(defined && defined.required === false && defined.section === 'נתונים לבדיקת תקנון 2027', field.id);
+    assert.ok(defined && defined.required === false && defined.section === 'התקנון שלנו', field.id);
   }
   const fields = getFields('TSAL');
   assert.equal(computeProgress(fields, {}).total, fields.filter(field => field.required !== false).length, 'rule fields do not count as missing');
