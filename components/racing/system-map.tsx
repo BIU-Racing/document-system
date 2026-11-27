@@ -19,7 +19,7 @@ export function SystemMap({items,session,selected,onSelect,onOpen,demo,demoPerce
  const active=systems.find(s=>s.id===selected);const summary=selected?lookup[selected]:null;
  const allowed=(id:string)=>demo||session?.systemIds.includes(id)||session?.role==='coordinator';
  if(!items.length)return <div className="empty-state" role="status"><h2>לא נמצאה מערכת שמתאימה לחיפוש</h2><p>אפשר לשנות את החיפוש או את הסינון.</p></div>;
- return <div className="systems-overview engineering-board" aria-label="מערכות ענף החשמל">
+ return <div className="systems-overview engineering-board" aria-label="מערכות הקבוצה">
   <div className="overview-heading"><span role="status" aria-live="polite" aria-atomic="true"><i aria-hidden="true"/> {items.length===1?'מערכת אחת בתצוגה':`${items.length} מערכות בתצוגה`}</span><span>מילוי התיעוד <span className="overview-key-line" aria-hidden="true"/></span></div>
   <div className="overview-grid">{items.map(item=>{
    const system=systems.find(s=>s.id===item.id)!;

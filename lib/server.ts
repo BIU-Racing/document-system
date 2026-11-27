@@ -103,7 +103,7 @@ export async function session():Promise<Session>{
     if(!member)throw new ApiError(401,'יש להיכנס מחדש.',{code:'SIGN_IN_REQUIRED'});
     await requireConfiguredOwner(db);return selfDeclaredSession(member);
   }
-  const user=await getChatGPTUser();if(!user)throw new ApiError(401,'יש להתחבר כדי לגשת לתיק החשמל.',{code:'SIGN_IN_REQUIRED'});
+  const user=await getChatGPTUser();if(!user)throw new ApiError(401,'יש להתחבר כדי לגשת לתיעוד הקבוצה.',{code:'SIGN_IN_REQUIRED'});
   const db=database();await requireConfiguredOwner(db);
   await db.prepare("INSERT OR IGNORE INTO memberships(subject,role,system_ids,active,created_at) SELECT owner_subject,'coordinator','[]',1,created_at FROM workspace WHERE id='2027' AND owner_subject=?").bind(user.userId).run();
   type Member={subject:string;role:Session['role'];system_ids:string;active:number;auth_source:string};

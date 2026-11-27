@@ -16,7 +16,7 @@ export async function renderPDF(lines:ReportLine[]) {
   }});
   const bytes=Uint8Array.from(atob(fontData),c=>c.charCodeAt(0));
   const font=await doc.embedFont(bytes,{subset:true});
-  doc.setTitle('BIU Racing | תיק החשמל 2027');doc.setSubject('תיעוד תכן ובדיקות — ייצוא פרטי');doc.setCreator('BIU Racing');
+  doc.setTitle('BIU Racing | תיעוד הקבוצה 2027');doc.setSubject('תיעוד תכן ובדיקות — ייצוא פרטי');doc.setCreator('BIU Racing');
   let page=doc.addPage([595.28,841.89]),y=795;
   const visual=(text:string)=>bidi.getReorderedString(text,bidi.getEmbeddingLevels(text,'rtl'));
   const clean=(text:string)=>text.replace(/[\u0000-\u0008\u000b-\u001f]/g,'').replace(/[\u202a-\u202e\u2066-\u2069]/g,'');
