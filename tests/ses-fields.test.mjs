@@ -12,7 +12,7 @@ const esbuild = require('esbuild');
 const built = esbuild.buildSync({ stdin: { contents: "export * from './lib/ses-fields'; export { getFields } from './lib/catalog'; export { fieldVisible, computeProgress } from './lib/progress';", resolveDir: process.cwd(), loader: 'ts' }, bundle: true, platform: 'node', format: 'cjs', target: 'node22', write: false, logLevel: 'silent' });
 const file = path.resolve('lib/ses-fields-test.cjs');
 const mod = new Module(file, null); mod.filename = file; mod.paths = Module._nodeModulePaths(path.resolve('lib')); mod._compile(built.outputFiles[0].text, file);
-const { sesFixedFields, sesFixedEntries, getFields, fieldVisible, computeProgress } = mod.exports;
+const { sesFixedFields, sesFixedEntries, getFields, fieldVisible, computeProgress, sesBlockControls } = mod.exports;
 const curation = JSON.parse(fs.readFileSync('data/ses-field-curation.json', 'utf8'));
 
 test('the fixed SES registry is generated from the current template', () => {
@@ -35,7 +35,7 @@ test('SES chapters keep every legacy field id and add the fixed fields', () => {
   const legacy = JSON.parse(fs.readFileSync('data/systems.normalized.json', 'utf8')).find(system => system.id === 'SES').fields.map(field => field.id);
   const ids = new Set(getFields('SES').map(field => field.id));
   for (const id of legacy) assert.ok(ids.has(id), 'legacy field kept: ' + id);
-  assert.equal(ids.size, legacy.length + sesFixedFields.length);
+  assert.equal(ids.size, legacy.length + sesFixedFields.length + sesBlockControls.length);
   const optionalTables = getFields('SES').filter(field => field.kind === 'table' && field.required === false);
   assert.ok(optionalTables.length > 0 && optionalTables.every(field => /תאים נוספים/.test(field.label)));
 });
@@ -53,4 +53,25 @@ test('construction type hides tube or composite inputs and they stop counting as
   const totalTubing = computeProgress(fields, answers('Tubing only')).total, totalBoth = computeProgress(fields, answers('Tubes + composite')).total;
   assert.ok(totalTubing < totalBoth);
   for (const field of sesFixedFields) if (field.showWhen) assert.ok(sesFixedFields.some(other => other.id === field.showWhen.fieldId), field.id);
+});
+
+test('repeated blocks: only the base item counts until the count control asks for more', () => {
+  const fields = getFields('SES'), metals = fields.filter(field => field.officialTemplate?.sheet === 'Metal Datasheets');
+  const control = fields.find(field => field.id === 'SESX-COUNT-METALS');
+  assert.ok(control && control.required === false && !control.officialTemplate, 'UI-only control, never written to the workbook');
+  const second = metals.find(field => field.officialTemplate.cell === 'AZ13'), first = metals.find(field => field.officialTemplate.cell === 'A13');
+  assert.equal(fieldVisible(first, {}), true);
+  assert.equal(fieldVisible(second, {}), false, 'material 2 hidden by default');
+  assert.equal(fieldVisible(second, { [control.id]: { status: 'answered', value: '2' } }), true);
+  assert.equal(fieldVisible(second, { [second.id]: { status: 'answered', value: '0.2' } }), true, 'an answered field never hides');
+  const total = answers => computeProgress(fields, answers).total;
+  const opened = Object.fromEntries(sesBlockControls.map(item => [item.id, { status: 'answered', value: item.options.at(-1).value }]));
+  assert.ok(total({}) < total(opened), 'hidden blocks are not counted as missing');
+  assert.equal(total(opened), fields.filter(field => field.required !== false && fieldVisible(field, opened)).length);
+  // Tube type 2 also respects the construction type.
+  const sis = fields.find(field => field.officialTemplate?.sheet === 'T3.15 T3.6 SIS' && field.officialTemplate.cell === 'F16');
+  const sisCount = fields.find(field => field.id === 'SESX-COUNT-TUBES-T315T36SIS');
+  const construction = fields.find(field => field.officialTemplate?.sheet === 'T3.15 T3.6 SIS' && field.officialTemplate.cell === 'F2');
+  assert.equal(fieldVisible(sis, { [sisCount.id]: { status: 'answered', value: '2' } }), true);
+  assert.equal(fieldVisible(sis, { [sisCount.id]: { status: 'answered', value: '2' }, [construction.id]: { status: 'answered', value: 'Composite only' } }), false);
 });

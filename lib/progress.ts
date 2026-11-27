@@ -9,7 +9,7 @@ export type TranslationApproval = { source:string; english:string; value?:string
 export type Review = { fields?:Record<string,ReviewField>; translations?:Record<string,TranslationApproval>; submittedRevision?:number; submittedAt?:string };
 export type Progress = { complete:number; total:number; percent:number; filled:number;fillPercent:number;populated:number;sourcePending:number;sourceConfirmed:number; missing:{id:string;label:string;reason:string}[] };
 export type SystemSnapshot = { id:string; answers:Answers; revision:number; status:'draft'|'in_review'|'changes_requested'|'approved'; attachments:Attachment[]; progress:Progress; updatedAt:string|null; review:Review; schemaVersion:string; contentHash?:string };
-export type ProgressField = {id:string;label:string;required?:boolean;showWhen?:{fieldId:string;notIn:string[]};type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
+export type ProgressField = {id:string;label:string;required?:boolean;showWhen?:{fieldId:string;notIn:string[]};showWhenCount?:ShowWhenCount;type?:string;kind?:string;attachmentRequired?:boolean;columns?:{id:string;required?:boolean;kind?:string;type?:string;attachmentRequired?:boolean}[];condition?:unknown};
 export function canonical(value:unknown):string {
   if(Array.isArray(value)) return '['+value.map(canonical).join(',')+']';
   if(value && typeof value==='object') return '{'+Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>JSON.stringify(k)+':'+canonical(v)).join(',')+'}';
@@ -30,10 +30,20 @@ export function referencedAttachmentIds(fields:ProgressField[],answers:Answers):
 }
 /** Conditional field: hidden while the controlling answer is one of notIn. Unanswered controllers show everything. */
 export type ShowWhen={fieldId:string;notIn:string[]};
-export function fieldVisible(field:{showWhen?:ShowWhen},answers:Answers):boolean{
-  const rule=field.showWhen;if(!rule)return true;
-  const value=answers[rule.fieldId]?.value;
-  return !(typeof value==='string'&&rule.notIn.includes(value.trim()));
+/** Repeated block: shown while the count control (or its default) reaches atLeast. */
+export type ShowWhenCount={fieldId:string;atLeast:number;initial:number};
+export function fieldVisible(field:{id?:string;showWhen?:ShowWhen;showWhenCount?:ShowWhenCount},answers:Answers):boolean{
+  const rule=field.showWhen;
+  if(rule){const value=answers[rule.fieldId]?.value;if(typeof value==='string'&&rule.notIn.includes(value.trim()))return false;}
+  const count=field.showWhenCount;
+  if(count){
+    // Never hide what someone already entered.
+    const own=field.id?answers[field.id]:undefined;
+    if(own&&(own.status!=='answered'||(typeof own.value==='string'?own.value.trim()!=='':own.value.length>0)))return true;
+    const chosen=Number(answers[count.fieldId]?.status==='answered'?answers[count.fieldId]?.value:NaN);
+    return (Number.isFinite(chosen)?chosen:count.initial)>=count.atLeast;
+  }
+  return true;
 }
 export function computeProgress(fields:ProgressField[],answers:Answers,attachments:Attachment[]=[],review:Review={}):Progress {
   const unique = [...new Map(fields.filter(f=>f.required!==false&&fieldVisible(f,answers)).map(f=>[f.id,f])).values()];

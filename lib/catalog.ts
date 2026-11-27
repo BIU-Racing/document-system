@@ -10,7 +10,7 @@ import coverageData from '@/data/coverage.normalized.json';
 import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
 import { numericTargets } from './official-numeric-targets';
-import { sesFixedFields, sesSheetTitle } from './ses-fields';
+import { sesBlockControls, sesFixedFields, sesSheetTitle } from './ses-fields';
 import { ruleFields, RULE_FIELDS_SECTION } from './rule-fields';
 
 export type FieldKind = 'text' | 'table' | 'file' | 'select';
@@ -83,6 +83,7 @@ export type Field = {
   sesFixed?: { englishLabel: string; englishContext: string; valueKind: 'number' | 'select' | 'text'; templateValue: string | number | boolean | null };
   /** Hidden (and not required) while the controlling field's answer is one of notIn. */
   showWhen?: { fieldId: string; notIn: string[] };
+  showWhenCount?: { fieldId: string; atLeast: number; initial: number };
 };
 
 export type System = {
@@ -166,7 +167,8 @@ for (const target of numericTargets) {
     const ordered: Field[] = [];
     for (const sheet of sheets) {
       const fixed = fixedBySheet.get(sheet) ?? [];
-      ordered.push(...fixed);
+      // "How many?" controls for repeated blocks come first in their chapter.
+      ordered.push(...(sesBlockControls.filter(control => control.sheet === sheet) as unknown as Field[]), ...fixed);
       for (const field of legacy.filter(item => item.officialTemplate?.sheet === sheet)) {
         const relabeled = fixed.length && field.kind === 'table'
           ? { required: false as unknown as true, label: `${sesSheetTitle(sheet)} — תאים נוספים (כתובת ידנית, לא חובה)`, prompt: `השאלות הקבועות בפרק הזה כבר נכתבות לתאים שלהן. כאן מזינים רק תאים באזורים הגדולים שעדיין אין להם שאלה (טבלאות ונתוני בדיקה). כתובת של תא שיש לו שאלה קבועה נחסמת בייצוא. ${field.prompt}` }

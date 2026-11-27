@@ -25,6 +25,21 @@ export type SesFixedField = {
   officialTemplate: { sheet: string; cell: string; editableRanges: string[]; fixed: true };
   sesFixed: { englishLabel: string; englishContext: string; valueKind: SesValueKind; templateValue: string | number | boolean | null };
   showWhen?: { fieldId: string; notIn: string[] };
+  /** Repeated block (material 2, laminate 5, tube type 3…): shown only when the sheet's count control asks for it. */
+  showWhenCount?: { fieldId: string; atLeast: number; initial: number };
+};
+
+/**
+ * The template reserves room for many repeated items (3 metals, 20 composites, 12 extra laminates…).
+ * Each group gets a count control ("how many?"); only the base item and the requested extra items are
+ * shown and counted as required. A field that already has an answer always stays visible. The control
+ * itself is a UI setting: optional, and never written to the workbook.
+ */
+type BlockGroup = { key: string; sheet: string; question: string; base: number; initial: number; blocks: ((entry: SesFixedEntry) => boolean)[] };
+export type SesBlockControl = {
+  id: string; sheet: string; label: string; prompt: string; kind: 'select'; type: 'select'; section: string;
+  options: { value: string; label: string }[]; required: false; exampleIds: string[]; exampleStatus: string; exampleNote: string;
+  sourceControlIds: string[]; ruleRefs: string[]; sesBlockControl: { initial: number };
 };
 
 type Curation = {
@@ -47,6 +62,38 @@ function panelHebrew(panel: string) {
   return panel;
 }
 
+const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+const panelIs = (name: string) => (entry: SesFixedEntry) => entry.panel === name;
+const headerIs = (pattern: RegExp) => (entry: SesFixedEntry) => pattern.test(entry.columnHeader);
+const columnIs = (column: string) => (entry: SesFixedEntry) => entry.cell.replace(/\d+$/, '') === column;
+const tubeTypes = (sheet: string): BlockGroup => ({ key: `TUBES-${sheet}`, sheet, question: 'כמה סוגי צינורות יש במבנה?', base: 1, initial: 1, blocks: [headerIs(/Tube type 2/), headerIs(/Tube type 3/)] });
+export const sesBlockGroups: BlockGroup[] = [
+  { key: 'METALS', sheet: 'Metal Datasheets', question: 'כמה חומרי מתכת מתועדים?', base: 1, initial: 1, blocks: [panelIs('Your Material 2'), panelIs('Your Material 3')] },
+  { key: 'COMPOSITES', sheet: 'Composite Datasheets', question: 'כמה חומרים מרוכבים מתועדים?', base: 1, initial: 1, blocks: range(2, 20).map(i => panelIs(`Your Material ${i}`)) },
+  { key: 'LAYUPS', sheet: 'Laminate Table', question: 'כמה למינציות נוספות, מעבר לשלוש הבסיסיות?', base: 0, initial: 0, blocks: range(4, 15).map(i => panelIs(`Layup ${i}`)) },
+  { key: 'LAMTESTS', sheet: 'T3.6 Laminate Tests', question: 'כמה בדיקות כפיפה של למינציות נוספות?', base: 0, initial: 0, blocks: [panelIs('OTHER LAMINATE'), ...range(4, 14).map(i => panelIs(`OTHER LAMINATE ${i}`))] },
+  { key: 'SHEAR', sheet: 'T3.6.10 Shear Tests', question: 'כמה בדיקות גזירה נוספות?', base: 0, initial: 1, blocks: ['AR', 'BL', 'CF', 'CZ', 'DT', 'EN', 'FH', 'GB', 'GV', 'HP', 'IJ', 'JD', 'JX'].map(columnIs) },
+  ...['T3.14 T3.6 FBH Spt Structure', 'T3.15 T3.6 SIS', 'EV5.5.1&2 EV4.4 ACPS TSPS Side', 'EV5.5.1&2 EV4.4 ACPS TSPS Rear'].map(tubeTypes),
+];
+const controlId = (group: BlockGroup) => `SESX-COUNT-${group.key.replace(/[^A-Za-z0-9-]+/g, '').toUpperCase()}`;
+
+export const sesBlockControls: SesBlockControl[] = sesBlockGroups.map(group => ({
+  id: controlId(group), sheet: group.sheet, label: group.question,
+  prompt: `השדות של הפריטים הנוספים מופיעים לפי המספר שתבחרו (ברירת מחדל: ${group.initial}). פריט שכבר מילאתם בו נתונים נשאר מוצג. הבחירה לא נכתבת לקובץ האקסל.`,
+  kind: 'select', type: 'select', section: sesSheetTitle(group.sheet),
+  options: range(group.base, group.base + group.blocks.length).map(n => ({ value: String(n), label: String(n) })),
+  required: false, exampleIds: [], exampleStatus: 'example_gap', exampleNote: '', sourceControlIds: [], ruleRefs: [], sesBlockControl: { initial: group.initial },
+}));
+
+function blockRule(entry: SesFixedEntry): SesFixedField['showWhenCount'] {
+  for (const group of sesBlockGroups) {
+    if (group.sheet !== entry.sheet) continue;
+    const index = group.blocks.findIndex(match => match(entry));
+    if (index >= 0) return { fieldId: controlId(group), atLeast: group.base + index + 1, initial: group.initial };
+  }
+  return undefined;
+}
+
 function buildFields(): SesFixedField[] {
   const rule = data.constructionType;
   const controllers = new Map<string, string>();
@@ -65,6 +112,7 @@ function buildFields(): SesFixedField[] {
       else if (tubeHeader.test(entry.columnHeader)) showWhen = { fieldId: controller, notIn: [rule.compositeOnlyValue] };
     }
     const kind = entry.valueKind === 'select' ? 'select' : 'text';
+    const showWhenCount = blockRule(entry);
     const field: SesFixedField = {
       id,
       label: isolateLtr(contextHebrew ? `${labelHebrew} · ${contextHebrew}` : labelHebrew),
@@ -79,6 +127,7 @@ function buildFields(): SesFixedField[] {
       officialTemplate: { sheet: entry.sheet, cell: entry.cell, editableRanges: [entry.cell], fixed: true },
       sesFixed: { englishLabel: entry.label, englishContext: contextEnglish, valueKind: entry.valueKind, templateValue: entry.templateValue },
       ...(showWhen ? { showWhen } : {}),
+      ...(showWhenCount ? { showWhenCount } : {}),
     };
     return field;
   });
