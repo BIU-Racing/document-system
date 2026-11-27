@@ -10,6 +10,7 @@ import coverageData from '@/data/coverage.normalized.json';
 import summaryData from '@/data/source-summary.normalized.json';
 import sharedData from '@/data/shared-records.normalized.json';
 import { numericTargets } from './official-numeric-targets';
+import { groupFieldsBySheet } from './sheet-chapters';
 import { sesBlockControls, sesFixedFields, sesSheetTitle } from './ses-fields';
 import { ruleFields, RULE_FIELDS_SECTION } from './rule-fields';
 
@@ -55,6 +56,8 @@ export type Field = {
   columns?: FieldColumn[];
   unit?: string;
   section: string;
+  /** Display only: the official workbook tab this field is written to, e.g. "ASES › Accumulator Pics". */
+  sheetTab?: string;
   exampleIds: string[];
   exampleStatus: string;
   exampleNote: string;
@@ -177,8 +180,23 @@ for (const target of numericTargets) {
       }
     }
     ordered.push(...legacy.filter(field => !field.officialTemplate?.sheet));
+    for (const field of ordered) {
+      const sheet = field.officialTemplate?.sheet ?? (field as unknown as { sheet?: string }).sheet;
+      if (sheet) field.sheetTab = `SES › ${sheet}`;
+    }
     ses.fields = ordered;
   }
+}
+
+// ESF / ASES: one chapter per official Excel tab, in workbook order (lib/sheet-chapters.ts).
+{
+  const where = new Map<string, { document: string; sheet: string }>();
+  for (const entry of coverage.entries) {
+    const key = `${entry.systemId ?? 'COORDINATOR'}:${entry.fieldId}`;
+    if (entry.fieldId && !where.has(key)) where.set(key, { document: entry.official.document, sheet: entry.official.sheet });
+  }
+  for (const system of systems) if (system.id !== 'SES') groupFieldsBySheet(system.fields, id => where.get(`${system.id}:${id}`));
+  groupFieldsBySheet(coordinatorQueue, id => where.get(`COORDINATOR:${id}`));
 }
 
 // Optional numeric fields that 2027 rule checks read (lib/rule-checks.ts), in their own chapter.
