@@ -1,6 +1,7 @@
 import type {Answer,Answers} from './progress';
 export type {Answer,Answers,SourceProvenance} from './progress';
-export type Progress = { complete:number;total:number;percent:number;filled?:number;fillPercent?:number;populated?:number;sourcePending?:number;sourceConfirmed?:number;missing:{id:string;label:string;reason?:string}[] };
+export type ProgressPart = { filled:number;total:number;fillPercent:number };
+export type Progress = { forms?:ProgressPart;internal?:ProgressPart;complete:number;total:number;percent:number;filled?:number;fillPercent?:number;populated?:number;sourcePending?:number;sourceConfirmed?:number;missing:{id:string;label:string;reason?:string}[] };
 export type Attachment = {id:string;fileName?:string;safeName?:string;name?:string;originalName?:string;fieldId:string;version?:number;size?:number;createdAt?:string;status?:string};
 export type Snapshot = {id:string;answers:Answers;revision:number;status:string;attachments:Attachment[];progress:Progress;updatedAt:string|null;review?:unknown};
 export type Session = {subject:string;role:'coordinator'|'reviewer'|'contributor';systemIds:string[];authMethod?:'sites'|'team'|'email_entry';emailVerified?:boolean};
@@ -10,6 +11,17 @@ export type Pending = SaveAttempt&{conflictFieldIds?:string[];attachments?:Attac
 export type LocalDraft={key:string;pending:Pending};
 export const statusLabels:Record<string,string> = {draft:'במילוי',submitted:'ממתין לבדיקה',in_review:'בבדיקה',approved:'אושר בבדיקה',changes_requested:'נדרש תיקון',review:'ממתין לבדיקה'};
 export const fillCount=(progress:Progress)=>progress.filled??progress.complete;
+const pct=(done:number,of:number)=>of===0?0:done===of?100:Math.min(99,Math.floor(done*100/of));
+/** Fill split into official-form fields and internal documentation (falls back to the single total). */
+export function fillParts(progress:Progress){
+  const forms=progress.forms,internal=progress.internal??{filled:fillCount(progress),total:progress.total,fillPercent:fillPercent(progress)};
+  return {forms:forms&&forms.total>0?forms:undefined,internal:internal.total>0?internal:undefined};
+}
+/** Sum of parts across systems, e.g. for the home page. */
+export function sumParts(list:Progress[]){
+  const add=(key:'forms'|'internal')=>{const filled=list.reduce((n,p)=>n+(fillParts(p)[key]?.filled??0),0),total=list.reduce((n,p)=>n+(fillParts(p)[key]?.total??0),0);return {filled,total,fillPercent:pct(filled,total)};};
+  return {forms:add('forms'),internal:add('internal')};
+}
 export const fillPercent=(progress:Progress)=>progress.fillPercent??progress.percent;
 export function sourceValidationLabel(progress:Pick<Progress,'sourcePending'|'sourceConfirmed'>){const confirmed=progress.sourceConfirmed??0;const total=confirmed+(progress.sourcePending??0);return total?`${confirmed} מתוך ${total} תשובות מקור אומתו`:'אין תשובות מקור שממתינות לאימות';}
 export const engineeringStatusLabel=(status:string)=>status==='draft'?'טרם הועבר לבדיקה':statusLabels[status]||'טרם הועבר לבדיקה';

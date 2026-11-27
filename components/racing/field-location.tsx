@@ -20,22 +20,22 @@ function CellLink({ destination }: { destination: Destination }) {
 export function FieldLocations({ systemId, field }: { systemId: string; field: LocationField }) {
   const result = fieldDestinations(systemId, field, coverage.entries);
 
-  if (result.type === 'none') return <div className="field-location field-location-none">
-    <p><span className="field-location-label">לא נכתב לאף מסמך רשמי.</span> {isolateLtr('התשובה נשמרת בתיק המערכת ובדוח, אבל לא בקבצים ESF, ASES או SES.')}</p>
+  if (result.type === 'none') return <div className="field-location field-location-none" title="התשובה נשמרת בתיק המערכת ובדוח שלה, ולא נכתבת לקובצי האקסל של התחרות.">
+    <p><span className="field-location-label">תיעוד פנימי</span> · לא נכתב לאקסל</p>
   </div>;
 
   if (result.type === 'chosen_cell') return <div className="field-location field-location-warn">
     <p><span className="field-location-label">{isolateLtr('נכתב ל־SES לתא שתבחרו:')}</span>
       <span className="field-location-item">{result.href ? <a href={result.href} target="_blank" rel="noopener"><bdi dir="ltr">SES › {result.sheet}</bdi> <span aria-hidden="true">↗</span></a> : <bdi dir="ltr">SES › {result.sheet}</bdi>}</span>
     </p>
-    <small>{isolateLtr('ל־SES אין מיפוי קבוע לאזור הזה: כתובת התא שמקלידים בכל שורה היא זו שתיכתב. בדקו אותה מול הגיליון.')}</small>
+    <small>הכתובת שמקלידים בכל שורה היא התא שייכתב.</small>
   </div>;
 
   const automatic = result.destinations.filter(item => item.mode === 'auto');
   const other = result.destinations.filter(item => item.mode !== 'auto');
   const ownCells = automatic.filter(item => !item.columnLabel);
   const columnCells = automatic.filter(item => item.columnLabel);
-  return <div className="field-location">
+  return <div className="field-location" title="המיקום נלקח מהמיפוי שמשמש את הייצוא. אם התא לא מתאים לשאלה, דווחו לרכז.">
     {ownCells.length > 0 && <p><span className="field-location-label">ייכתב לתא:</span>{ownCells.map(item => <span className="field-location-item" key={item.controlId}><CellLink destination={item} /></span>)}</p>}
     {columnCells.length > 0 && <details open={columnCells.length <= 4}>
       <summary>לאן נכתבת כל עמודה בטבלה ({columnCells.length})</summary>
@@ -46,6 +46,5 @@ export function FieldLocations({ systemId, field }: { systemId: string; field: L
       <span className="field-location-item"><CellLink destination={item} /></span>
       <span className="field-location-note">{modeNote[item.mode as Exclude<Destination['mode'], 'auto'>]}</span>
     </li>)}</ul>}
-    <small>המיקום נלקח מאותו מיפוי שמשמש את הייצוא. התאמת התא לשאלה עדיין לא אושרה הנדסית; אם התא לא מתאים לשאלה, דווחו לרכז.</small>
   </div>;
 }

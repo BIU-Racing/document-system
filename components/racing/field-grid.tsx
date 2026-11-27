@@ -35,7 +35,7 @@ export function FieldGrid({ grid, fields, answers, visible, violations, readOnly
       <h3>{grid.title}</h3>
       <span className="field-grid-count"><bdi>{filled}</bdi> מתוך <bdi>{grid.fieldIds.length}</bdi> מולאו</span>
     </header>
-    <p className="field-grid-hint">ממלאים ישר בטבלה, כמו בלשונית <bdi dir="ltr">{grid.sheet}</bdi> באקסל: <bdi>Tab</bdi> לתא הבא, <bdi>Enter</bdi> לתא שמתחת. כפתור ⋯ (או <bdi>Alt+Enter</bdi>) פותח את הפירוט המלא של התא.</p>
+    <p className="field-grid-hint">כמו בלשונית <bdi dir="ltr">{grid.sheet}</bdi> באקסל · <bdi>Tab</bdi> לתא הבא · <bdi>Enter</bdi> לתא שמתחת · ⋯ לפרטים</p>
     <div className="field-grid-scroll">
       <table>
         <thead><tr><th scope="col"><span className="sr-only">נתון</span></th>{grid.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead>
