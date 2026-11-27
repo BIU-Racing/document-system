@@ -195,3 +195,50 @@ test('results carry a compact table: entered against required', () => {
   assert.deepEqual(one({ TSAL: { 'RC-TSAL-FREQUENCY': a('4') } }, 'RC-23').table.map(line => [line.value, line.required, line.ok]), [['4 Hz', '2–5 Hz', true]]);
   assert.equal(one({ IMD: {} }, 'RC-03').table, undefined, 'pending results have no table');
 });
+
+test('electrical limits from the coverage map: max, min, strict and range', () => {
+  const at = (systemId, fieldId, value) => ({ [systemId]: { [fieldId]: a(value) } });
+  const status = (answers, id) => one(answers, id).status;
+  assert.equal(status(at('BSPD', 'RC-BSPD-DELAY', '500'), 'RC-27'), 'ok');
+  assert.equal(status(at('BSPD', 'RC-BSPD-DELAY', '501'), 'RC-27'), 'violation');
+  assert.equal(status(at('BSPD', 'RC-BSPD-PRESSURE', '30 bar'), 'RC-28'), 'ok');
+  assert.equal(status(at('DRIVE', 'RC-DRIVE-RELEASED-TORQUE', '-5'), 'RC-30'), 'ok');
+  assert.equal(status(at('DRIVE', 'RC-DRIVE-RELEASED-TORQUE', '2'), 'RC-30'), 'violation');
+  assert.equal(status(at('INTEGRATION', 'RC-INT-GROUND-RESISTANCE', '100'), 'RC-35'), 'violation', 'strictly below 100 mΩ');
+  assert.equal(status(at('INTEGRATION', 'RC-INT-GROUND-RESISTANCE', '99'), 'RC-35'), 'ok');
+  assert.equal(status(at('INTEGRATION', 'RC-INT-FUSE-TEMP-MIN', '-40'), 'RC-37'), 'ok');
+  assert.equal(status(at('INTEGRATION', 'RC-INT-FUSE-TEMP-MAX', '70'), 'RC-38'), 'violation');
+  assert.equal(status(at('HVD', 'RC-HVD-HEIGHT', '350'), 'RC-44'), 'violation', 'must be above 350 mm');
+  assert.equal(status(at('HVD', 'RC-HVD-HEIGHT', '351'), 'RC-44'), 'ok');
+  assert.equal(status(at('RTD', 'RC-RTD-SOUND-LEVEL', '79'), 'RC-47'), 'violation');
+  assert.equal(status(at('RTD', 'RC-RTD-SOUND-LEVEL', '85'), 'RC-47'), 'ok');
+  assert.equal(status(at('SDC', 'RC-SDC-INERTIA-G', '10'), 'RC-56'), 'ok');
+  assert.equal(status(at('BMS', 'RC-BMS-TRIP-TEMP', '1.5'), 'RC-50'), 'violation');
+  assert.equal(status(at('DASHBOARD', 'RC-DASH-LIGHT-AREA', '15 cm²'), 'RC-57'), 'ok');
+  assert.equal(one(at('BSPD', 'RC-BSPD-DELAY', '600'), 'RC-27').table[0].required, '≤ 500 ms');
+  assert.equal(one(at('HVD', 'RC-HVD-HEIGHT', '300'), 'RC-44').table[0].required, '> 350 mm');
+});
+
+test('spacing below 20 mm is a notice (a barrier is allowed); TSAL height; TSMP resistor by TS voltage', () => {
+  assert.equal(one({ INTEGRATION: { 'RC-INT-TS-LV-SPACING': a('12') } }, 'RC-39').status, 'notice');
+  assert.equal(one({ INTEGRATION: { 'RC-INT-TS-LV-SPACING': a('25') } }, 'RC-39').status, 'ok');
+  assert.equal(one({ TSAL: { 'RC-TSAL-BELOW-HOOP': a('0') } }, 'RC-46').status, 'violation');
+  assert.equal(one({ TSAL: { 'RC-TSAL-BELOW-HOOP': a('40') } }, 'RC-46').status, 'ok');
+  assert.equal(one({ TSAL: { 'RC-TSAL-BELOW-HOOP': a('80') } }, 'RC-46').status, 'violation');
+  const tsmp = (kOhm, volts) => one({ INTEGRATION: { 'RC-INT-TSMP-RESISTOR': a(kOhm) }, ...(volts ? { ACCUMULATOR: { 'RC-ACC-MAX-TS-VOLTAGE': a(volts) } } : {}) }, 'RC-42');
+  assert.equal(tsmp('10').status, 'pending', 'needs the maximum TS voltage');
+  assert.equal(tsmp('10', '400').status, 'ok');
+  assert.equal(tsmp('5', '400').status, 'violation');
+  assert.equal(tsmp('15', '400').status, 'notice');
+  assert.equal(tsmp('5', '150').status, 'ok');
+  assert.equal(tsmp('15', '588').status, 'ok');
+});
+
+test('every new electrical rule field has exactly its check and sits in the rule chapter', () => {
+  const ids = ruleFields.filter(field => /^RC-(BSPD|DRIVE-(APPS|RELEASED)|INT|HVC|HVD|TSAL-BELOW|RTD-SOUND-LEVEL|BMS|TSMS|LVMS|LVB|SDC-INERTIA|DASH|CHG)/.test(field.id));
+  assert.equal(ids.length, 32);
+  for (const field of ids) {
+    assert.ok(ruleChecks.some(check => check.target.systemId === field.systemId && check.target.fieldId === field.id && check.rule === field.rule), field.id);
+    assert.ok(rulesFor(field.systemId, field.id).length >= 1, field.id);
+  }
+});

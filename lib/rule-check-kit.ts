@@ -31,10 +31,11 @@ export const notice = (message: string) => ({ status: 'notice' as const, message
 
 const row = (value: number, required: string, unit: string, passes: boolean, label = 'ערך'): RuleRow => ({ label, value: `${fmt(value)} ${unit}`.trim(), required, ok: passes });
 
-export function maxCheck(value: number | undefined, limit: number, unit: string, rule: string) {
+export function maxCheck(value: number | undefined, limit: number, unit: string, rule: string, strict = false) {
   if (value === undefined) return pending();
-  const passes = value <= limit, table = [row(value, `≤ ${fmt(limit)} ${unit}`.trim(), unit, passes)];
-  return { ...(passes ? ok(`עומד ב־${rule}: ${fmt(value)} ${unit} (מותר עד ${fmt(limit)} ${unit}).`) : bad(`חורג מ־${rule}: הוזן ${fmt(value)} ${unit}, מותר עד ${fmt(limit)} ${unit}.`)), table };
+  const passes = strict ? value < limit : value <= limit, table = [row(value, `${strict ? '<' : '≤'} ${fmt(limit)} ${unit}`.trim(), unit, passes)];
+  const allowed = strict ? `פחות מ־${fmt(limit)} ${unit}` : `עד ${fmt(limit)} ${unit}`;
+  return { ...(passes ? ok(`עומד ב־${rule}: ${fmt(value)} ${unit} (מותר ${allowed}).`) : bad(`חורג מ־${rule}: הוזן ${fmt(value)} ${unit}, מותר ${allowed}.`)), table };
 }
 export function minCheck(value: number | undefined, limit: number, unit: string, rule: string, strict = false) {
   if (value === undefined) return pending();
