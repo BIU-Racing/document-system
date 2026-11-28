@@ -62,12 +62,14 @@ export function scheduleLocalTranslation(id:string,revision:number,retry=false):
       }));
      }catch(error){lastFailure=error instanceof Error?error.message:'LOCAL_ENGINE_FAILED';console.warn('Local translation failed:',lastFailure);failed++;continue;}
      if(!active())return;
-     snapshot=await request<TranslationSnapshot>(url,{method:'POST',body:JSON.stringify({action:'complete',sourceRevision:revision,sourceHash:snapshot.sourceHash,model:snapshot.model,results:[{key:chunk.key,text}]})});
+     // One rejected text must not stop the rest; a changed source (409) still stops the job.
+     try{snapshot=await request<TranslationSnapshot>(url,{method:'POST',body:JSON.stringify({action:'complete',sourceRevision:revision,sourceHash:snapshot.sourceHash,model:snapshot.model,results:[{key:chunk.key,text}]})});}
+     catch(error){if((error as {status?:number}).status!==422)throw error;lastFailure='INVALID_LOCAL_TRANSLATION';failed++;continue;}
      done++;
     }
    }
    if(!active())return;
-   if(failed||snapshot.status!=='ready')publish(id,{revision,phase:'error',message:/PROTECTED_TEXT_CHANGED|INVALID_LOCAL_TRANSLATION/.test(lastFailure)?'חלק מהתרגום לא עבר את הבדיקה. העברית נשמרה; אפשר לנסות שוב או לפשט את הניסוח.':'מנוע התרגום לא השלים את הפעולה. העברית נשמרה; בדקו את החיבור לאינטרנט ונסו שוב.',snapshot,done,total});
+   if(failed||snapshot.status!=='ready')publish(id,{revision,phase:'error',message:/PROTECTED_TEXT_CHANGED|INVALID_LOCAL_TRANSLATION/.test(lastFailure)?`${failed===1?'תשובה אחת לא תורגמה':`${failed} תשובות לא תורגמו`} אוטומטית, כי המספרים או הסימונים לא נשמרו בתרגום. העברית נשמרה; אפשר לכתוב את האנגלית ידנית בשדה עצמו או לפשט את הניסוח.`:'מנוע התרגום לא השלים את הפעולה. העברית נשמרה; בדקו את החיבור לאינטרנט ונסו שוב.',snapshot,done,total});
    else publish(id,{revision,phase:'ready',message:'התרגום לאנגלית נשמר אוטומטית.',snapshot,done,total});
    window.dispatchEvent(new CustomEvent('biu-translation-complete',{detail:{id,revision}}));
   }catch(error){
