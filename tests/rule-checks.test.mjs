@@ -70,7 +70,7 @@ test('ASES sections: each row is checked for 12 kg, 120 V and 6 MJ', () => {
 });
 
 test('segment voltage/energy and temperature sensor share are computed from cell data', () => {
-  const cells = (series, parallel, sensors) => ({ ACCUMULATOR: { 'LC-ESF-Accumulator-segments-C': a(series), 'LC-ESF-Accumulator-segments-B': a(parallel), 'LC-ESF-Accumulator-segments-D': a(sensors) }, COORDINATOR: { 'LC-ESF-S02-D6': a('4.2'), 'LC-ESF-S02-D5': a('5') } });
+  const cells = (series, parallel, sensors) => ({ ACCUMULATOR: { 'LC-ESF-Accumulator-segments-C': a(series), 'LC-ESF-Accumulator-segments-B': a(parallel), 'LC-ESF-Accumulator-segments-D': a(sensors) , 'LC-ESF-S02-D6': a('4.2'), 'LC-ESF-S02-D5': a('5') } });
   assert.equal(one(cells('24', '3', '22'), 'RC-10').status, 'ok', '24 × 4.2 V = 100.8 V; 24 × 3 × 4.2 V × 5 Ah = 5.4 MJ');
   assert.equal(one(cells('30', '3', '27'), 'RC-10').status, 'violation', '30 × 4.2 V = 126 V');
   assert.match(one(cells('24', '5', '36'), 'RC-10').message, /9\.072 MJ/, '24 × 5 × 4.2 V × 5 Ah = 9.07 MJ');
@@ -88,7 +88,7 @@ test('TSAC thickness depends on the chosen material', () => {
 
 test('component voltage ratings: lower rating is a notice that depends on TS or LV use', () => {
   const rows = [{ _id: 'a', 'LC-ESF-Datasheets-fuses-C': 'F-1', 'LC-ESF-Datasheets-fuses-D': '1000' }, { _id: 'b', 'LC-ESF-Datasheets-fuses-C': 'F-2', 'LC-ESF-Datasheets-fuses-D': '32', 'LC-ESF-Datasheets-fuses-J': 'LV PDU' }];
-  const out = result({ ACCUMULATOR: { 'RC-ACC-MAX-TS-VOLTAGE': a('588') }, COORDINATOR: { 'CARD-FG-ESF-DS-03': a(rows) } }, 'RC-14-fuses');
+  const out = result({ ACCUMULATOR: { 'RC-ACC-MAX-TS-VOLTAGE': a('588') }, INTEGRATION: { 'CARD-FG-ESF-DS-03': a(rows) } }, 'RC-14-fuses');
   assert.deepEqual(out.map(item => item.status), ['ok', 'notice']);
 });
 
@@ -180,7 +180,7 @@ test('steel chemistry and strength, harness loads, firewall, IA and cell pressur
 
 test('EV 4.5.3 conductor temperature rating per row', () => {
   const rows = [{ _id: 'a', 'LC-ESF-Datasheets-conductors-G': '125' }, { _id: 'b', 'LC-ESF-Datasheets-conductors-G': '80' }, { _id: 'c', 'LC-ESF-Datasheets-conductors-G': '70', 'LC-ESF-Datasheets-conductors-J': 'LV harness' }];
-  assert.deepEqual(result({ COORDINATOR: { 'CARD-FG-ESF-DS-02': a(rows) } }, 'RC-26').map(item => item.status), ['ok', 'violation', 'notice']);
+  assert.deepEqual(result({ INTEGRATION: { 'CARD-FG-ESF-DS-02': a(rows) } }, 'RC-26').map(item => item.status), ['ok', 'violation', 'notice']);
 });
 
 test('SES fields get rule notes in the SES editor', () => {

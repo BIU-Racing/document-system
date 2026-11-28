@@ -191,7 +191,7 @@ test('QA-01 invalid, negative, out-of-range and non-integer inputs never become 
 
 test('QA-01 identifiers and free text stay strings (no blanket number conversion)', async () => {
   const C = 'LC-ESF-Datasheets-conductors-';
-  const w = await exportAnswers('esf', { COORDINATOR: { 'CARD-FG-ESF-DS-02': [{ _id: 'r1', [C + 'B']: 'Leoni', [C + 'C']: '007', [C + 'D']: '35' }], 'LC-ESF-S02-D4': '18650' } });
+  const w = await exportAnswers('esf', { INTEGRATION: { 'CARD-FG-ESF-DS-02': [{ _id: 'r1', [C + 'B']: 'Leoni', [C + 'C']: '007', [C + 'D']: '35' }] }, ACCUMULATOR: { 'LC-ESF-S02-D4': '18650' } });
   const ds = book(w.bytes, 'esf').sheet('Datasheets');
   assert.equal(ds.C19.xmlType, 'inlineStr'); assert.equal(ds.C19.value, '007');      // part number
   assert.equal(ds.D4.xmlType, 'inlineStr'); assert.equal(ds.D4.value, '18650');      // cell model
@@ -222,7 +222,7 @@ test('QA-12 heatsink column accepts the template literal "None" and nothing else
   const header = book(await blankBook('esf'), 'esf').sheet('Datasheets').H55?.value ?? '';
   assert.match(header, /Enter "None" if no heatsink/);
   const R = 'LC-ESF-Datasheets-resistors-';
-  const row = (h, g = '50') => exportAnswers('esf', { COORDINATOR: { 'CARD-FG-ESF-DS-04': [{ _id: 'r', [R + 'B']: 'Vishay', [R + 'G']: g, [R + 'H']: h }] } });
+  const row = (h, g = '50') => exportAnswers('esf', { INTEGRATION: { 'CARD-FG-ESF-DS-04': [{ _id: 'r', [R + 'B']: 'Vishay', [R + 'G']: g, [R + 'H']: h }] } });
   for (const value of ['None', 'none', ' NONE ']) {
     const c = book((await row(value)).bytes, 'esf').sheet('Datasheets').H56;
     assert.deepEqual([c.xmlType, c.value], ['inlineStr', 'None'], value);
