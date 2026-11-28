@@ -26,6 +26,8 @@ import { departmentLabel } from './system-map';
 type FieldShape={id:string;label:string;prompt:string;kind:string;section:string;retired?:true;officialTemplate?:unknown;unit?:string;options?:{value:string;label:string}[];columns?:{id:string;label:string;prompt?:string;unit?:string;exampleIds?:string[];kind?:string;options?:{value:string;label:string}[]}[];attachmentRequired?:boolean;exampleIds?:string[];exampleNote?:string;officialRefs?:unknown[]};
 /** 2027 rule sections of the SES tab a field is written to (shown when the field has no automatic check). */
 const sheetReferences=(field:FieldShape)=>{const sheet=(field.officialTemplate as {sheet?:string}|undefined)?.sheet;return sheet&&field.id.startsWith('SESX-')?sesSheetRules(sheet):[];};
+/** A saved answer with real content (text, table rows, a reason or a file). */
+export const hasSavedContent=(answer?:Answer)=>!!answer&&(answer.status!=='answered'||!!answer.reason?.trim()||!!answer.attachmentIds?.length||(typeof answer.value==='string'?!!answer.value.trim():answer.value.length>0));
 const emptySnapshot=(id:string):Snapshot=>({id,answers:{},revision:0,status:'draft',attachments:[],progress:{complete:0,total:getSystem(id)?.fields.length||0,percent:0,missing:[]},updatedAt:null});
 
 /** Chapter checks describe saved documentation only, never an unsaved draft or engineering approval. */
@@ -43,10 +45,12 @@ type RequestFailure=Error&{status?:number;data?:{code?:string;server?:Snapshot;b
 export function Editor({id,session,demo,focusField,onBack,onSaved}:{id:string;session:Session;demo:boolean;focusField?:string;onBack:()=>void;onSaved:(s:Snapshot)=>void}){
  const system=getSystem(id)!;
  const readOnly=session.role==='reviewer';
- // The retired general questionnaire is not shown (its answers stay stored and in the export package).
- const fields=(system.fields as FieldShape[]).filter(field=>!field.retired);
- const sections=Array.from(new Set(fields.map(f=>f.section||'תיעוד המערכת')));
- const [chapter,setChapter]=useState(()=>{const target=fields.find(f=>f.id===focusField);return target?Math.max(0,sections.indexOf(target.section||'תיעוד המערכת')):0;});const [snapshot,setSnapshot]=useState<Snapshot>(emptySnapshot(id));const [answers,setAnswers]=useState<Answers>({});
+ // The retired general questions show only where an answer was already saved (last chapter, optional).
+ const sectionOf=(fields:FieldShape[])=>Array.from(new Set(fields.map(f=>f.section||'תיעוד המערכת')));
+ const [snapshot,setSnapshot]=useState<Snapshot>(emptySnapshot(id));
+ const fields=(system.fields as FieldShape[]).filter(field=>!field.retired||hasSavedContent(snapshot.answers[field.id]));
+ const sections=sectionOf(fields);
+ const [chapter,setChapter]=useState(()=>{const shown=(system.fields as FieldShape[]).filter(field=>!field.retired);const target=shown.find(f=>f.id===focusField);return target?Math.max(0,sectionOf(shown).indexOf(target.section||'תיעוד המערכת')):0;});const [answers,setAnswers]=useState<Answers>({});
  const [loadAttempt,setLoadAttempt]=useState(0);const [uploadUncertain,setUploadUncertain]=useState(false);const uploadAttempt=useRef<UploadAttempt|null>(null);
  const loadedRef=useRef(demo);const [loaded,setLoaded]=useState(demo);
   // Scroll once to a field opened from the document readiness panel. The jump is instant:

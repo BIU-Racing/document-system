@@ -35,8 +35,8 @@ const textField=[fields[0]],fileField=[fields[2]];
 const pendingText=computeProgress(textField,{voltage:pending});
 assert.deepEqual(
   {filled:pendingText.filled,fillPercent:pendingText.fillPercent,complete:pendingText.complete,percent:pendingText.percent,sourcePending:pendingText.sourcePending,sourceConfirmed:pendingText.sourceConfirmed},
-  {filled:1,fillPercent:100,complete:0,percent:0,sourcePending:1,sourceConfirmed:0},
-  'Complete pending source text is filled, but not formally complete');
+  {filled:0,fillPercent:0,complete:0,percent:0,sourcePending:1,sourceConfirmed:0},
+  'Imported source text awaiting the team counts as neither filled nor complete');
 assert.deepEqual(pendingText.missing,[{id:'voltage',label:'מתח',reason:'תוכן מהמקורות — ממתין לאימות הצוות'}],'Existing pending missing reason is preserved');
 const partialUnknown={...pending,status:'unknown',reason:'חסר המתח המרבי'};
 assert.equal(computeProgress(textField,{voltage:partialUnknown}).filled,0,'Partial unknown text is not filled');
@@ -45,13 +45,15 @@ const pendingFile={...answers.evidence,provenance,sourceReview:'pending'};
 assert.equal(computeProgress(fileField,{evidence:pendingFile}).filled,0,'Missing file bytes do not count as filled');
 assert.equal(computeProgress(fileField,{evidence:pendingFile},[{...file,state:'uploading'}]).filled,0,'Uploading evidence is not filled');
 const uploaded=computeProgress(fileField,{evidence:pendingFile},[file]);
-assert.deepEqual([uploaded.filled,uploaded.complete,uploaded.fillPercent,uploaded.percent],[1,0,100,0],'Completed pending original counts as filled only');
+assert.deepEqual([uploaded.filled,uploaded.complete,uploaded.fillPercent,uploaded.percent],[0,0,0,0],'A pending imported original is not filled until the team confirms it');
+const uploadedConfirmed=computeProgress(fileField,{evidence:{...pendingFile,sourceReview:'confirmed'}},[file]);
+assert.deepEqual([uploadedConfirmed.filled,uploadedConfirmed.fillPercent],[1,100],'A confirmed original with its file counts as filled');
 const pendingTable={...tableAnswer,provenance,sourceReview:'pending'};
 const tableFile={id:'test-file',fieldId:'tests',state:'complete'};
 assert.equal(computeProgress(table,{tests:{...pendingTable,value:[{_id:'row-1',result:'',proof:'test-file'}]}},[tableFile]).filled,0,'Pending table with a required blank cell is not filled');
 assert.deepEqual(
   [computeProgress(table,{tests:pendingTable},[tableFile]).filled,computeProgress(table,{tests:pendingTable},[tableFile]).complete],
-  [1,0],'Complete pending table and evidence count as filled only');
+  [0,0],'A complete pending table is not filled until the team confirms it');
 const pendingChanges={fields:{voltage:{fingerprint:fingerprint(pending),verdict:'changes_requested',reason:'יש לתקן',role:'reviewer',at:'2026-10-30'}}};
 const needsChange=computeProgress(textField,{voltage:pending},[],pendingChanges);
 assert.deepEqual([needsChange.filled,needsChange.complete,needsChange.missing[0].reason],[0,0,'תוכן מהמקורות — ממתין לאימות הצוות'],'Changes requested block filled without changing pending formal reason precedence');
