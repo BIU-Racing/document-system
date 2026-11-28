@@ -75,3 +75,27 @@ test('repeated blocks: only the base item counts until the count control asks fo
   assert.equal(fieldVisible(sis, { [sisCount.id]: { status: 'answered', value: '2' } }), true);
   assert.equal(fieldVisible(sis, { [sisCount.id]: { status: 'answered', value: '2' }, [construction.id]: { status: 'answered', value: 'Composite only' } }), false);
 });
+
+test('every SES tab has its 2027 rule sections, and each field carries them', () => {
+  // Tabs without a rule: administration only (versions, clarifications, free notes).
+  const adminOnly = new Set(['Version History', 'Rules Clarifications', 'Additional Info']);
+  for (const sheet of Object.keys(curation.sheets)) {
+    const refs = curation.sheetRules[sheet];
+    assert.ok(Array.isArray(refs), `rule list for ${sheet}`);
+    if (!adminOnly.has(sheet)) assert.ok(refs.length, `${sheet} has a 2027 rule`);
+    for (const ref of refs) assert.match(ref.rule, /^(T|EV|A) \d+(\.\d+)*$/, `${sheet}: ${ref.rule}`);
+  }
+  for (const field of sesFixedFields) assert.deepEqual(field.ruleRefs, curation.sheetRules[field.officialTemplate.sheet].map(ref => ref.rule), field.id);
+  // Tab names keep 2026 numbers; the chapter shows the 2027 number.
+  assert.match(curation.sheets['T3.16.7 Prim.Struct.Att. Blind'], /T3\.16\.6/);
+  assert.match(curation.sheets['T3.6.10 Shear Tests'], /T3\.6\.11/);
+});
+
+test('SES rule pages match the 2027 rulebook (when its index is available locally)', { skip: !fs.existsSync('/private/tmp/claude-501/rules2027.json') && 'rulebook index not present' }, () => {
+  const rules = JSON.parse(fs.readFileSync('/private/tmp/claude-501/rules2027.json', 'utf8'));
+  for (const [sheet, refs] of Object.entries(curation.sheetRules)) for (const { rule, page } of refs) {
+    const pages = Object.keys(rules).filter(key => key === rule || key.startsWith(rule + '.')).map(key => rules[key].page);
+    assert.ok(pages.length, `${sheet}: ${rule} exists`);
+    assert.equal(Math.min(...pages), page, `${sheet}: ${rule} page`);
+  }
+});

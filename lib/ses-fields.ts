@@ -46,12 +46,17 @@ type Curation = {
   sheets: Record<string, string>; headers: Record<string, string>; panels: Record<string, string>;
   panelPatterns: { match: string; he: string }[]; labels: Record<string, string>;
   constructionType: { label: string; tubeOnlyValue: string; compositeOnlyValue: string; tubeHeaders: string; compositeHeaders: string; compositeLabels: string };
+  /** 2027 rulebook sections each template tab answers to (the tab names keep 2026 numbers). */
+  sheetRules: Record<string, SesRuleRef[]>;
 };
+export type SesRuleRef = { rule: string; page: number };
 const data = curation as unknown as Curation;
 export const sesFixedEntries = (registry as { fields: SesFixedEntry[] }).fields;
 
 export const sesFieldId = (sheet: string, cell: string) => `SESX-${sheet.replace(/[^A-Za-z0-9]+/g, '').toUpperCase()}-${cell}`;
 export const sesSheetTitle = (sheet: string) => data.sheets[sheet] ?? sheet;
+/** The 2027 rule sections of one SES tab, with their page in FS_Rules_2027_v1.0. */
+export const sesSheetRules = (sheet: string): SesRuleRef[] => data.sheetRules[sheet] ?? [];
 
 function panelHebrew(panel: string) {
   if (data.panels[panel]) return data.panels[panel];
@@ -122,7 +127,7 @@ function buildFields(): SesFixedField[] {
       ...(entry.unit ? { unit: entry.unit } : {}),
       ...(entry.options ? { options: entry.options.map(value => ({ value, label: value })) } : {}),
       required: true,
-      exampleIds: [], exampleStatus: 'example_gap', exampleNote: '', sourceControlIds: [id], ruleRefs: [],
+      exampleIds: [], exampleStatus: 'example_gap', exampleNote: '', sourceControlIds: [id], ruleRefs: sesSheetRules(entry.sheet).map(item => item.rule),
       applicabilityPolicy: 'answer_or_reviewed_not_applicable',
       officialTemplate: { sheet: entry.sheet, cell: entry.cell, editableRanges: [entry.cell], fixed: true },
       sesFixed: { englishLabel: entry.label, englishContext: contextEnglish, valueKind: entry.valueKind, templateValue: entry.templateValue },
