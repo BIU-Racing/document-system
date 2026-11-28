@@ -76,9 +76,9 @@ export function computeProgress(fields:ProgressField[],answers:Answers,attachmen
       const tableNeedsFile=kind==='table'&&fileColumns.length>0&&Array.isArray(answer.value)?answer.value.some(row=>fileColumns.some(col=>!isNotApplicable(row[col.id]))):true;
       if((kind==='file'||(field.attachmentRequired&&tableNeedsFile))&&!(answer.attachmentIds??[]).some(id=>attachments.some(a=>a.id===id&&a.fieldId===field.id&&a.state==='complete'))) reason='חסר קובץ שהעלאתו הושלמה';
     }
-    // Assess the same content and evidence requirements once. Source verification
-    // affects formal completion, while filled tracks usable documentation.
-    if(!reason){filled++;if(isForm(field))formsFilled++;}
+    // Assess the same content and evidence requirements once. Content imported from the
+    // sources counts as filled only after the team confirms it (28.11.2026).
+    if(!reason&&answer?.sourceReview!=='pending'){filled++;if(isForm(field))formsFilled++;}
     if(answer?.sourceReview==='pending')reason='תוכן מהמקורות — ממתין לאימות הצוות';
     if(reason) missing.push({id:field.id,label:field.label,reason});
   }

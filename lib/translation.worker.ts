@@ -19,11 +19,17 @@ self.onmessage=(event:MessageEvent<{id:string;text:string}>)=>{
     translator??=pipeline('translation',LOCAL_MODEL_ID,{revision:LOCAL_MODEL_REVISION,dtype:'q8',device:'wasm',
       progress_callback:(progress:unknown)=>self.postMessage({id,progress})}).catch(error=>{translator=undefined;throw error;});
     const translate=await translator as TranslationFunction;
-    const result=await translate(prepared.text,{max_new_tokens:256,do_sample:false});
-    output=result[0]?.translation_text??'';
+    // One sentence at a time: long dense paragraphs ran past the token limit and lost placeholders.
+    const sentences=prepared.text.split(/(?<=[.;!?])\s+/u),english:string[]=[];
+    for(const sentence of sentences){
+     if(!needsTranslation(sentence)){english.push(sentence);continue;}
+     const result=await translate(sentence,{max_new_tokens:256,do_sample:false});
+     english.push((result[0]?.translation_text??'').trim());
+    }
+    output=english.join(' ');
    }
    const restored=restoreTranslation(prepared,output);
-   if(!restored.ok)throw new Error('PROTECTED_TEXT_CHANGED');
+   if(!restored.ok){console.warn('Translation check failed:',restored.failures);throw new Error('PROTECTED_TEXT_CHANGED');}
    self.postMessage({id,text:restored.text});
   }catch(error){self.postMessage({id,error:error instanceof Error?error.message:'LOCAL_TRANSLATION_FAILED'});}
  });

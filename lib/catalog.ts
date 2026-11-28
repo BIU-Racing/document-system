@@ -197,8 +197,8 @@ for (const ruleField of ruleFields) {
 
 // Team structure (27.11.2026): each team sees two kinds of chapters only: its form questions
 // ("למסמכי התחרות") and "התקנון שלנו" (targeted 2027 questions and rule-checked numbers).
-/** The 35-question general template, removed from the fill-in screens (answers stay stored). */
-export const RETIRED_SECTION = 'שאלון כללי (הוסר)';
+/** The 35-question general template: hidden from the fill-in screens, except questions that already have a saved answer (optional, last chapter). */
+export const RETIRED_SECTION = 'מידע כללי שכבר נאסף';
 {
   // 1. ESF tabs move from the coordinator to the owning team (lib/field-routing.ts).
   for (const entry of coverage.entries) if (entry.fieldId && entry.systemId === null && !entry.privateContact && entry.official.document === 'ESF') entry.systemId = coordinatorFieldOwner(entry.fieldId) === 'COORDINATOR' ? null : coordinatorFieldOwner(entry.fieldId);
