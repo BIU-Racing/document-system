@@ -13,6 +13,7 @@ import { numericTargets } from './official-numeric-targets';
 import { coordinatorFieldOwner } from './field-routing';
 import { sesBlockControls, sesFixedFields, sesSheetTitle } from './ses-fields';
 import { ruleFields, RULE_FIELDS_SECTION } from './rule-fields';
+import { ruleQuestionTitles } from './rule-question-titles';
 
 export type FieldKind = 'text' | 'table' | 'file' | 'select';
 
@@ -222,7 +223,8 @@ export const RETIRED_SECTION = 'מידע כללי שכבר נאסף';
       field.retired = true;
     }
     const forms = system.fields.filter(isForm), rest = system.fields.filter(field => !isForm(field) && !isGeneral(field));
-    for (const field of rest) field.section = RULE_FIELDS_SECTION;
+    // Each targeted question gets its own short title (lib/rule-question-titles.ts).
+    for (const field of rest) { field.section = RULE_FIELDS_SECTION; if (ruleQuestionTitles[field.id]) field.label = ruleQuestionTitles[field.id]; }
     system.fields = [...forms, ...rest, ...general];
   }
 }

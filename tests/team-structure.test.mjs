@@ -73,3 +73,11 @@ test('the 35-question general template is retired: hidden, optional, never a for
     assert.ok(retired.every(field => field.section === RETIRED_SECTION && field.required === false && !isForm(field) && field.id.startsWith('EP-C')), system.id);
   }
 });
+
+test('every question in "התקנון שלנו" has its own title within its system', () => {
+  for (const system of systems) {
+    const labels = system.fields.filter(field => field.section === RULE_FIELDS_SECTION && !field.retired).map(field => field.label);
+    const repeated = labels.filter((label, index) => labels.indexOf(label) !== index);
+    assert.deepEqual(repeated, [], `${system.id}: ${repeated.join(', ')}`);
+  }
+});
