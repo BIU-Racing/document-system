@@ -17,17 +17,27 @@ const rawSystems = JSON.parse(fs.readFileSync('data/systems.normalized.json', 'u
 const rawCoordinator = JSON.parse(fs.readFileSync('data/coordinator.normalized.json', 'utf8'));
 const isForm = field => !!field.officialRefs?.length || !!field.officialTemplate;
 
-test('every ESF coordinator field moves by its tab; only Overview and Datasheets stay with the coordinator', () => {
+test('every ESF coordinator field moves by its tab; only Overview stays with the coordinator', () => {
   for (const entry of raw.filter(e => e.official.document === 'ESF' && e.systemId === null && !e.privateContact && e.fieldId)) {
     const owner = coordinatorFieldOwner(entry.fieldId), tabOwner = ESF_TAB_OWNER[entry.official.sheet];
     if (!tabOwner) { assert.equal(owner, 'COORDINATOR', `${entry.fieldId} (${entry.official.sheet})`); continue; }
     if (entry.official.sheet === 'PrechargeDischarge') assert.ok(['PRECHARGE', 'DISCHARGE', 'INTEGRATION'].includes(owner), entry.fieldId);
+    else if (['TS Schematics', 'Other', 'Datasheets'].includes(entry.official.sheet)) assert.ok(['ACCUMULATOR', 'INTEGRATION', 'DRIVE'].includes(owner), entry.fieldId);
     else assert.equal(owner, tabOwner, `${entry.fieldId} (${entry.official.sheet})`);
   }
   assert.equal(coordinatorFieldOwner('LC-ESF-S05-D14'), 'PRECHARGE');
   assert.equal(coordinatorFieldOwner('LC-ESF-S05-J13'), 'DISCHARGE');
   assert.equal(coordinatorFieldOwner('LC-ESF-S05-P3'), 'INTEGRATION');
-  assert.equal(coordinatorFieldOwner('LC-ESF-S02-D11'), 'COORDINATOR');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S01-L11'), 'COORDINATOR');
+  // 28.11.2026: cell datasheet -> battery; TS component tables and the energy meter connector -> integration.
+  assert.equal(coordinatorFieldOwner('LC-ESF-S02-D11'), 'ACCUMULATOR');
+  assert.equal(coordinatorFieldOwner('CARD-FG-ESF-DS-05'), 'INTEGRATION');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S03-A2'), 'INTEGRATION');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S03-M2'), 'ACCUMULATOR');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S03-V38'), 'ACCUMULATOR');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S03-J38'), 'INTEGRATION');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S09-D3'), 'DRIVE');
+  assert.equal(coordinatorFieldOwner('LC-ESF-S09-G29'), 'INTEGRATION');
 });
 
 test('a moved field lives in exactly one system, and its coverage entries point there', () => {
